@@ -1,0 +1,107 @@
+@import "variables";
+@import "mixins";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  scroll-behavior: smooth;
+}
+
+html,
+body,
+input,
+textarea,
+button,
+select {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  color: $text-black;
+  font-size: 16px;
+}
+
+button {
+  outline: none !important;
+}
+
+#header {
+  width: 100%;
+  box-shadow: 0 0.2em 0.2em -0.2em rgba(0, 0, 0, 0.2);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  background-color: $text-white;
+
+  nav {
+    padding: 0.5em 1em;
+    max-width: 1200px;
+    margin: 0 auto;
+    @include flex-center;
+    justify-content: space-between;
+    backdrop-filter: blur(0.3em);
+
+    .logo {
+      font-size: 2em;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    .nav-links {
+      a {
+        margin-left: 1em;
+        font-size: 1.1em;
+      }
+
+      &:first-child {
+        margin-left: 0;
+      }
+    }
+  }
+}
+
+/* Containers */
+.container {
+  margin: 2em auto;
+  padding: 0 2em;
+  max-width: 1200px;
+}
+
+.container-limited {
+  max-width: 768px;
+  margin: 2em auto;
+  padding: 0 2em;
+}
+
+@media (max-width: 576px) {
+  .container,
+  .container-limited {
+    margin: 1em auto;
+    padding: 0;
+  }
+}
+/* Containers -- End */
+
+::-webkit-scrollbar {
+  width: 0.5em;
+  height: 0.5em;
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: $light-grey;
+  border-radius: 100em;
+}

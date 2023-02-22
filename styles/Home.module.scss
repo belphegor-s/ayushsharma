@@ -1,0 +1,33 @@
+@import "../styles/mixins";
+
+.hero {
+  height: 100vh;
+  cursor: default;
+  @include flex-center-column;
+
+  h1 {
+    font-family: "Marck Script", cursive;
+    font-size: 5em;
+    color: $primary-color;
+
+    @media (max-width: 576px) {
+      font-size: 3em;
+    }
+  }
+
+  div {
+    font-size: 1.5em;
+    font-weight: 500;
+    transition: all 0.2s ease-in-out;
+    color: $secondary-color;
+    cursor: pointer;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+
+    @media (max-width: 576px) {
+      font-size: 1.2em;
+    }
+  }
+}
