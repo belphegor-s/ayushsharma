@@ -8,14 +8,14 @@
   h1 {
     font-family: "Marck Script", cursive;
     font-size: 5em;
-    color: $primary-color;
+    color: $text-white;
 
     @media (max-width: 576px) {
       font-size: 3em;
     }
   }
 
-  div {
+  .subheading {
     font-size: 1.5em;
     font-weight: 500;
     transition: all 0.2s ease-in-out;
@@ -28,6 +28,27 @@
 
     @media (max-width: 576px) {
       font-size: 1.2em;
+    }
+  }
+
+  .profiles {
+    @include flex-center;
+    justify-content: space-between;
+    font-size: 2em;
+    margin: 1em 0;
+
+    a {
+      all: unset;
+
+      svg {
+        margin-right: 1em;
+        transition: all 0.2s ease-in-out;
+        cursor: pointer;
+
+        &:hover {
+          color: $secondary-color;
+        }
+      }
     }
   }
 }
