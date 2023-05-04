@@ -42,11 +42,11 @@
 	{
 		"header":"Auto Clicker",
 		"body":"An auto click tool for automating mouse clicks that uses macros as well to record mouse events (click and move) using C# and WPF (Windows Presentation Framework). This can help automating tasks or events. Useful for repetitive task, data entry, automation and gaming.| Supports random delay for each mouse click (helpful in games like Minecraft to prevent BAN) and Hotkeys. (Note: The Repo is private, please contact me for collaboration)",
-		"link":"https://belphegor-s.github.io/autoclicker/"
+		"link":"https://belphegor-s.github.io/autoclicker"
 	},
 	{
 		"header":"Chatbot",
 		"body":"A basic Chatbot built with Python, NLP, NLTK and Tkinter module to guide students to help them choose career that suits and best fit in their intersets.| We have inserted very small dataset so don't expect awesome responses. This project is more of a bare-bone example of Chatbot using NLP.",
-		"link":"https://belphegor-s.github.io/autoclicker/"
+		"link":"https://github.com/belphegor-s/chatbot-gui"
 	}
 ]
