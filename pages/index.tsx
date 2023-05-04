@@ -50,7 +50,7 @@ export default function Home() {
           >
             <BsTwitter />
           </a>
-          <a href="mailto:howdy@ayushsharma.me">
+          <a href="mailto:ayush2162002@gmail.com">
             <IoMail />
           </a>
         </div>
