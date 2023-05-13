@@ -9,13 +9,25 @@ import randomArrayItem from "@/util/getRandomArrItem";
 import ProjectCard from "@/components/ProjectCard";
 import Link from "next/link";
 import Footer from "@/components/Footer";
+import { BsFillArrowUpCircleFill } from "react-icons/bs";
 
 export default function Home() {
   const mainDivRef = useRef<HTMLDivElement | null>(null);
   const [randomQuote, setRandomQuote] = useState<{[key:string] :any}>();
+  const [showTopButton, setShowTopButton] = useState(false);
   
   useEffect(() => {
     setRandomQuote(randomArrayItem(QUOTES.quotes));
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener("scroll", () => {
+      if (window.scrollY >= window.innerHeight) {
+        setShowTopButton(true);
+      } else {
+        setShowTopButton(false);
+      }
+    });
   }, []);
 
   return (
@@ -24,7 +36,6 @@ export default function Home() {
         <title>Ayush Sharma</title>
         <meta name="description" content="Official App for the Domain" />
       </Head>
-
       <div className={styles.hero}>
         <h1>Ayush Sharma</h1>
         <div className={styles.subheading}>Full Stack Web Developer</div>
@@ -58,7 +69,6 @@ export default function Home() {
           <BsCaretDownFill/>
         </div>
       </div>
-
       <div className={styles.main} ref={mainDivRef}>
         <div className={styles.quote}>
           <div>{randomQuote?.quote}</div>
@@ -75,6 +85,11 @@ export default function Home() {
           </div>
         </div>
       </div>
+      {showTopButton && 
+        <div className={styles['top-btn']} onClick={() => window.scrollTo({top: 0, behavior:'smooth'})}>
+          <BsFillArrowUpCircleFill />
+        </div>
+      }
       <Footer/>
     </>
   );

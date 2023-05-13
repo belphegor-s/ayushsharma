@@ -116,3 +116,21 @@
     }    
   }
 }
+
+.top-btn {
+  position: fixed;
+  bottom: 1em;
+  right: 1em;
+  background-color: $primary-color;
+  font-size: 2em;
+  width: 1.2em;
+  height: 1.2em;
+  @include flex-center;
+  border-radius: 1000em;
+  cursor: pointer;
+  transition: all $transition-speed ease-in-out;
+
+  &:hover {
+    background-color: darken($secondary-color, 3%);
+  }
+}
