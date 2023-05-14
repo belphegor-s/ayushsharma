@@ -10,12 +10,20 @@ import ProjectCard from "@/components/ProjectCard";
 import Link from "next/link";
 import Footer from "@/components/Footer";
 import { BsFillArrowUpCircleFill } from "react-icons/bs";
+import Image from "next/image";
+import getSocialHandles  from "../public/globals/getSocialHandles";
+import getOdin from "../public/globals/getOdinFunctions";
+import getRandomId from "../public/globals/getRandomId";
+import getRandomNum from "../public/globals/getRandomNum";
+import getRandomUUID from "../public/globals/getRandomUUID";
+import getRandomArr from "../public/globals/getRandomArr";
 
 export default function Home() {
   const mainDivRef = useRef<HTMLDivElement | null>(null);
   const [randomQuote, setRandomQuote] = useState<{[key:string] :any}>();
   const [showTopButton, setShowTopButton] = useState(false);
-  
+  const [hasMounted, setHasMounted] = useState(false);
+
   useEffect(() => {
     setRandomQuote(randomArrayItem(QUOTES.quotes));
   }, []);
@@ -30,6 +38,23 @@ export default function Home() {
     });
   }, []);
 
+  useEffect(() => {
+    (window as any).getSocialHandles = getSocialHandles;
+    (window as any).odin = getOdin;
+    (window as any).getRandomId = getRandomId;
+    (window as any).getRandomNum = getRandomNum;
+    (window as any).getRandomUUID = getRandomUUID;
+    (window as any).getRandomArr = getRandomArr;
+  }, []);
+
+  useEffect(() => {
+    if(!hasMounted) {
+      setHasMounted(true);
+    } else {
+      console.log("%cExplore global %cwindow%c object for hidden functions", "font-weight: bold; color: #1B9C85", "color: #ffffff; background: #4d455d; padding: .2em; border-radius: .2em", "font-weight: bold; color: #1B9C85")
+    }
+  }, [hasMounted])
+
   return (
     <>
       <Head>
@@ -37,7 +62,9 @@ export default function Home() {
         <meta name="description" content="Official App for the Domain" />
       </Head>
       <div className={styles.hero}>
-        <h1>Ayush Sharma</h1>
+        <div className={styles['initials']}>
+          <Image src="/img/initials.svg" alt="ayush" width={535} height={125} priority/>
+        </div>
         <div className={styles.subheading}>Full Stack Web Developer</div>
         <div className={styles.profiles}>
           <a

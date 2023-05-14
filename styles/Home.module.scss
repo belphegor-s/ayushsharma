@@ -9,13 +9,15 @@
   @include flex-center-column;
   position: relative;
 
-  h1 {
-    font-family: "Marck Script", cursive;
-    font-size: 5em;
-    color: $text-white;
+  .initials {
+    padding: 0 2em;
 
-    @media (max-width: 576px) {
-      font-size: 3em;
+    & > img {
+      @media (max-width: 678px) {
+        width: 100%;
+        height: auto;
+        margin-bottom: 1em;
+      }
     }
   }
 

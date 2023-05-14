@@ -8,9 +8,11 @@ const publicIP = async (req: NextApiRequest, res: NextApiResponse) => {
 
         if(response.ok && response.status === 200) {
             const data = await response.json();
-            res.status(200).json({success: true, msg: 'IP Details fetched successfully', ...data})
+            msg = 'IP Details fetched successfully';
+            res.status(200).json({success: true, msg, ...data})
         } else {
-            res.status(404).json({success, msg: "Couldn't get the Public IP"})
+            msg = "Couldn't get the Public IP";
+            res.status(404).json({success, msg})
         }
     } catch(e) {
         console.log(`Error fetching IP Details -> ${e}`);

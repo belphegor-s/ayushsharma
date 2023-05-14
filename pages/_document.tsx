@@ -13,10 +13,6 @@ export default function Document() {
           rel="stylesheet"
         />
         <link
-          href="https://fonts.googleapis.com/css2?family=Marck+Script&display=swap"
-          rel="stylesheet"
-        />
-        <link
           rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-reboot@4.5.6/reboot.min.css"
         />
