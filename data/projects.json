@@ -2,7 +2,7 @@
 	{
 		"header":"Parmarth (IET Lucknow's Official Social Club)",
 		"body":"Parmarth is IET Lucknow's official Social Club that helps children to get Education Under RTE.| The platform is entirely curated for maintaining, organizing and segregating all students and the volunteers database, issuing certificates via Admin Panel and, a basic CMS (Content Management System) for publishing articles, backend logic for sending emails. A full-fledged Admin Panel for all controls - Managing posts, Certificate requests, Adding students data",
-		"link":"https://github.com/belphegor-s/parmarth"
+		"link":"https://parmarth.vercel.app/"
 	},
 	{
 		"header":"Query Box (StackOverflow Clone)",
@@ -32,7 +32,7 @@
 	{
 		"header":"Aim Trainer",
 		"body":"An aim training Game created using ReactJS, HTML Canvas for Game Canvas Designing and is designed with React Bootstrap. The Game has multiple game modes.| Includes - Single traget shooting, Doubleshot, Precision Control, Response Time Measure, Moving Targets, Target Tracking.",
-		"link":"https://github.com/belphegor-s/aimtrainer"
+		"link":"https://belphegor-s.github.io/aimtrainer/"
 	},
 	{
 		"header":"CRA Foster",
