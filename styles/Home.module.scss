@@ -130,7 +130,7 @@
   @include flex-center;
   border-radius: 1000em;
   cursor: pointer;
-  box-shadow: 0 0 .2em $light-grey;
+  box-shadow: 0 0 .1em $light-grey;
   transition: all $transition-speed ease-in-out;
 
   &:hover {
