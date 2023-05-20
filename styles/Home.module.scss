@@ -27,6 +27,8 @@
     transition: all 0.2s ease-in-out;
     color: $secondary-color;
     cursor: pointer;
+    display: inline-block;
+    position: relative;
 
     &:hover {
       transform: scale(1.05);
@@ -35,6 +37,14 @@
     @media (max-width: 576px) {
       font-size: 1.2em;
     }
+  }
+
+  .developer-img {
+    position: absolute;
+    display: none;
+    pointer-events: none;
+    transition: transform $transition-speed ease-in-out;
+    z-index: 5;
   }
 
   .profiles {
@@ -125,14 +135,12 @@
   right: 1em;
   background-color: $primary-color;
   font-size: 2em;
-  width: 1.2em;
-  height: 1.2em;
   @include flex-center;
   border-radius: 1000em;
   cursor: pointer;
-  box-shadow: 0 0 .1em $light-grey;
+  box-shadow: 0 0 .2em $light-grey;
   transition: all $transition-speed ease-in-out;
-
+  
   &:hover {
     background-color: darken($secondary-color, 3%);
   }

@@ -11,7 +11,6 @@ const Footer = () => {
         <div>•</div>
         <div>Deployed on&nbsp;&nbsp;<Image src="/img/vercel.svg" alt="vercel" width={18} height={18}/></div>
       </div>
-      <div className={styles.coffee}>Java Chip Frappe&nbsp;&nbsp;<Image src="/img/coffee.svg" alt="coffee" width={18} height={18}/>&nbsp;&nbsp;is love</div>
     </footer>
   )
 }

@@ -23,6 +23,8 @@ export default function Home() {
   const [randomQuote, setRandomQuote] = useState<{[key:string] :any}>();
   const [showTopButton, setShowTopButton] = useState(false);
   const [hasMounted, setHasMounted] = useState(false);
+  const developerImgRef = useRef<HTMLImageElement | null>(null);
+  const developerTextRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     setRandomQuote(randomArrayItem(QUOTES.quotes));
@@ -55,6 +57,29 @@ export default function Home() {
     }
   }, [hasMounted])
 
+  useEffect(() => {
+    developerTextRef.current?.addEventListener('mouseover', () => {
+      if(developerImgRef.current) {
+        developerImgRef.current.style.display = 'block'
+      }
+    })
+
+    developerTextRef.current?.addEventListener('mouseout', () => {
+      if(developerImgRef.current) {
+        developerImgRef.current.style.display = 'none';
+      }
+    });
+
+    developerTextRef.current?.addEventListener('mousemove', (e: MouseEvent) => {
+      let x = e.clientX;
+      let y = e.clientY;
+      if(developerImgRef.current) {
+        developerImgRef.current.style.left = `${x}px`;
+        developerImgRef.current.style.top = `${y}px`;
+      }
+    })
+  }, [])
+
   return (
     <>
       <Head>
@@ -65,7 +90,8 @@ export default function Home() {
         <div className={styles['initials']}>
           <Image src="/img/initials.svg" alt="ayush" width={535} height={125} priority/>
         </div>
-        <div className={styles.subheading}>Full Stack Web Developer</div>
+        <div className={styles.subheading} ref={developerTextRef}>Full Stack Web Developer</div>
+        <Image src="/img/developer.svg" alt="developer" width={175} height={175} className={styles['developer-img']} ref={developerImgRef} priority/>
         <div className={styles.profiles}>
           <a
             href="https://github.com/belphegor-s"
