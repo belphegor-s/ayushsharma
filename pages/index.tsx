@@ -58,17 +58,17 @@ export default function Home() {
   }, [hasMounted])
 
   useEffect(() => {
-    developerTextRef.current?.addEventListener('mouseover', () => {
-      if(developerImgRef.current) {
-        developerImgRef.current.style.display = 'block'
-      }
-    })
+    // developerTextRef.current?.addEventListener('mouseover', () => {
+    //   if(developerImgRef.current) {
+    //     developerImgRef.current.style.display = 'block'
+    //   }
+    // })
 
-    developerTextRef.current?.addEventListener('mouseout', () => {
-      if(developerImgRef.current) {
-        developerImgRef.current.style.display = 'none';
-      }
-    });
+    // developerTextRef.current?.addEventListener('mouseout', () => {
+    //   if(developerImgRef.current) {
+    //     developerImgRef.current.style.display = 'none';
+    //   }
+    // });
 
     developerTextRef.current?.addEventListener('mousemove', (e: MouseEvent) => {
       let x = e.clientX;
@@ -91,7 +91,7 @@ export default function Home() {
           <Image src="/img/initials.svg" alt="ayush" width={535} height={125} priority/>
         </div>
         <div className={styles.subheading} ref={developerTextRef}>Full Stack Web Developer</div>
-        <Image src="/img/developer.svg" alt="developer" width={175} height={175} className={styles['developer-img']} ref={developerImgRef} priority/>
+        {/* <Image src="/img/developer.svg" alt="developer" width={175} height={175} className={styles['developer-img']} ref={developerImgRef} priority/> */}
         <div className={styles.profiles}>
           <a
             href="https://github.com/belphegor-s"
