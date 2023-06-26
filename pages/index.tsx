@@ -18,6 +18,8 @@ import getRandomNum from "../public/globals/getRandomNum";
 import getRandomUUID from "../public/globals/getRandomUUID";
 import getRandomArr from "../public/globals/getRandomArr";
 
+const safeWindow: any = typeof window !== "undefined" ? window : {};
+
 export default function Home() {
   const mainDivRef = useRef<HTMLDivElement | null>(null);
   const [randomQuote, setRandomQuote] = useState<{[key:string] :any}>();
@@ -41,12 +43,12 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    (window as any).getSocialHandles = getSocialHandles;
-    (window as any).odin = getOdin;
-    (window as any).getRandomId = getRandomId;
-    (window as any).getRandomNum = getRandomNum;
-    (window as any).getRandomUUID = getRandomUUID;
-    (window as any).getRandomArr = getRandomArr;
+    (safeWindow).getSocialHandles = getSocialHandles;
+    (safeWindow).odin = getOdin;
+    (safeWindow).getRandomId = getRandomId;
+    (safeWindow).getRandomNum = getRandomNum;
+    (safeWindow).getRandomUUID = getRandomUUID;
+    (safeWindow).getRandomArr = getRandomArr;
   }, []);
 
   useEffect(() => {
