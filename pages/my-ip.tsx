@@ -25,7 +25,7 @@ const MyIp = () => {
     },[]);
 
     return (
-        <div>{JSON.stringify(data, null, 2)}</div>
+        <pre>{JSON.stringify(data, null, 4)}</pre>
     )
 }
 export default MyIp
