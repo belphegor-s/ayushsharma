@@ -68,6 +68,39 @@
     }
   }
 
+  .web-links {
+    @include flex-center;
+    gap: .5em;
+
+    & > a {
+      color: $light-cyan;
+      font-weight: 500;
+      cursor: pointer;
+      position: relative;
+      text-decoration: none;
+      
+      &::after {
+        content: '';
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        transform-origin: right;
+        transform: scaleX(0);
+        height: .125em;
+        background-color: $light-cyan;
+        transition: transform $transition-speed ease-in-out;
+      }
+      
+      &:hover {
+        &::after {
+          transform-origin: left;
+          transform: scaleX(1);
+        }
+      }
+    }
+  }
+
   .down-arrow {
     margin-top: 2em;
     width: 2.5em;

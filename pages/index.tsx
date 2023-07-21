@@ -2,7 +2,7 @@ import Head from "next/head";
 import styles from "../styles/Home.module.scss";
 import { BsGithub, BsLinkedin, BsTwitter, BsCaretDownFill } from "react-icons/bs";
 import { IoMail } from "react-icons/io5";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, Fragment } from "react";
 import QUOTES from "../data/quotes.json";
 import PROJECTS from "../data/projects.json";
 import randomArrayItem from "@/util/getRandomArrItem";
@@ -17,6 +17,7 @@ import getRandomId from "../public/globals/getRandomId";
 import getRandomNum from "../public/globals/getRandomNum";
 import getRandomUUID from "../public/globals/getRandomUUID";
 import getRandomArr from "../public/globals/getRandomArr";
+import webLinks from "@/data/webLinks.json";
 
 const safeWindow: any = typeof window !== "undefined" ? window : {};
 
@@ -119,6 +120,18 @@ export default function Home() {
           <a href="mailto:ayush2162002@gmail.com">
             <IoMail />
           </a>
+        </div>
+        <div className={styles['web-links']}>
+          {webLinks?.map((link: {[key: string]: any}, i: number) => {
+            return (
+              <Fragment key={`header-link-${i}`}>
+                <a href={link?.link || ''} target="_blank" rel="noreferrer noopener">{link?.title || ''}</a>
+                {i !== webLinks?.length - 1 &&
+                  <span className={styles['web-links-separator']}>|</span>
+                }
+              </Fragment>
+            )
+          })}
         </div>
         <div className={styles['down-arrow']} onClick={() => mainDivRef.current?.scrollIntoView({behavior: 'smooth'})}>
           <BsCaretDownFill/>
