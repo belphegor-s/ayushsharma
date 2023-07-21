@@ -48,5 +48,10 @@
 		"header":"Chatbot",
 		"body":"A basic Chatbot built with Python, NLP, NLTK and Tkinter module to guide students to help them choose career that suits and best fit in their intersets.| We have inserted very small dataset so don't expect awesome responses. This project is more of a bare-bone example of Chatbot using NLP.",
 		"link":"https://github.com/belphegor-s/chatbot-gui"
+	},
+	{
+		"header":"Email Verifier",
+		"body":"A real time email verifier with -> email syntax, SMTP, inbox exists, catch-all and mx records checks.",
+		"link":"https://github.com/belphegor-s/node-email-verifier"
 	}
 ]
