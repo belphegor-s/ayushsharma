@@ -51,7 +51,7 @@
 	},
 	{
 		"header":"Email Verifier",
-		"body":"A real time email verifier with -> email syntax, SMTP, inbox exists, catch-all and mx records checks.",
+		"body":"A real time email verifier with → email syntax, SMTP, inbox exists, catch-all and mx records checks.",
 		"link":"https://github.com/belphegor-s/node-email-verifier"
 	}
 ]
