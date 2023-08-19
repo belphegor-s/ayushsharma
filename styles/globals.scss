@@ -2,22 +2,22 @@
 @import "mixins";
 
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  user-select: none;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    user-select: none;
 }
 
 *:before,
 *:after {
-  box-sizing: border-box;
-  user-select: none;
+	box-sizing: border-box;
+	user-select: none;
 }
 
 html {
-  -webkit-font-smoothing: antialiased;
-  scroll-behavior: smooth;
-  color-scheme: dark;
+	-webkit-font-smoothing: antialiased;
+	scroll-behavior: smooth;
+	color-scheme: dark;
 }
 
 html,
@@ -26,38 +26,38 @@ input,
 textarea,
 button,
 select {
-  font-family: "Poppins", sans-serif;
-  font-weight: 400;
-  color: $text-white;
-  font-size: 16px;
+	font-family: "Poppins", sans-serif;
+	font-weight: 400;
+	color: $text-white;
+	font-size: 16px;
 }
 
 button {
-  outline: none !important;
+  	outline: none !important;
 }
 
 body {
-  background-color: $bg-color;
+  	background-color: $bg-color;
 }
 
 /* Containers */
 .container {
-  margin: 2em auto;
-  padding: 0 2em;
-  max-width: 1200px;
+	margin: 2em auto;
+	padding: 0 2em;
+	max-width: 1200px;
 }
 
 .container-limited {
-  max-width: 768px;
-  margin: 2em auto;
-  padding: 0 2em;
+	max-width: 768px;
+	margin: 2em auto;
+	padding: 0 2em;
 }
 
 @media (max-width: 576px) {
-  .container,
-  .container-limited {
-    margin: 1em auto;
-    padding: 0;
-  }
+	.container,
+	.container-limited {
+		margin: 1em auto;
+		padding: 0;
+	}
 }
 /* Containers -- End */

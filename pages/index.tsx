@@ -22,143 +22,127 @@ import webLinks from "@/data/webLinks.json";
 const safeWindow: any = typeof window !== "undefined" ? window : {};
 
 export default function Home() {
-  const mainDivRef = useRef<HTMLDivElement | null>(null);
-  const [randomQuote, setRandomQuote] = useState<{[key:string] :any}>();
-  const [showTopButton, setShowTopButton] = useState(false);
-  const [hasMounted, setHasMounted] = useState(false);
-  const developerImgRef = useRef<HTMLImageElement | null>(null);
-  const developerTextRef = useRef<HTMLDivElement | null>(null);
+	const mainDivRef = useRef<HTMLDivElement | null>(null);
+	const [randomQuote, setRandomQuote] = useState<{[key:string] :any}>();
+	const [showTopButton, setShowTopButton] = useState(false);
+	const [hasMounted, setHasMounted] = useState(false);
 
-  useEffect(() => {
-    setRandomQuote(randomArrayItem(QUOTES.quotes));
-  }, []);
+	useEffect(() => {
+		setRandomQuote(randomArrayItem(QUOTES.quotes));
 
-  useEffect(() => {
-    window.addEventListener("scroll", () => {
-      if (window.scrollY >= window.innerHeight) {
-        setShowTopButton(true);
-      } else {
-        setShowTopButton(false);
-      }
-    });
-  }, []);
+		const randQuote = setInterval(() => {
+			setRandomQuote(randomArrayItem(QUOTES.quotes));
+		}, 5000)
 
-  useEffect(() => {
-    (safeWindow).getSocialHandles = getSocialHandles;
-    (safeWindow).odin = getOdin;
-    (safeWindow).getRandomId = getRandomId;
-    (safeWindow).getRandomNum = getRandomNum;
-    (safeWindow).getRandomUUID = getRandomUUID;
-    (safeWindow).getRandomArr = getRandomArr;
-  }, []);
+		return () => clearInterval(randQuote)
+	}, []);
 
-  useEffect(() => {
-    if(!hasMounted) {
-      setHasMounted(true);
-    } else {
-      console.log("%cExplore global %cwindow%c object for hidden functions", "font-weight: bold; color: #1B9C85", "color: #ffffff; background: #4d455d; padding: .2em; border-radius: .2em", "font-weight: bold; color: #1B9C85")
-    }
-  }, [hasMounted])
+	useEffect(() => {
+		const onScrollEventHandler = () => {
+			if (window.scrollY >= window.innerHeight) {
+				setShowTopButton(true);
+			} else {
+				setShowTopButton(false);
+			}
+		}
 
-  useEffect(() => {
-    // developerTextRef.current?.addEventListener('mouseover', () => {
-    //   if(developerImgRef.current) {
-    //     developerImgRef.current.style.display = 'block'
-    //   }
-    // })
+		window.addEventListener("scroll", onScrollEventHandler);
 
-    // developerTextRef.current?.addEventListener('mouseout', () => {
-    //   if(developerImgRef.current) {
-    //     developerImgRef.current.style.display = 'none';
-    //   }
-    // });
+		return () => window.removeEventListener("scroll", onScrollEventHandler);
+	}, []);
 
-    developerTextRef.current?.addEventListener('mousemove', (e: MouseEvent) => {
-      let x = e.clientX;
-      let y = e.clientY;
-      if(developerImgRef.current) {
-        developerImgRef.current.style.left = `${x}px`;
-        developerImgRef.current.style.top = `${y}px`;
-      }
-    })
-  }, [])
+	useEffect(() => {
+		(safeWindow).getSocialHandles = getSocialHandles;
+		(safeWindow).odin = getOdin;
+		(safeWindow).getRandomId = getRandomId;
+		(safeWindow).getRandomNum = getRandomNum;
+		(safeWindow).getRandomUUID = getRandomUUID;
+		(safeWindow).getRandomArr = getRandomArr;
+	}, []);
 
-  return (
-    <>
-      <Head>
-        <title>Ayush Sharma</title>
-        <meta name="description" content="Official App for the Domain" />
-      </Head>
-      <div className={styles.hero}>
-        <div className={styles['initials']}>
-          <Image src="/img/initials.svg" alt="ayush" width={535} height={125} priority/>
-        </div>
-        <div className={styles.subheading} ref={developerTextRef}>Full Stack Web Developer</div>
-        {/* <Image src="/img/developer.svg" alt="developer" width={175} height={175} className={styles['developer-img']} ref={developerImgRef} priority/> */}
-        <div className={styles.profiles}>
-          <a
-            href="https://github.com/belphegor-s"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <BsGithub />
-          </a>
-          <a
-            href="https://www.linkedin.com/in/ayush-sharma-2802/"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <BsLinkedin />
-          </a>
-          <a
-            href="https://twitter.com/sharma_0502"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <BsTwitter />
-          </a>
-          <a href="mailto:ayush2162002@gmail.com">
-            <IoMail />
-          </a>
-        </div>
-        <div className={styles['web-links']}>
-          {webLinks?.map((link: {[key: string]: any}, i: number) => {
-            return (
-              <Fragment key={`header-link-${i}`}>
-                <a href={link?.link || ''} target="_blank" rel="noreferrer noopener">{link?.title || ''}</a>
-                {i !== webLinks?.length - 1 &&
-                  <span className={styles['web-links-separator']}>|</span>
-                }
-              </Fragment>
-            )
-          })}
-        </div>
-        <div className={styles['down-arrow']} onClick={() => mainDivRef.current?.scrollIntoView({behavior: 'smooth'})}>
-          <BsCaretDownFill/>
-        </div>
-      </div>
-      <div className={styles.main} ref={mainDivRef}>
-        <div className={styles.quote}>
-          <div>{randomQuote?.quote}</div>
-          <div><i>~ {randomQuote?.author}</i></div>
-        </div>
-        <div className={styles.projects}>
-          <h2>Projects</h2>
-          <div className={styles['project-cards-wrap']}>
-            {PROJECTS.map((project, i : number) =>
-              <Link key={`project-${i}`} href={project.link} target="_blank" rel="noreferrer">
-                <ProjectCard  data={project}/>
-              </Link>
-            )}
-          </div>
-        </div>
-      </div>
-      {showTopButton && 
-        <div className={styles['top-btn']} onClick={() => window.scrollTo({top: 0, behavior:'smooth'})}>
-          <BsFillArrowUpCircleFill />
-        </div>
-      }
-      <Footer/>
-    </>
-  );
+	useEffect(() => {
+		if(!hasMounted) {
+			setHasMounted(true);
+		} else {
+			console.log("%cExplore global %cwindow%c object for hidden functions", "font-weight: bold; color: #1B9C85", "color: #ffffff; background: #4d455d; padding: .2em; border-radius: .2em", "font-weight: bold; color: #1B9C85")
+		}
+	}, [hasMounted])
+
+	return (
+		<>
+			<Head>
+				<title>Ayush Sharma</title>
+				<meta name="description" content="Official App for the Domain" />
+			</Head>
+			<div className={styles.hero}>
+				<div className={styles['initials']}>
+				<Image src="/img/initials.svg" alt="ayush" width={535} height={125} priority/>
+				</div>
+				<div className={styles.subheading}>Full Stack Web Developer</div>
+				<div className={styles.profiles}>
+				<a
+					href="https://github.com/belphegor-s"
+					target="_blank"
+					rel="noreferrer"
+				>
+					<BsGithub />
+				</a>
+				<a
+					href="https://www.linkedin.com/in/ayush-sharma-2802/"
+					target="_blank"
+					rel="noreferrer"
+				>
+					<BsLinkedin />
+				</a>
+				<a
+					href="https://twitter.com/sharma_0502"
+					target="_blank"
+					rel="noreferrer"
+				>
+					<BsTwitter />
+				</a>
+				<a href="mailto:ayush2162002@gmail.com">
+					<IoMail />
+				</a>
+				</div>
+				<div className={styles['web-links']}>
+					{webLinks?.map((link: {[key: string]: any}, i: number) => {
+						return (
+							<Fragment key={`header-link-${i}`}>
+								<a href={link?.link || ''} target="_blank" rel="noreferrer noopener">{link?.title || ''}</a>
+								{i !== webLinks?.length - 1 &&
+									<span className={styles['web-links-separator']}>|</span>
+								}
+							</Fragment>
+						)
+					})}
+				</div>
+				<div className={styles['down-arrow']} onClick={() => mainDivRef.current?.scrollIntoView({behavior: 'smooth'})}>
+					<BsCaretDownFill/>
+				</div>
+			</div>
+			<div className={styles.main} ref={mainDivRef}>
+				<div className={styles.quote}>
+					<div>{randomQuote?.quote}</div>
+					<div><i>~ {randomQuote?.author}</i></div>
+				</div>
+				<div className={styles.projects}>
+					<h2>Projects</h2>
+					<div className={styles['project-cards-wrap']}>
+						{PROJECTS.map((project, i : number) =>
+							<Link key={`project-${i}`} href={project.link} target="_blank" rel="noreferrer">
+								<ProjectCard  data={project}/>
+							</Link>
+						)}
+					</div>
+				</div>
+			</div>
+			{showTopButton && 
+				<div className={styles['top-btn']} onClick={() => window.scrollTo({top: 0, behavior:'smooth'})}>
+					<BsFillArrowUpCircleFill />
+				</div>
+			}
+			<Footer/>
+		</>
+	);
 }

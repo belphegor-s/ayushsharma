@@ -1,4 +1,5 @@
 import convertDataToObject from "@/util/convertDataToObj";
+import syntaxHighlightJSON from "@/util/syntaxHighlightJSON";
 import { useEffect, useState } from "react";
 
 interface obj {
@@ -25,7 +26,7 @@ const MyIp = () => {
     },[]);
 
     return (
-        <pre>{JSON.stringify(data, null, 4)}</pre>
+        <div title="Click to copy" onClick={() => navigator.clipboard.writeText(JSON.stringify(data, null, 4))}>{syntaxHighlightJSON(JSON.stringify(data, null, 4))}</div>
     )
 }
 export default MyIp
