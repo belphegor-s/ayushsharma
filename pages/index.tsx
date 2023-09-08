@@ -101,7 +101,7 @@ export default function Home() {
 				>
 					<BsTwitter />
 				</a>
-				<a href="mailto:ayush2162002@gmail.com">
+				<a href="mailto:howdy@ayushsharma.me">
 					<IoMail />
 				</a>
 				</div>
