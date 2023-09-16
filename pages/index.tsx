@@ -72,7 +72,7 @@ export default function Home() {
 		<>
 			<Head>
 				<title>Ayush Sharma</title>
-				<meta name="description" content="Official App for the Domain" />
+				<meta name="description" content="Ayush's portfolio" />
 			</Head>
 			<div className={styles.hero}>
 				<div className={styles['initials']}>
