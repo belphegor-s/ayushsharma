@@ -11,6 +11,7 @@
 
 	.initials {
 		padding: 0 2em;
+		position: relative;
 
 		& > img {
 			@media (max-width: 678px) {
@@ -22,7 +23,8 @@
 	}
 
 	.subheading {
-		font-size: 1.5em;
+		margin-top: -.5em;
+		font-size: 1.3em;
 		font-weight: 500;
 		transition: all 0.2s ease-in-out;
 		color: $secondary-color;
@@ -49,8 +51,6 @@
 
 	.profiles {
 		@include flex-center;
-		justify-content: space-between;
-		font-size: 2em;
 		margin: 1em 0;
 
 		a {
@@ -60,6 +60,8 @@
 			svg {
 				transition: all 0.2s ease-in-out;
 				cursor: pointer;
+				width: 1.6em;
+				height: 1.6em;
 
 				&:hover {
 					color: $secondary-color;
@@ -71,8 +73,13 @@
 	.web-links {
 		@include flex-center;
 		gap: .5em;
+		position: absolute;
+		top: 1em;
+		right: 1em;
 
 		& > a {
+			@include flex-center;
+			gap: .3em;
 			color: $light-cyan;
 			font-weight: 500;
 			cursor: pointer;
@@ -103,8 +110,8 @@
 
 	.down-arrow {
 		margin-top: 2em;
-		width: 2.5em;
-		height: 2.5em;
+		width: 2em;
+		height: 2em;
 		border-radius: 1000em;
 		background-color: $primary-color;
 		color: $text-white;
@@ -117,7 +124,7 @@
 		animation: translateUpDown 1.5s ease-in-out 0s infinite alternate;
 
 		&:hover {
-			background-color: lighten($secondary-color, 3%);
+			background-color: lighten($light-cyan, 3%);
 		}
 	}
 }

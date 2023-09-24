@@ -1,6 +1,7 @@
 import Head from "next/head";
 import styles from "../styles/Home.module.scss";
 import { BsGithub, BsLinkedin, BsTwitter, BsCaretDownFill } from "react-icons/bs";
+import { FiExternalLink } from "react-icons/fi";
 import { IoMail } from "react-icons/io5";
 import { useEffect, useRef, useState, Fragment } from "react";
 import QUOTES from "../data/quotes.json";
@@ -75,10 +76,22 @@ export default function Home() {
 				<meta name="description" content="Ayush's portfolio" />
 			</Head>
 			<div className={styles.hero}>
-				<div className={styles['initials']}>
-				<Image src="/img/initials.svg" alt="ayush" width={535} height={125} priority/>
+				<div className={styles['web-links']}>
+					{webLinks?.map((link: {[key: string]: any}, i: number) => {
+						return (
+							<Fragment key={`header-link-${i}`}>
+								<a href={link?.link || ''} target="_blank" rel="noreferrer noopener">{link?.title || ''}<FiExternalLink/></a>
+								{i !== webLinks?.length - 1 &&
+									<span className={styles['web-links-separator']}>|</span>
+								}
+							</Fragment>
+						)
+					})}
 				</div>
-				<div className={styles.subheading}>Full Stack Web Developer</div>
+				<div className={styles['initials']}>
+					<Image src="/img/initials.svg" alt="ayush" width={535} height={125} priority/>
+				</div>
+				<div className={styles.subheading}>Full Stack Developer</div>
 				<div className={styles.profiles}>
 				<a
 					href="https://github.com/belphegor-s"
@@ -104,18 +117,6 @@ export default function Home() {
 				<a href="mailto:howdy@ayushsharma.me">
 					<IoMail />
 				</a>
-				</div>
-				<div className={styles['web-links']}>
-					{webLinks?.map((link: {[key: string]: any}, i: number) => {
-						return (
-							<Fragment key={`header-link-${i}`}>
-								<a href={link?.link || ''} target="_blank" rel="noreferrer noopener">{link?.title || ''}</a>
-								{i !== webLinks?.length - 1 &&
-									<span className={styles['web-links-separator']}>|</span>
-								}
-							</Fragment>
-						)
-					})}
 				</div>
 				<div className={styles['down-arrow']} onClick={() => mainDivRef.current?.scrollIntoView({behavior: 'smooth'})}>
 					<BsCaretDownFill/>
