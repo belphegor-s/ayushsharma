@@ -22,4 +22,40 @@
         font-size: .8em;
         margin-top: .8em;
     }
+
+    .email {
+		@include flex-center;
+
+        & > a {
+            @include flex-center;
+            margin-top: 1em;
+            font-size: .8em;
+			gap: .3em;
+			color: $secondary-color;
+			font-weight: 500;
+			cursor: pointer;
+			position: relative;
+			text-decoration: none;
+            
+            &::after {
+				content: '';
+				position: absolute;
+				top: 100%;
+				left: 0;
+				width: 100%;
+				transform-origin: right;
+				transform: scaleX(0);
+				height: .05em;
+				background-color: $secondary-color;
+				transition: transform $transition-speed ease-in-out;
+			}
+			
+			&:hover {
+				&::after {
+                    transform-origin: left;
+                    transform: scaleX(1);
+				}
+			}
+        }
+    }
 }

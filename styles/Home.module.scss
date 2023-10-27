@@ -12,6 +12,7 @@
 	.initials {
 		padding: 0 2em;
 		position: relative;
+		pointer-events: none;
 
 		& > img {
 			@media (max-width: 678px) {
@@ -24,12 +25,12 @@
 
 	.subheading {
 		margin-top: -.5em;
-		font-size: 1.3em;
-		font-weight: 500;
+		font-size: 1.2em;
+		font-weight: 400;
 		transition: all 0.2s ease-in-out;
 		color: $secondary-color;
 		cursor: pointer;
-		display: inline-block;
+		gap: .3em;
 		position: relative;
 
 		&:hover {
@@ -135,20 +136,6 @@
 	max-width: 992px;
 	margin: 0 auto;
 	padding: 2em;
-
-	.quote {
-		border-left: .3em solid $secondary-color;
-		padding: .3em;
-		padding-left: .8em;
-		padding-right: 0;
-		
-		& > div {
-			&:last-of-type {
-				margin-top: .5em;
-				color: $light-grey;
-			}
-		}
-	}
 
 	.projects {
 		margin: 3em 0;

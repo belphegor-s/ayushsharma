@@ -2,11 +2,8 @@ import Head from "next/head";
 import styles from "../styles/Home.module.scss";
 import { BsGithub, BsLinkedin, BsTwitter, BsCaretDownFill } from "react-icons/bs";
 import { FiExternalLink } from "react-icons/fi";
-import { IoMail } from "react-icons/io5";
 import { useEffect, useRef, useState, Fragment } from "react";
-import QUOTES from "../data/quotes.json";
 import PROJECTS from "../data/projects.json";
-import randomArrayItem from "@/util/getRandomArrItem";
 import ProjectCard from "@/components/ProjectCard";
 import Link from "next/link";
 import Footer from "@/components/Footer";
@@ -19,24 +16,14 @@ import getRandomNum from "../public/globals/getRandomNum";
 import getRandomUUID from "../public/globals/getRandomUUID";
 import getRandomArr from "../public/globals/getRandomArr";
 import webLinks from "@/data/webLinks.json";
+import Quote from "@/components/Quote";
 
 const safeWindow: any = typeof window !== "undefined" ? window : {};
 
 export default function Home() {
 	const mainDivRef = useRef<HTMLDivElement | null>(null);
-	const [randomQuote, setRandomQuote] = useState<{[key:string] :any}>();
 	const [showTopButton, setShowTopButton] = useState(false);
 	const [hasMounted, setHasMounted] = useState(false);
-
-	useEffect(() => {
-		setRandomQuote(randomArrayItem(QUOTES.quotes));
-
-		const randQuote = setInterval(() => {
-			setRandomQuote(randomArrayItem(QUOTES.quotes));
-		}, 5000)
-
-		return () => clearInterval(randQuote)
-	}, []);
 
 	useEffect(() => {
 		const onScrollEventHandler = () => {
@@ -91,8 +78,8 @@ export default function Home() {
 				<div className={styles['initials']}>
 					<Image src="/img/initials.svg" alt="ayush" width={535} height={125} priority/>
 				</div>
-				<div className={styles.subheading}>Full Stack Developer</div>
-				<div className={styles.profiles}>
+				<div className={styles.subheading}>Developer / Tinkerer / Stoic</div>
+				<div className={styles.profiles}> 
 				<a
 					href="https://github.com/belphegor-s"
 					target="_blank"
@@ -114,19 +101,13 @@ export default function Home() {
 				>
 					<BsTwitter />
 				</a>
-				<a href="mailto:howdy@ayushsharma.me">
-					<IoMail />
-				</a>
 				</div>
 				<div className={styles['down-arrow']} onClick={() => mainDivRef.current?.scrollIntoView({behavior: 'smooth'})}>
 					<BsCaretDownFill/>
 				</div>
 			</div>
 			<div className={styles.main} ref={mainDivRef}>
-				<div className={styles.quote}>
-					<div>{randomQuote?.quote}</div>
-					<div><i>~ {randomQuote?.author}</i></div>
-				</div>
+				<Quote/>
 				<div className={styles.projects}>
 					<h2>Projects</h2>
 					<div className={styles['project-cards-wrap']}>
