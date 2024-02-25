@@ -15,6 +15,12 @@
 		pointer-events: none;
 
 		& > img {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			z-index: 5;
+
 			@media (max-width: 678px) {
 				width: 100%;
 				height: auto;
@@ -24,13 +30,13 @@
 	}
 
 	.subheading {
-		margin-top: -.5em;
+		margin-top: -0.5em;
 		font-size: 1.2em;
 		font-weight: 400;
 		transition: all 0.2s ease-in-out;
 		color: $secondary-color;
 		cursor: pointer;
-		gap: .3em;
+		gap: 0.3em;
 		position: relative;
 
 		&:hover {
@@ -73,37 +79,37 @@
 
 	.web-links {
 		@include flex-center;
-		gap: .5em;
+		gap: 0.5em;
 		position: absolute;
 		top: 1em;
 		right: 1em;
 
 		& > a {
 			@include flex-center;
-			gap: .3em;
+			gap: 0.3em;
 			color: $light-cyan;
 			font-weight: 500;
 			cursor: pointer;
 			position: relative;
 			text-decoration: none;
-			
+
 			&::after {
-				content: '';
+				content: "";
 				position: absolute;
 				top: 100%;
 				left: 0;
 				width: 100%;
 				transform-origin: right;
 				transform: scaleX(0);
-				height: .125em;
+				height: 0.125em;
 				background-color: $light-cyan;
 				transition: transform $transition-speed ease-in-out;
 			}
-			
+
 			&:hover {
 				&::after {
-				transform-origin: left;
-				transform: scaleX(1);
+					transform-origin: left;
+					transform: scaleX(1);
 				}
 			}
 		}
@@ -111,8 +117,8 @@
 
 	.down-arrow {
 		margin-top: 2em;
-		width: 2em;
-		height: 2em;
+		width: 1.5em;
+		height: 1.5em;
 		border-radius: 1000em;
 		background-color: $primary-color;
 		color: $text-white;
@@ -123,6 +129,11 @@
 		transition: all $transition-speed ease-in-out;
 		font-size: 1.2em;
 		animation: translateUpDown 1.5s ease-in-out 0s infinite alternate;
+		opacity: 0.5;
+
+		& > svg {
+			object-fit: cover;
+		}
 
 		&:hover {
 			background-color: lighten($light-cyan, 3%);
@@ -148,11 +159,11 @@
 			@media (max-width: 576px) {
 				columns: 1;
 			}
-			
+
 			& > a {
 				all: unset;
 			}
-		}    
+		}
 	}
 }
 
@@ -165,9 +176,9 @@
 	@include flex-center;
 	border-radius: 1000em;
 	cursor: pointer;
-	box-shadow: 0 0 .2em $light-grey;
+	box-shadow: 0 0 0.2em $light-grey;
 	transition: all $transition-speed ease-in-out;
-	
+
 	&:hover {
 		background-color: darken($secondary-color, 3%);
 	}
