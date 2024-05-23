@@ -1,6 +1,6 @@
 import Head from "next/head";
 import styles from "../styles/Home.module.scss";
-import { BsGithub, BsLinkedin, BsTwitter, BsCaretDownFill } from "react-icons/bs";
+import { BsGithub, BsLinkedin, BsTwitterX, BsCaretDownFill } from "react-icons/bs";
 import { FiExternalLink } from "react-icons/fi";
 import { useEffect, useRef, useState, Fragment } from "react";
 import PROJECTS from "../data/projects.json";
@@ -101,8 +101,8 @@ export default function Home() {
 					<a href="https://www.linkedin.com/in/ayush-sharma-2802/" target="_blank" rel="noreferrer">
 						<BsLinkedin />
 					</a>
-					<a href="https://twitter.com/sharma_0502" target="_blank" rel="noreferrer">
-						<BsTwitter />
+					<a href="https://x.com/sharma_0502" target="_blank" rel="noreferrer">
+						<BsTwitterX />
 					</a>
 				</div>
 				<div className={styles["down-arrow"]} onClick={() => mainDivRef.current?.scrollIntoView({ behavior: "smooth" })}>
