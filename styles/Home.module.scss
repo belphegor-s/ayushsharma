@@ -8,9 +8,10 @@
 	cursor: default;
 	@include flex-center-column;
 	position: relative;
+	padding: 0 2em;
 
 	.initials {
-		padding: 0 2em;
+		// padding: 0 2em;
 		position: relative;
 		pointer-events: none;
 
