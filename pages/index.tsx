@@ -17,6 +17,7 @@ import getRandomUUID from "../public/globals/getRandomUUID";
 import getRandomArr from "../public/globals/getRandomArr";
 import webLinks from "@/data/webLinks.json";
 import Quote from "@/components/Quote";
+import Loader from "@/components/Loader";
 
 const safeWindow: any = typeof window !== "undefined" ? window : {};
 
@@ -24,6 +25,7 @@ export default function Home() {
 	const mainDivRef = useRef<HTMLDivElement | null>(null);
 	const [showTopButton, setShowTopButton] = useState(false);
 	const [hasMounted, setHasMounted] = useState(false);
+	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
 		const onScrollEventHandler = () => {
@@ -67,67 +69,72 @@ export default function Home() {
 				<title>Ayush Sharma</title>
 				<meta name="description" content="Ayush's portfolio" />
 			</Head>
-			<div className={styles.hero}>
-				<div className={styles["web-links"]}>
-					{webLinks?.map((link: { [key: string]: any }, i: number) => {
-						return (
-							<Fragment key={`header-link-${i}`}>
-								<a href={link?.link || ""} target="_blank" rel="noreferrer noopener">
-									{link?.title || ""}
-									<FiExternalLink />
-								</a>
-								{i !== webLinks?.length - 1 && <span className={styles["web-links-separator"]}>|</span>}
-							</Fragment>
-						);
-					})}
+			<div style={loading ? {} : { display: "none" }}>
+				<Loader />
+			</div>
+			<div style={loading ? { display: "none" } : {}}>
+				<div className={styles.hero}>
+					<div className={styles["web-links"]}>
+						{webLinks?.map((link: { [key: string]: any }, i: number) => {
+							return (
+								<Fragment key={`header-link-${i}`}>
+									<a href={link?.link || ""} target="_blank" rel="noreferrer noopener">
+										{link?.title || ""}
+										<FiExternalLink />
+									</a>
+									{i !== webLinks?.length - 1 && <span className={styles["web-links-separator"]}>|</span>}
+								</Fragment>
+							);
+						})}
+					</div>
+					<div className={styles["initials"]}>
+						<Image src="/img/initials.svg" alt="ayush" width={400} height={100} priority onLoad={() => setLoading(false)} />
+						<div className="pyramid-loader">
+							<div className="wrapper">
+								<span className="side side1"></span>
+								<span className="side side2"></span>
+								<span className="side side3"></span>
+								<span className="side side4"></span>
+								<span className="shadow"></span>
+							</div>
+						</div>
+					</div>
+					<div className={styles.subheading}>Developer / Tinkerer / Stoic</div>
+					<div className={styles.profiles}>
+						<a href="https://github.com/belphegor-s" target="_blank" rel="noreferrer">
+							<BsGithub />
+						</a>
+						<a href="https://www.linkedin.com/in/ayush-sharma-2802/" target="_blank" rel="noreferrer">
+							<BsLinkedin />
+						</a>
+						<a href="https://x.com/sharma_0502" target="_blank" rel="noreferrer">
+							<BsTwitterX />
+						</a>
+					</div>
+					<div className={styles["down-arrow"]} onClick={() => mainDivRef.current?.scrollIntoView({ behavior: "smooth" })}>
+						<BsCaretDownFill size={15} />
+					</div>
 				</div>
-				<div className={styles["initials"]}>
-					<Image src="/img/initials.svg" alt="ayush" width={400} height={100} priority />
-					<div className="pyramid-loader">
-						<div className="wrapper">
-							<span className="side side1"></span>
-							<span className="side side2"></span>
-							<span className="side side3"></span>
-							<span className="side side4"></span>
-							<span className="shadow"></span>
+				<div className={styles.main} ref={mainDivRef}>
+					<Quote />
+					<div className={styles.projects}>
+						<h2>Projects</h2>
+						<div className={styles["project-cards-wrap"]}>
+							{PROJECTS.map((project, i: number) => (
+								<Link key={`project-${i}`} href={project.link} target="_blank" rel="noreferrer">
+									<ProjectCard data={project} />
+								</Link>
+							))}
 						</div>
 					</div>
 				</div>
-				<div className={styles.subheading}>Developer / Tinkerer / Stoic</div>
-				<div className={styles.profiles}>
-					<a href="https://github.com/belphegor-s" target="_blank" rel="noreferrer">
-						<BsGithub />
-					</a>
-					<a href="https://www.linkedin.com/in/ayush-sharma-2802/" target="_blank" rel="noreferrer">
-						<BsLinkedin />
-					</a>
-					<a href="https://x.com/sharma_0502" target="_blank" rel="noreferrer">
-						<BsTwitterX />
-					</a>
-				</div>
-				<div className={styles["down-arrow"]} onClick={() => mainDivRef.current?.scrollIntoView({ behavior: "smooth" })}>
-					<BsCaretDownFill size={15} />
-				</div>
-			</div>
-			<div className={styles.main} ref={mainDivRef}>
-				<Quote />
-				<div className={styles.projects}>
-					<h2>Projects</h2>
-					<div className={styles["project-cards-wrap"]}>
-						{PROJECTS.map((project, i: number) => (
-							<Link key={`project-${i}`} href={project.link} target="_blank" rel="noreferrer">
-								<ProjectCard data={project} />
-							</Link>
-						))}
+				{showTopButton && (
+					<div className={styles["top-btn"]} onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
+						<BsFillArrowUpCircleFill />
 					</div>
-				</div>
+				)}
+				<Footer />
 			</div>
-			{showTopButton && (
-				<div className={styles["top-btn"]} onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
-					<BsFillArrowUpCircleFill />
-				</div>
-			)}
-			<Footer />
 		</>
 	);
 }
