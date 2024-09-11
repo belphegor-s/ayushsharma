@@ -6,7 +6,7 @@
     color: $text-white;
     background-color: darken($primary-color, 7%);
     padding: 1.5em;
-    border-radius: .8em;
+    border-radius: 0.8em;
     transition: all $transition-speed ease-in-out;
     margin-bottom: 1em;
     break-inside: avoid;
@@ -18,7 +18,7 @@
     }
 
     & > div {
-        font-size: .9em;
+        font-size: 0.9em;
 
         & > p {
             &:last-of-type {
@@ -26,12 +26,12 @@
             }
         }
     }
-    
+
     &:hover {
         cursor: pointer;
         background-color: $primary-color;
         h3 {
-            color: $light-cyan;   
+            color: $light-cyan;
         }
     }
 }

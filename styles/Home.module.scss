@@ -3,184 +3,184 @@
 @import "animations";
 
 .hero {
-	width: 100%;
-	height: 100vh;
-	cursor: default;
-	@include flex-center-column;
-	position: relative;
-	padding: 0 2em;
+    width: 100%;
+    height: 100vh;
+    cursor: default;
+    @include flex-center-column;
+    position: relative;
+    padding: 0 2em;
 
-	.initials {
-		// padding: 0 2em;
-		position: relative;
-		pointer-events: none;
+    .initials {
+        // padding: 0 2em;
+        position: relative;
+        pointer-events: none;
 
-		& > img {
-			position: absolute;
-			top: 50%;
-			left: 50%;
-			transform: translate(-50%, -50%);
-			z-index: 5;
+        & > img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 5;
 
-			@media (max-width: 678px) {
-				width: 100%;
-				height: auto;
-				margin-bottom: 1em;
-			}
-		}
-	}
+            @media (max-width: 678px) {
+                width: 100%;
+                height: auto;
+                margin-bottom: 1em;
+            }
+        }
+    }
 
-	.subheading {
-		margin-top: -0.5em;
-		font-size: 1.2em;
-		font-weight: 400;
-		transition: all 0.2s ease-in-out;
-		color: $secondary-color;
-		cursor: pointer;
-		gap: 0.3em;
-		position: relative;
+    .subheading {
+        margin-top: -0.5em;
+        font-size: 1.2em;
+        font-weight: 400;
+        transition: all 0.2s ease-in-out;
+        color: $secondary-color;
+        cursor: pointer;
+        gap: 0.3em;
+        position: relative;
 
-		&:hover {
-			transform: scale(1.05);
-		}
+        &:hover {
+            transform: scale(1.05);
+        }
 
-		@media (max-width: 576px) {
-			font-size: 1.2em;
-		}
-	}
+        @media (max-width: 576px) {
+            font-size: 1.2em;
+        }
+    }
 
-	.developer-img {
-		position: absolute;
-		display: none;
-		pointer-events: none;
-		transition: transform $transition-speed ease-in-out;
-		z-index: 5;
-	}
+    .developer-img {
+        position: absolute;
+        display: none;
+        pointer-events: none;
+        transition: transform $transition-speed ease-in-out;
+        z-index: 5;
+    }
 
-	.profiles {
-		@include flex-center;
-		margin: 1em 0;
+    .profiles {
+        @include flex-center;
+        margin: 1em 0;
 
-		a {
-			all: unset;
-			margin: 0 0.5em;
+        a {
+            all: unset;
+            margin: 0 0.5em;
 
-			svg {
-				transition: all 0.2s ease-in-out;
-				cursor: pointer;
-				width: 1.6em;
-				height: 1.6em;
+            svg {
+                transition: all 0.2s ease-in-out;
+                cursor: pointer;
+                width: 1.6em;
+                height: 1.6em;
 
-				&:hover {
-					color: $secondary-color;
-				}
-			}
-		}
-	}
+                &:hover {
+                    color: $secondary-color;
+                }
+            }
+        }
+    }
 
-	.web-links {
-		@include flex-center;
-		gap: 0.5em;
-		position: absolute;
-		top: 1em;
-		right: 1em;
+    .web-links {
+        @include flex-center;
+        gap: 0.5em;
+        position: absolute;
+        top: 1em;
+        right: 1em;
 
-		& > a {
-			@include flex-center;
-			gap: 0.3em;
-			color: $light-cyan;
-			font-weight: 500;
-			cursor: pointer;
-			position: relative;
-			text-decoration: none;
+        & > a {
+            @include flex-center;
+            gap: 0.3em;
+            color: $light-cyan;
+            font-weight: 500;
+            cursor: pointer;
+            position: relative;
+            text-decoration: none;
 
-			&::after {
-				content: "";
-				position: absolute;
-				top: 100%;
-				left: 0;
-				width: 100%;
-				transform-origin: right;
-				transform: scaleX(0);
-				height: 0.125em;
-				background-color: $light-cyan;
-				transition: transform $transition-speed ease-in-out;
-			}
+            &::after {
+                content: "";
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                transform-origin: right;
+                transform: scaleX(0);
+                height: 0.125em;
+                background-color: $light-cyan;
+                transition: transform $transition-speed ease-in-out;
+            }
 
-			&:hover {
-				&::after {
-					transform-origin: left;
-					transform: scaleX(1);
-				}
-			}
-		}
-	}
+            &:hover {
+                &::after {
+                    transform-origin: left;
+                    transform: scaleX(1);
+                }
+            }
+        }
+    }
 
-	.down-arrow {
-		margin-top: 2em;
-		width: 1.5em;
-		height: 1.5em;
-		border-radius: 1000em;
-		background-color: $primary-color;
-		color: $text-white;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		cursor: pointer;
-		transition: all $transition-speed ease-in-out;
-		font-size: 1.2em;
-		animation: translateUpDown 1.5s ease-in-out 0s infinite alternate;
-		opacity: 0.5;
+    .down-arrow {
+        margin-top: 2em;
+        width: 1.5em;
+        height: 1.5em;
+        border-radius: 1000em;
+        background-color: $primary-color;
+        color: $text-white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        transition: all $transition-speed ease-in-out;
+        font-size: 1.2em;
+        animation: translateUpDown 1.5s ease-in-out 0s infinite alternate;
+        opacity: 0.5;
 
-		& > svg {
-			object-fit: cover;
-		}
+        & > svg {
+            object-fit: cover;
+        }
 
-		&:hover {
-			background-color: lighten($light-cyan, 3%);
-		}
-	}
+        &:hover {
+            background-color: lighten($light-cyan, 3%);
+        }
+    }
 }
 
 .main {
-	width: 100%;
-	min-height: 100vh;
-	max-width: 992px;
-	margin: 0 auto;
-	padding: 2em;
+    width: 100%;
+    min-height: 100vh;
+    max-width: 992px;
+    margin: 0 auto;
+    padding: 2em;
 
-	.projects {
-		margin: 3em 0;
+    .projects {
+        margin: 3em 0;
 
-		.project-cards-wrap {
-			margin: 1em 0;
-			columns: 2;
-			column-gap: 1em;
+        .project-cards-wrap {
+            margin: 1em 0;
+            columns: 2;
+            column-gap: 1em;
 
-			@media (max-width: 576px) {
-				columns: 1;
-			}
+            @media (max-width: 576px) {
+                columns: 1;
+            }
 
-			& > a {
-				all: unset;
-			}
-		}
-	}
+            & > a {
+                all: unset;
+            }
+        }
+    }
 }
 
 .top-btn {
-	position: fixed;
-	bottom: 1em;
-	right: 1em;
-	background-color: $primary-color;
-	font-size: 2em;
-	@include flex-center;
-	border-radius: 1000em;
-	cursor: pointer;
-	box-shadow: 0 0 0.2em $light-grey;
-	transition: all $transition-speed ease-in-out;
+    position: fixed;
+    bottom: 1em;
+    right: 1em;
+    background-color: $primary-color;
+    font-size: 2em;
+    @include flex-center;
+    border-radius: 1000em;
+    cursor: pointer;
+    box-shadow: 0 0 0.2em $light-grey;
+    transition: all $transition-speed ease-in-out;
 
-	&:hover {
-		background-color: darken($secondary-color, 3%);
-	}
+    &:hover {
+        background-color: darken($secondary-color, 3%);
+    }
 }
