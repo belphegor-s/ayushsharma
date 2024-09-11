@@ -56,7 +56,7 @@ export default function Home() {
     useEffect(() => {
         (async () => {
             try {
-                const response = await fetch("/api/quotes");
+                const response = await fetch("https://quotes.ayushsharma.me");
 
                 if (response && response.status === 200) {
                     const responseData = await response.json();
