@@ -1,0 +1,36 @@
+{
+    "quotes": [
+        {
+            "quote": "Any sufficiently advanced technology is indistinguishable from magic.",
+            "author": "Arthur C. Clarke"
+        },
+        {
+            "quote": "Real artists ship.",
+            "author": "Steve Jobs"
+        },
+        {
+            "quote": "The most disastrous thing that you can ever learn is your first programming language.",
+            "author": "Alan Kay"
+        },
+        {
+            "quote": "Talk is cheap. Show me the code.",
+            "author": "Linus Torvalds"
+        },
+        {
+            "quote": "Programs must be written for people to read, and only incidentally for machines to execute.",
+            "author": "Harold Abelson and Gerald Jay Sussman"
+        },
+        {
+            "quote": "I'm convinced that about half of what separates the successful entrepreneurs from the non-successful ones is pure perseverance.",
+            "author": "Steve Jobs"
+        },
+        {
+            "quote": "The art of debugging is figuring out what you really told your program to do rather than what you thought you told it to do.",
+            "author": "Andrew Singer"
+        },
+        {
+            "quote": "It is possible to make software secure, but to do so requires a level of care and dedication that few organizations are willing to invest.",
+            "author": "Bruce Schneier"
+        }
+    ]
+}

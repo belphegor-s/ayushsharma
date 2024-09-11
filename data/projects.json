@@ -1,0 +1,62 @@
+[
+	{
+		"header": "Parmarth (IET Lucknow's Official Social Club)",
+		"body": "Parmarth is IET Lucknow's official Social Club that helps children to get Education Under RTE.| The platform is entirely curated for maintaining, organizing and segregating all students and the volunteers database, issuing certificates via Admin Panel and, a basic CMS (Content Management System) for publishing articles, backend logic for sending emails. A full-fledged Admin Panel for all controls - Managing posts, Certificate requests, Adding students data",
+		"link": "https://parmarth.vercel.app/"
+	},
+	{
+		"header": "Query Box (StackOverflow Clone)",
+		"body": "A StackOverflow Clone developed for community discussions and QnA platform using GraphQL and Apollo Server.| State management using Apollo Client, with features like - User authentication, QnA (using CRUD operations), Pagination, Question sorting (based on filters or tags).",
+		"link": "https://github.com/belphegor-s/query-box"
+	},
+	{
+		"header": "Codebox",
+		"body": "A React app having different tools designed for Code Collaboration - With Web Sockets, Code Pen (Web Rendering),Markdown Editing. Scalable and practical usecase.",
+		"link": "https://github.com/belphegor-s/codebox"
+	},
+	{
+		"header": "Notes Hub",
+		"body": "A Google Keep Clone, notes making app with User authentication (for saving notes of individual user separately inDatabase), capable of basic CRUD operation.",
+		"link": "https://github.com/belphegor-s/notes-hub"
+	},
+	{
+		"header": "SymSec",
+		"body": "SymSec is a Node.js utility for symmetric key encryption with message integrity verification of JSON objects, providing a secure and straightforward way to store or transmit sensitive data.",
+		"link": "https://github.com/belphegor-s/symsec"
+	},
+	{
+		"header": "Image Encryptor",
+		"body": "An image encryptor utility implemented with Web Crypto API.",
+		"link": "https://github.com/belphegor-s/imageEncryptor"
+	},
+	{
+		"header": "Aim Trainer",
+		"body": "An aim training Game created using ReactJS, HTML Canvas for Game Canvas Designing and is designed with React Bootstrap. The Game has multiple game modes.| Includes - Single traget shooting, Doubleshot, Precision Control, Response Time Measure, Moving Targets, Target Tracking.",
+		"link": "https://belphegor-s.github.io/aimtrainer/"
+	},
+	{
+		"header": "CRA Foster",
+		"body": "A simple CLI tool for a very clean and simple ReactJS setup including my Webpack config file using NodeJS Child Processes. The config include basic modules which supports JS, JSX, JSON, CSS, Images allowing option to added more plugins.",
+		"link": "https://github.com/belphegor-s/cra-foster"
+	},
+	{
+		"header": "Auto Clicker",
+		"body": "An auto click tool for automating mouse clicks that uses macros as well to record mouse events (click and move) using C# and WPF (Windows Presentation Framework). This can help automating tasks or events. Useful for repetitive task, data entry, automation and gaming.| Supports random delay for each mouse click (helpful in games like Minecraft to prevent BAN) and Hotkeys. (Note: The Repo is private, please contact me for collaboration)",
+		"link": "https://belphegor-s.github.io/autoclicker"
+	},
+	{
+		"header": "Chatbot",
+		"body": "A basic Chatbot built with Python, NLP, NLTK and Tkinter module to guide students to help them choose career that suits and best fit in their intersets.| We have inserted very small dataset so don't expect awesome responses. This project is more of a bare-bone example of Chatbot using NLP.",
+		"link": "https://github.com/belphegor-s/chatbot-gui"
+	},
+	{
+		"header": "Email Verifier",
+		"body": "A real time email verifier with → email syntax, SMTP, inbox exists, catch-all and mx records checks.",
+		"link": "https://github.com/belphegor-s/node-email-verifier"
+	},
+	{
+		"header": "Video Transcoding Service",
+		"body": "A fully fledged scalable service for video transcoding using AWS ECS and `ffmpeg`",
+		"link": "https://github.com/belphegor-s/video-transcoding-service"
+	}
+]

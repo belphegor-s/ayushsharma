@@ -1,0 +1,11 @@
+@import "variables";
+@import "mixins";
+@import "animations";
+
+.quote {
+    border-left: .2em solid $secondary-color;
+    padding: .3em;
+    padding-left: .8em;
+    padding-right: 0;
+    font-size: 1.1em;
+}

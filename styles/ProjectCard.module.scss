@@ -1,0 +1,37 @@
+@import "variables";
+@import "mixins";
+@import "animations";
+
+.project-card {
+    color: $text-white;
+    background-color: darken($primary-color, 7%);
+    padding: 1.5em;
+    border-radius: .8em;
+    transition: all $transition-speed ease-in-out;
+    margin-bottom: 1em;
+    break-inside: avoid;
+
+    & > h3 {
+        color: $light-grey;
+        transition: all $transition-speed ease-in-out;
+        font-size: 1.1em;
+    }
+
+    & > div {
+        font-size: .9em;
+
+        & > p {
+            &:last-of-type {
+                margin-bottom: 0;
+            }
+        }
+    }
+    
+    &:hover {
+        cursor: pointer;
+        background-color: $primary-color;
+        h3 {
+            color: $light-cyan;   
+        }
+    }
+}
