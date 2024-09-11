@@ -56,7 +56,7 @@ export default function Home() {
     useEffect(() => {
         (async () => {
             try {
-                const response = await fetch("https://quotes.ayushsharma.me");
+                const response = await fetch("https://quotes.ayushsharma.me/random");
 
                 if (response && response.status === 200) {
                     const responseData = await response.json();
