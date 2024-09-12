@@ -11,7 +11,6 @@
     padding: 0 2em;
 
     .initials {
-        // padding: 0 2em;
         position: relative;
         pointer-events: none;
 
@@ -26,6 +25,41 @@
                 width: 100%;
                 height: auto;
                 margin-bottom: 1em;
+            }
+        }
+    }
+
+    .profile-image {
+        margin: 0.5em 0;
+        margin-bottom: -0.5em;
+
+        & > img {
+            border-radius: 50%;
+            border: 0.2em solid $text-white;
+            user-select: none;
+            -webkit-user-drag: none;
+            box-shadow: 0px 4px 15px rgba(255, 255, 255, 0.6);
+            animation: uneven-glow 5s infinite ease-in-out;
+        }
+
+        @keyframes uneven-glow {
+            0% {
+                box-shadow: 0px 4px 12px rgba(255, 255, 255, 0.5); /* Base shadow */
+            }
+            20% {
+                box-shadow: 0px 6px 18px rgba(255, 255, 255, 0.7); /* Slight glow */
+            }
+            40% {
+                box-shadow: 0px 5px 15px rgba(255, 255, 255, 0.6); /* Subtle decrease */
+            }
+            60% {
+                box-shadow: 0px 9px 25px rgba(255, 255, 255, 0.8); /* Stronger glow */
+            }
+            80% {
+                box-shadow: 0px 7px 20px rgba(255, 255, 255, 0.7); /* Slight decrease */
+            }
+            100% {
+                box-shadow: 0px 4px 12px rgba(255, 255, 255, 0.5); /* Back to base shadow */
             }
         }
     }

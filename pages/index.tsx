@@ -105,8 +105,11 @@ export default function Home() {
                             );
                         })}
                     </div>
+                    <div className={styles["profile-image"]}>
+                        <Image src="/img/ayush_b&w.jpeg" alt="Profile Image" width={150} height={150} style={{ borderRadius: "50%" }} />
+                    </div>
                     <div className={styles["initials"]}>
-                        <Image src="/img/initials.svg" alt="ayush" width={400} height={100} priority onLoad={() => setLoading(false)} />
+                        <Image src="/img/initials.svg" alt="ayush" width={370} height={80} priority onLoad={() => setLoading(false)} />
                         <div className="pyramid-loader">
                             <div className="wrapper">
                                 <span className="side side1"></span>
@@ -118,7 +121,6 @@ export default function Home() {
                         </div>
                     </div>
                     <div className={styles.subheading}>Developer / Tinkerer / Stoic</div>
-
                     <div className={styles.profiles}>
                         <a href="https://github.com/belphegor-s" title="Github" target="_blank" rel="noreferrer">
                             <RiGithubFill />
@@ -133,7 +135,7 @@ export default function Home() {
                             <RiMailSendFill />
                         </a>
                     </div>
-                    <div className={styles["down-arrow"]} onClick={() => mainDivRef.current?.scrollIntoView({ behavior: "smooth" })}>
+                    <div className={styles["down-arrow"]} onClick={() => mainDivRef.current?.scrollIntoView({ behavior: "smooth" })} title="Explore More">
                         <BsCaretDownFill size={15} />
                     </div>
                 </div>
@@ -151,7 +153,7 @@ export default function Home() {
                     </div>
                 </div>
                 {showTopButton && (
-                    <div className={styles["top-btn"]} onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
+                    <div className={styles["top-btn"]} onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} title="Scroll to top">
                         <BsFillArrowUpCircleFill />
                     </div>
                 )}
