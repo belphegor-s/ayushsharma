@@ -27,7 +27,10 @@ export default function Home() {
     const mainDivRef = useRef<HTMLDivElement | null>(null);
     const [showTopButton, setShowTopButton] = useState(false);
     const [hasMounted, setHasMounted] = useState(false);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState({
+        initial: true,
+        profile: true,
+    });
     const [quotes, setQuotes] = useState<any[]>(getRandomQuotes());
 
     useEffect(() => {
@@ -87,10 +90,10 @@ export default function Home() {
                 <title>Ayush Sharma</title>
                 <meta name="description" content="Ayush's portfolio" />
             </Head>
-            <div style={loading ? {} : { display: "none" }}>
+            <div style={loading.initial || loading.profile ? {} : { display: "none" }}>
                 <Loader />
             </div>
-            <div style={loading ? { display: "none" } : {}}>
+            <div style={loading.initial || loading.profile ? { display: "none" } : {}}>
                 <div className={styles.hero}>
                     <div className={styles["web-links"]}>
                         {webLinks?.map((link: { [key: string]: any }, i: number) => {
@@ -106,10 +109,10 @@ export default function Home() {
                         })}
                     </div>
                     <div className={styles["profile-image"]}>
-                        <Image src="/img/ayush_b&w.jpeg" alt="Profile Image" width={150} height={150} style={{ borderRadius: "50%" }} />
+                        <Image src="/img/ayush_b&w.jpeg" alt="Profile Image" width={150} height={150} style={{ borderRadius: "50%" }} priority onLoad={() => setLoading((prev) => ({ ...prev, profile: false }))} />
                     </div>
                     <div className={styles["initials"]}>
-                        <Image src="/img/initials.svg" alt="ayush" width={370} height={80} priority onLoad={() => setLoading(false)} />
+                        <Image src="/img/initials.svg" alt="ayush" width={370} height={80} priority onLoad={() => setLoading((prev) => ({ ...prev, initial: false }))} />
                         <div className="pyramid-loader">
                             <div className="wrapper">
                                 <span className="side side1"></span>
