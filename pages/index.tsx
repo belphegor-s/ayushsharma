@@ -19,6 +19,7 @@ import Quote from "@/components/Quote";
 import Loader from "@/components/Loader";
 import { RiMailSendFill, RiGithubFill, RiTwitterXFill, RiLinkedinBoxFill } from "react-icons/ri";
 import { BsCaretDownFill } from "react-icons/bs";
+import getRandomQuotes from "@/util/getRandomQuotes";
 
 const safeWindow: any = typeof window !== "undefined" ? window : {};
 
@@ -27,8 +28,7 @@ export default function Home() {
     const [showTopButton, setShowTopButton] = useState(false);
     const [hasMounted, setHasMounted] = useState(false);
     const [loading, setLoading] = useState(true);
-    const [fetching, setFetching] = useState(true);
-    const [quotes, setQuotes] = useState<any[]>([]);
+    const [quotes, setQuotes] = useState<any[]>(getRandomQuotes());
 
     useEffect(() => {
         const onScrollEventHandler = () => {
@@ -64,8 +64,6 @@ export default function Home() {
                 }
             } catch (e) {
                 console.log(`Error making request -> ${e}`);
-            } finally {
-                setFetching(false);
             }
         })();
     }, []);
@@ -89,10 +87,10 @@ export default function Home() {
                 <title>Ayush Sharma</title>
                 <meta name="description" content="Ayush's portfolio" />
             </Head>
-            <div style={loading || fetching ? {} : { display: "none" }}>
+            <div style={loading ? {} : { display: "none" }}>
                 <Loader />
             </div>
-            <div style={loading || fetching ? { display: "none" } : {}}>
+            <div style={loading ? { display: "none" } : {}}>
                 <div className={styles.hero}>
                     <div className={styles["web-links"]}>
                         {webLinks?.map((link: { [key: string]: any }, i: number) => {
