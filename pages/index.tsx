@@ -147,11 +147,13 @@ export default function Home() {
                     <div className={styles.projects}>
                         <h2>Projects</h2>
                         <div className={styles["project-cards-wrap"]}>
-                            {PROJECTS.map((project, i: number) => (
-                                <Link key={`project-${i}`} href={project.link} target="_blank" rel="noreferrer">
-                                    <ProjectCard data={project} />
-                                </Link>
-                            ))}
+                            {JSON.parse(JSON.stringify(PROJECTS))
+                                .reverse()
+                                .map((project: any, i: number) => (
+                                    <Link key={`project-${i}`} href={project.link} target="_blank" rel="noreferrer">
+                                        <ProjectCard data={project} />
+                                    </Link>
+                                ))}
                         </div>
                     </div>
                 </div>
