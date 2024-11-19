@@ -16,7 +16,9 @@ const Footer = () => {
                 </div>
             </div>
             <div className={styles.email}>
-                <a href="mailto:howdy@ayushsharma.me">howdy@ayushsharma.me</a>
+                <a href="mailto:hello@ayushsharma.me" title="Send Email">
+                    hello@ayushsharma.me
+                </a>
             </div>
         </footer>
     );

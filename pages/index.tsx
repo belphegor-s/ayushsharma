@@ -134,7 +134,7 @@ export default function Home() {
                         <a href="https://x.com/sharma_0502" title="Twitter/X" target="_blank" rel="noreferrer">
                             <RiTwitterXFill />
                         </a>
-                        <a href="mailto:howdy@ayushsharma.me" title="Send Email">
+                        <a href="mailto:hello@ayushsharma.me" title="Send Email">
                             <RiMailSendFill />
                         </a>
                     </div>
