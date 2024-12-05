@@ -109,7 +109,7 @@ export default function Home() {
                         })}
                     </div>
                     <div className={styles["profile-image"]}>
-                        <Image src="/img/ayush_b&w.jpeg" alt="Profile Image" width={150} height={150} style={{ borderRadius: "50%" }} priority onLoad={() => setLoading((prev) => ({ ...prev, profile: false }))} />
+                        <Image src="/img/ayush_b&w.jpg" alt="Profile Image" width={170} height={170} style={{ borderRadius: "50%" }} priority onLoad={() => setLoading((prev) => ({ ...prev, profile: false }))} />
                     </div>
                     <div className={styles["initials"]}>
                         <Image src="/img/initials.svg" alt="ayush" width={370} height={80} priority onLoad={() => setLoading((prev) => ({ ...prev, initial: false }))} />
