@@ -168,23 +168,20 @@ const ContactForm = ({ onClose }) => {
 };
 
 const ResumeModal = ({ onClose }) => (
-  <motion.div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 px-4" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-    <motion.div
-      className="bg-gray-900 rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] flex flex-col overflow-hidden"
-      initial={{ scale: 0.9, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      exit={{ scale: 0.9, opacity: 0 }}
-      transition={{ duration: 0.3, ease: 'easeInOut' }}
-    >
-      <div className="flex justify-end p-2 bg-gray-800 border-b border-gray-700">
-        <Button onClick={onClose} className="text-gray-500 hover:text-white !p-1 cursor-pointer" aria-label="Close contact form">
-          <X size={20} />
-        </Button>
-      </div>
-      <div className="flex-1 overflow-auto">
-        <iframe src="https://resume-worker.ayush2162002.workers.dev/" title="Ayush Sharma Resume" className="w-full h-full" style={{ minHeight: '70vh' }} />
-      </div>
-    </motion.div>
+  <motion.div
+    className="bg-gray-900 rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] flex flex-col overflow-hidden"
+    initial={{ opacity: 0, y: 50, scale: 0.9 }}
+    animate={{ opacity: 1, y: 0, scale: 1 }}
+    exit={{ opacity: 0, y: 50, scale: 0.9, transition: { duration: 0.2 } }}
+  >
+    <div className="flex justify-end p-2 bg-gray-800 border-b border-gray-700">
+      <Button onClick={onClose} className="text-gray-500 hover:text-white !p-1 cursor-pointer" aria-label="Close contact form">
+        <X size={20} />
+      </Button>
+    </div>
+    <div className="flex-1 overflow-auto">
+      <iframe src="https://resume-worker.ayush2162002.workers.dev/" title="Ayush Sharma Resume" className="w-full h-full" style={{ minHeight: '70vh' }} />
+    </div>
   </motion.div>
 );
 
@@ -261,19 +258,36 @@ export default function Home() {
         transition={{ duration: 0.8, ease: 'easeOut' }}
         className="relative z-10 text-center bg-gray-800/50 backdrop-blur-sm p-8 md:p-12 rounded-xl shadow-lg border border-gray-700/50 max-w-2xl w-full"
       >
-        {/* <motion.h1 className="text-4xl md:text-5xl font-bold text-white mb-2 tracking-tight" initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5, delay: 0.2 }}>
-          Ayush Sharma
-        </motion.h1> */}
-        <motion.div className="mb-4" initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5, delay: 0.2 }}>
-          <svg viewBox="0 0 400 50" xmlns="http://www.w3.org/2000/svg" className="w-full max-w-lg mx-auto h-auto" aria-label="Ayush Sharma">
-            <text x="50%" y="50%" dy=".30em" textAnchor="middle" className="animated-text-name">
-              Ayush Sharma
-            </text>
-          </svg>
+        <motion.div className="mb-2 relative" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
+          <motion.h1 className="text-4xl md:text-5xl font-bold text-white tracking-tight relative inline-block" style={{ textShadow: '0 0 15px rgba(99, 102, 241, 0.3)' }}>
+            {Array.from('Ayush Sharma').map((letter, index) => (
+              <motion.span
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  duration: 0.4,
+                  delay: 0.3 + index * 0.04,
+                  ease: 'easeOut',
+                }}
+                className={letter === ' ' ? 'mx-2' : 'inline-block'}
+              >
+                {letter}
+              </motion.span>
+            ))}
+          </motion.h1>
+
+          <motion.div
+            className="h-0.5 bg-gradient-to-r from-transparent via-indigo-400 to-transparent mx-auto"
+            initial={{ width: 0, opacity: 0 }}
+            animate={{ width: '100%', opacity: 1 }}
+            transition={{ duration: 0.8, delay: 1, ease: 'easeInOut' }}
+            style={{ maxWidth: '300px' }}
+          />
         </motion.div>
 
         <motion.p
-          className="text-lg md:text-xl text-indigo-300 mb-6 font-light tracking-wide"
+          className="text-lg md:text-xl text-indigo-300 mb-6 font-light tracking-wide mt-4"
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5, delay: 0.4 }}
@@ -289,7 +303,7 @@ export default function Home() {
           <SocialLink href="https://blog.ayushsharma.me/" icon={BookOpen} label="Blog" />
         </motion.div>
 
-        <motion.div className="mb-6 flex justify-center" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.75 }}>
+        {/* <motion.div className="mb-6 flex justify-center" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.75 }}>
           <button
             onClick={() => setShowResume(true)}
             aria-label="View Résumé"
@@ -301,6 +315,18 @@ export default function Home() {
 
         <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5, delay: 0.8, type: 'spring', stiffness: 150 }}>
           <Button onClick={openContactPopup} className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold flex items-center justify-center gap-2 mx-auto shadow-lg cursor-pointer">
+            <Mail size={18} /> Contact Me
+          </Button>
+        </motion.div> */}
+        <motion.div className="flex flex-wrap items-center justify-center gap-4" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.75 }}>
+          <Button
+            onClick={() => setShowResume(true)}
+            className="border border-indigo-400 text-indigo-300 hover:text-white hover:border-white bg-transparent font-medium text-sm flex items-center justify-center gap-2 cursor-pointer"
+          >
+            <FileText size={18} /> View Résumé
+          </Button>
+
+          <Button onClick={openContactPopup} className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold flex items-center justify-center gap-2 shadow-lg cursor-pointer">
             <Mail size={18} /> Contact Me
           </Button>
         </motion.div>
@@ -367,38 +393,6 @@ export default function Home() {
         ::-webkit-scrollbar-thumb {
           background: rgb(229 231 235);
           border-radius: 4px;
-        }
-
-        /* === SVG Text Animation Styles === */
-        .animated-text-name {
-          font-family: 'Inter', sans-serif; /* Match font */
-          font-size: 3rem; /* Adjust size as needed, relative to viewBox */
-          font-weight: bold;
-          fill: none; /* Start with no fill */
-          fill-opacity: 0;
-          stroke: #ffffff; /* White stroke */
-          stroke-width: 0.5; /* Adjust stroke width */
-          stroke-dasharray: 500; /* Estimate length, adjust if needed */
-          stroke-dashoffset: 500; /* Start fully dashed (invisible) */
-          animation:
-            drawName 2s ease-in-out forwards 0.5s,
-            fillName 1s ease-in-out forwards 2.5s; /* Draw animation starts after 0.5s delay, fill starts after draw */
-          animation-iteration-count: 1, 1; /* One time for both animations */
-          animation-fill-mode: forwards, forwards; /* Keep final state */
-        }
-
-        @keyframes drawName {
-          to {
-            stroke-dashoffset: 0; /* Animate stroke to reveal text */
-          }
-        }
-
-        @keyframes fillName {
-          to {
-            fill: #ffffff; /* Fill text with white */
-            fill-opacity: 1;
-            stroke-width: 0; /* Optionally remove stroke after fill */
-          }
         }
       `}</style>
     </div>
