@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mail, X, Github, Linkedin, Twitter, BookOpen, Send, FileText } from 'lucide-react';
+import { Mail, X, Github, Linkedin, Twitter, BookOpen, Send, FileText, ExternalLink } from 'lucide-react';
 import toast, { Toaster } from 'react-hot-toast';
 import { initPostHog } from '@/lib/posthog';
 import posthog from '@/lib/posthog';
@@ -103,7 +103,7 @@ const ContactForm = ({ onClose }) => {
       className="relative bg-gray-800 p-8 rounded-xl shadow-2xl w-full max-w-md mx-auto border border-gray-700"
       onClick={(e) => e.stopPropagation()}
     >
-      <Button onClick={onClose} className="absolute top-4 right-4 text-gray-500 hover:text-white !p-1 cursor-pointer" aria-label="Close contact form">
+      <Button onClick={onClose} className="absolute top-4 right-4 text-gray-500 hover:text-white !p-1 cursor-pointer" aria-label="Close contact form" title="Close contact form">
         <X size={20} />
       </Button>
       <h2 className="text-2xl font-semibold text-white mb-6 text-center">Get In Touch</h2>
@@ -174,8 +174,16 @@ const ResumeModal = ({ onClose }) => (
     animate={{ opacity: 1, y: 0, scale: 1 }}
     exit={{ opacity: 0, y: 50, scale: 0.9, transition: { duration: 0.2 } }}
   >
-    <div className="flex justify-end p-2 bg-gray-800 border-b border-gray-700">
-      <Button onClick={onClose} className="text-gray-500 hover:text-white !p-1 cursor-pointer" aria-label="Close contact form">
+    <div className="flex justify-end items-center gap-2 p-2 bg-gray-800 border-b border-gray-700">
+      <Button
+        onClick={() => open('https://resume-worker.ayush2162002.workers.dev/', '_blank', 'noreferrer noopener')}
+        className="text-gray-500 hover:text-white !p-1 cursor-pointer"
+        aria-label="Open resume in new tab"
+        title="Open resume in new tab"
+      >
+        <ExternalLink size={20} />
+      </Button>
+      <Button onClick={onClose} className="text-gray-500 hover:text-white !p-1 cursor-pointer" aria-label="Close resume" title="Close resume">
         <X size={20} />
       </Button>
     </div>
