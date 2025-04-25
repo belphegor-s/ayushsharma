@@ -42,11 +42,6 @@ export async function POST(request) {
                 <p style="background-color: #f4f4f4; padding: 10px; border-radius: 4px;">${message.replace(/\n/g, '<br>')}</p>
             </td>
         </tr>
-        <tr>
-            <td style="padding: 10px; text-align: center; font-size: 14px; color: #888;">
-                <p>If you have any questions, feel free to reach out!</p>
-            </td>
-        </tr>
     </table>
     `;
 
