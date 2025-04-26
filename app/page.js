@@ -258,10 +258,10 @@ export default function Home() {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: 'easeOut' }}
-        className="relative z-10 text-center bg-gray-800/50 backdrop-blur-sm p-8 md:p-12 rounded-xl shadow-lg border border-gray-700/50 max-w-2xl w-full"
+        className="relative z-10 text-center bg-gray-800/50 backdrop-blur-sm p-8 px-4 md:p-12 rounded-xl shadow-lg border border-gray-700/50 max-w-2xl w-full"
       >
         <motion.div className="mb-2 relative" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
-          <motion.h1 className="text-4xl md:text-5xl font-bold text-white tracking-tight relative inline-block" style={{ textShadow: '0 0 15px rgba(99, 102, 241, 0.3)' }}>
+          <motion.h1 className="text-5xl md:text-6xl font-bold text-white tracking-tight relative inline-block font-dancing" style={{ textShadow: '0 0 15px rgba(99, 102, 241, 0.3)' }}>
             {Array.from('Ayush Sharma').map((letter, index) => (
               <motion.span
                 key={index}
@@ -289,7 +289,7 @@ export default function Home() {
         </motion.div>
 
         <motion.p
-          className="text-lg md:text-xl text-indigo-300 mb-6 font-light tracking-wide mt-4"
+          className="text-md md:text-xl text-indigo-300 mb-6 font-light tracking-wide mt-4"
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5, delay: 0.4 }}
@@ -305,21 +305,6 @@ export default function Home() {
           <SocialLink href="https://blog.ayushsharma.me/" icon={BookOpen} label="Blog" />
         </motion.div>
 
-        {/* <motion.div className="mb-6 flex justify-center" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.75 }}>
-          <button
-            onClick={() => setShowResume(true)}
-            aria-label="View Résumé"
-            className="px-4 py-2 border border-indigo-400 text-indigo-300 hover:text-white hover:border-white rounded-md transition-colors duration-300 text-sm font-medium cursor-pointer"
-          >
-            View Résumé
-          </button>
-        </motion.div>
-
-        <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5, delay: 0.8, type: 'spring', stiffness: 150 }}>
-          <Button onClick={openContactPopup} className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold flex items-center justify-center gap-2 mx-auto shadow-lg cursor-pointer">
-            <Mail size={18} /> Contact Me
-          </Button>
-        </motion.div> */}
         <motion.div className="flex flex-wrap items-center justify-center gap-4" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.75 }}>
           <Button
             onClick={() => setShowResume(true)}
