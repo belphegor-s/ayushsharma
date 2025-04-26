@@ -173,6 +173,7 @@ const ResumeModal = ({ onClose }) => (
     initial={{ opacity: 0, y: 50, scale: 0.9 }}
     animate={{ opacity: 1, y: 0, scale: 1 }}
     exit={{ opacity: 0, y: 50, scale: 0.9, transition: { duration: 0.2 } }}
+    onClick={(e) => e.stopPropagation()}
   >
     <div className="flex justify-end items-center gap-2 p-2 bg-gray-800 border-b border-gray-700">
       <Button
@@ -196,15 +197,6 @@ const ResumeModal = ({ onClose }) => (
 export default function Home() {
   const [isContactOpen, setIsContactOpen] = useState(false);
   const [showResume, setShowResume] = useState(false);
-
-  const openContactPopup = () => {
-    setIsContactOpen(true);
-    posthog.capture('opened_contact_form');
-  };
-
-  const closeContactPopup = () => {
-    setIsContactOpen(false);
-  };
 
   useEffect(() => {
     if (!window.origin.includes('localhost')) {
@@ -336,7 +328,13 @@ export default function Home() {
             <FileText size={18} /> View Résumé
           </Button>
 
-          <Button onClick={openContactPopup} className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold flex items-center justify-center gap-2 shadow-lg cursor-pointer">
+          <Button
+            onClick={() => {
+              setIsContactOpen(true);
+              posthog.capture('opened_contact_form');
+            }}
+            className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold flex items-center justify-center gap-2 shadow-lg cursor-pointer"
+          >
             <Mail size={18} /> Contact Me
           </Button>
         </motion.div>
@@ -351,9 +349,9 @@ export default function Home() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4"
-            onClick={closeContactPopup}
+            onClick={() => setIsContactOpen(false)}
           >
-            <ContactForm onClose={closeContactPopup} />
+            <ContactForm onClose={() => setIsContactOpen(false)} />
           </motion.div>
         )}
       </AnimatePresence>
@@ -366,7 +364,7 @@ export default function Home() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4"
-            onClick={closeContactPopup}
+            onClick={() => setShowResume(false)}
           >
             <ResumeModal isOpen={showResume} onClose={() => setShowResume(false)} />
           </motion.div>
