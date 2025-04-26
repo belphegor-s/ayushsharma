@@ -18,7 +18,7 @@
     width: 180px;
     height: 180px;
     border-radius: 50%;
-    background: conic-gradient(#6366f1, #1e1e2f, #8b5cf6, #1e1e2f, #6366f1);
+    background: conic-gradient(#6366f1, #8b5cf6, #1e1e2f, #6366f1);
     animation: spin 3s linear infinite;
     z-index: 0;
   }
