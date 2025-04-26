@@ -250,7 +250,7 @@ export default function Home() {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: 'easeOut' }}
-        className="relative z-10 text-center bg-gray-800/50 backdrop-blur-sm p-8 px-4 md:p-12 rounded-xl shadow-lg border border-gray-700/50 max-w-2xl w-full"
+        className="relative z-10 text-center bg-gray-800/50 backdrop-blur-sm p-8 px-2 md:p-12 rounded-xl shadow-lg border border-gray-700/50 max-w-2xl w-full"
       >
         <motion.div className="relative mb-6 flex justify-center w-max mx-auto" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8 }}>
           <div className={'profile-image'}>
@@ -306,7 +306,7 @@ export default function Home() {
           <SocialLink href="https://blog.ayushsharma.me/" icon={BookOpen} label="Blog" />
         </motion.div>
 
-        <motion.div className="flex flex-wrap items-center justify-center gap-4" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.75 }}>
+        <motion.div className="flex flex-wrap items-center justify-center gap-2 md:gap-4" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.75 }}>
           <Button
             onClick={() => setShowResume(true)}
             className="border border-indigo-400 text-indigo-300 hover:text-white hover:border-white bg-transparent font-medium text-sm flex items-center justify-center gap-2 cursor-pointer"
