@@ -4,3 +4,45 @@
 @theme {
   --font-dancing: 'Dancing Script', cursive;
 }
+
+.profile-image {
+  position: relative;
+  width: 170px;
+  height: 170px;
+  margin: 0.5em 0;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background: conic-gradient(#6366f1, #1e1e2f, #8b5cf6, #1e1e2f, #6366f1);
+    animation: spin 3s linear infinite;
+    z-index: 0;
+  }
+
+  & > img {
+    position: relative;
+    z-index: 1;
+    border-radius: 50%;
+    user-select: none;
+    -webkit-user-drag: none;
+    width: 170px;
+    height: 170px;
+    display: block;
+    object-fit: cover;
+    background-color: #000;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0turn);
+    }
+    100% {
+      transform: rotate(1turn);
+    }
+  }
+}

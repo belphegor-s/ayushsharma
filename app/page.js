@@ -5,8 +5,9 @@ import { Mail, X, Github, Linkedin, Twitter, BookOpen, Send, FileText, ExternalL
 import toast, { Toaster } from 'react-hot-toast';
 import { initPostHog } from '@/lib/posthog';
 import posthog from '@/lib/posthog';
+import Image from 'next/image';
 
-const Button = ({ children, onClick, className = '', ...props }) => {
+export const Button = ({ children, onClick, className = '', ...props }) => {
   const handleClick = (e) => {
     if (onClick) {
       onClick(e);
@@ -212,7 +213,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-900 text-gray-100 flex flex-col items-center justify-center p-6 font-sans relative overflow-hidden">
+    <>
       <Toaster
         position="top-center"
         reverseOrder={false}
@@ -238,21 +239,6 @@ export default function Home() {
         }}
       />
 
-      <div className="absolute inset-0 z-0 opacity-10">
-        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <pattern id="smallGrid" width="20" height="20" patternUnits="userSpaceOnUse">
-              <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255,255,255,0.6)" strokeWidth="0.5" />
-            </pattern>
-            <pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse">
-              <rect width="100" height="100" fill="url(#smallGrid)" />
-              <path d="M 100 0 L 0 0 0 100" fill="none" stroke="rgba(255,255,255,0.6)" strokeWidth="1" />
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#grid)" />
-        </svg>
-      </div>
-
       {/* Main Content */}
       <motion.main
         initial={{ opacity: 0, y: -20 }}
@@ -260,6 +246,12 @@ export default function Home() {
         transition={{ duration: 0.8, ease: 'easeOut' }}
         className="relative z-10 text-center bg-gray-800/50 backdrop-blur-sm p-8 px-4 md:p-12 rounded-xl shadow-lg border border-gray-700/50 max-w-2xl w-full"
       >
+        <motion.div className="relative mb-6 flex justify-center w-max mx-auto" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8 }}>
+          <div className={'profile-image'}>
+            <Image src="/assets/ayush_b&w.jpg" alt="Profile Image" width={170} height={170} style={{ borderRadius: '50%' }} priority />
+          </div>
+        </motion.div>
+
         <motion.div className="mb-2 relative" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
           <motion.h1 className="text-5xl md:text-6xl font-bold text-white tracking-tight relative inline-block font-dancing" style={{ textShadow: '0 0 15px rgba(99, 102, 241, 0.3)' }}>
             {Array.from('Ayush Sharma').map((letter, index) => (
@@ -289,7 +281,7 @@ export default function Home() {
         </motion.div>
 
         <motion.p
-          className="text-md md:text-xl text-indigo-300 mb-6 font-light tracking-wide mt-4"
+          className="text-md md:text-xl text-indigo-300 mb-6 font-normal tracking-wide mt-4"
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5, delay: 0.4 }}
@@ -388,6 +380,6 @@ export default function Home() {
           border-radius: 4px;
         }
       `}</style>
-    </div>
+    </>
   );
 }
