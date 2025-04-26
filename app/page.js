@@ -6,6 +6,12 @@ import toast, { Toaster } from 'react-hot-toast';
 import { initPostHog } from '@/lib/posthog';
 import posthog from '@/lib/posthog';
 import Image from 'next/image';
+import { Dancing_Script } from 'next/font/google';
+
+const dancing = Dancing_Script({
+  subsets: ['latin'],
+  weight: ['400', '700'],
+});
 
 export const Button = ({ children, onClick, className = '', ...props }) => {
   const handleClick = (e) => {
@@ -253,7 +259,10 @@ export default function Home() {
         </motion.div>
 
         <motion.div className="mb-2 relative" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
-          <motion.h1 className="text-5xl md:text-6xl font-bold text-white tracking-tight relative inline-block font-dancing" style={{ textShadow: '0 0 15px rgba(99, 102, 241, 0.3)' }}>
+          <motion.h1
+            className={`text-5xl md:text-6xl font-bold text-white tracking-tight relative inline-block ${dancing.className} antialiased`}
+            style={{ textShadow: '0 0 15px rgba(99, 102, 241, 0.3)' }}
+          >
             {Array.from('Ayush Sharma').map((letter, index) => (
               <motion.span
                 key={index}
