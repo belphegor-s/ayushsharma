@@ -207,7 +207,9 @@ export default function Home() {
   };
 
   useEffect(() => {
-    initPostHog();
+    if (!window.origin.includes('localhost')) {
+      initPostHog();
+    }
   }, []);
 
   useEffect(() => {
