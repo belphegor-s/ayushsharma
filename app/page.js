@@ -254,7 +254,7 @@ export default function Home() {
       >
         <motion.div className="relative mb-6 flex justify-center w-max mx-auto" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8 }}>
           <div className={'profile-image'}>
-            <Image src="/assets/ayush_b&w.jpg" alt="Profile Image" width={170} height={170} style={{ borderRadius: '50%' }} priority />
+            <Image src="/assets/ayush.png" alt="Profile Headshot" width={170} height={170} style={{ borderRadius: '50%' }} priority />
           </div>
         </motion.div>
 
