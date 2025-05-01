@@ -1,6 +1,5 @@
 import { Resend } from 'resend';
 import { NextResponse } from 'next/server';
-import CONTACT_FORM_SUBMISSION_ENDPOINT from '@/data/constants';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 const fromEmail = 'Ayush Sharma <hello@ayushsharma.me>';
