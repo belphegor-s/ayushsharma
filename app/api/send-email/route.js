@@ -26,7 +26,7 @@ export async function POST(request) {
       return res.status(400).json({ error: 'Message is required' });
     }
 
-    const response = await fetch(`${process.env.NEXT_PUBLIC_CONTACT_FORM_SUBMISSION_ENDPOINT}/api/submissions`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_CONTACT_FORM_SUBMISSION_ENDPOINT}/api/submit`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
