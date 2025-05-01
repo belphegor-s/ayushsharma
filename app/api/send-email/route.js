@@ -3,7 +3,8 @@ import { NextResponse } from 'next/server';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 const fromEmail = 'Ayush Sharma <hello@ayushsharma.me>';
-const toEmail = 'hello@ayushsharma.me';
+
+const CONTACT_FORM_SUBMISSION_ENDPOINT = `https://contact-form-worker.ayush2162002.workers.dev/api/submit`;
 
 const isValidEmail = (email) => {
   const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -27,31 +28,41 @@ export async function POST(request) {
       return res.status(400).json({ error: 'Message is required' });
     }
 
+    const response = await fetch(CONTACT_FORM_SUBMISSION_ENDPOINT, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ name, email, message }),
+    });
+
+    if (response && response.status === 201) {
+      const data = await response.json();
+      console.log('Contact form submission successful:', data);
+    }
+
     const html = `
-    <table role="presentation" width="100%" style="max-width: 600px; margin: 0 auto; border: 0; background-color: #ffffff; font-family: Arial, sans-serif; color: #333;">
+      <table role="presentation" width="100%" style="max-width: 600px; margin: 0 auto; background-color: #f9f9f9; font-family: Arial, sans-serif; color: #333;">
         <tr>
-            <td style="background-color: #00bfa6; color: #fff; text-align: center; padding: 20px; font-size: 22px; font-weight: bold; border-radius: 8px 8px 0 0;">
-                Contact Form Submission
-            </td>
+          <td style="padding: 30px; background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+            <h2 style="color: #00bfa6; margin-top: 0;">Thanks for your message, ${name}</h2>
+            <p style="font-size: 15px; line-height: 1.6;">
+              We've received your message and will get in touch with you shortly.
+            </p>
+            <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;">
+            <p style="font-size: 14px; margin: 0;"><strong>Your Message:</strong></p>
+            <div style="background-color: #f4f4f4; padding: 12px; border-radius: 4px; margin-top: 8px; font-size: 14px; line-height: 1.5;">
+              ${message.replace(/\n/g, '<br>')}
+            </div>
+          </td>
         </tr>
-        <tr>
-            <td style="padding: 20px; font-size: 16px; line-height: 1.5;">
-                <p><strong>Name:</strong> ${name}</p>
-                <p><strong>Email:</strong> ${email}</p>
-                <p><strong>Message:</strong></p>
-                <p style="background-color: #f4f4f4; padding: 10px; border-radius: 4px;">${message.replace(/\n/g, '<br>')}</p>
-            </td>
-        </tr>
-    </table>
+      </table>
     `;
 
     const { data, error } = await resend.emails.send({
       from: fromEmail,
-      to: [toEmail],
-      subject: `New Contact Form Message from ${name}`,
-      headers: {
-        'Reply-To': email,
-      },
+      to: [email],
+      subject: `Thanks for your message, ${name}`,
       html,
     });
 
