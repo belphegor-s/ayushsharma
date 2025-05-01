@@ -1,10 +1,9 @@
 import { Resend } from 'resend';
 import { NextResponse } from 'next/server';
+import CONTACT_FORM_SUBMISSION_ENDPOINT from '@/data/constants';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 const fromEmail = 'Ayush Sharma <hello@ayushsharma.me>';
-
-const CONTACT_FORM_SUBMISSION_ENDPOINT = `https://contact-form-worker.ayush2162002.workers.dev/api/submit`;
 
 const isValidEmail = (email) => {
   const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -28,7 +27,7 @@ export async function POST(request) {
       return res.status(400).json({ error: 'Message is required' });
     }
 
-    const response = await fetch(CONTACT_FORM_SUBMISSION_ENDPOINT, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_CONTACT_FORM_SUBMISSION_ENDPOINT}/api/submissions`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
