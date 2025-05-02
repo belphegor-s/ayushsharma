@@ -252,9 +252,20 @@ export default function Home() {
         transition={{ duration: 0.8, ease: 'easeOut' }}
         className="relative z-10 text-center bg-gray-800/50 backdrop-blur-sm p-8 px-2 md:p-12 rounded-xl shadow-lg border border-gray-700/50 max-w-2xl w-full"
       >
-        <motion.div className="relative mb-6 flex justify-center w-max mx-auto" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8 }}>
+        <motion.div className="relative mb-6 flex justify-center w-max mx-auto bg-" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8 }}>
           <div className={'profile-image'}>
-            <Image src="/assets/ayush.png" alt="Profile Headshot" width={170} height={170} style={{ borderRadius: '50%' }} priority />
+            <Image
+              src="/assets/ayush.png"
+              alt="Profile Headshot"
+              width={170}
+              height={170}
+              style={{ borderRadius: '50%' }}
+              priority
+              className="bg-gray-900 animate-pulse"
+              onLoadingComplete={(img) => {
+                img.classList.remove('animate-pulse');
+              }}
+            />
           </div>
         </motion.div>
 
@@ -290,7 +301,7 @@ export default function Home() {
         </motion.div>
 
         <motion.p
-          className="text-md md:text-xl text-indigo-300 mb-6 font-normal tracking-wide mt-4"
+          className="text-md md:text-xl text-indigo-300 mb-6 font-semibold tracking-wide mt-4 shimmer-text"
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5, delay: 0.4 }}
