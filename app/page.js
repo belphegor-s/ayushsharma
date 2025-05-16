@@ -261,10 +261,8 @@ export default function Home() {
               height={170}
               style={{ borderRadius: '50%' }}
               priority
-              className="bg-gray-900 animate-pulse"
-              onLoadingComplete={(img) => {
-                img.classList.remove('animate-pulse');
-              }}
+              placeholder="blur"
+              blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAT0lEQVR4nAFEALv/AOft6/+kpqb/qq2t/+ft7P8A5ejn//f7/P/7////5erp/wDJzMz/i42M/5qcnP/Fx8f/AIKDg/8BAQH/DQ0N/1ZXVv8Tdy+WmlzRbwAAAABJRU5ErkJggg=="
             />
           </div>
         </motion.div>
