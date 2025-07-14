@@ -184,7 +184,7 @@ const ResumeModal = ({ onClose }) => (
   >
     <div className="flex justify-end items-center gap-2 p-2 bg-gray-800 border-b border-gray-700">
       <Button
-        onClick={() => open('https://storage.pixly.sh/AyushSharmaResume.pdf', '_blank', 'noreferrer noopener')}
+        onClick={() => open('https://storage.pixly.sh/ayush_resume.pdf', '_blank', 'noreferrer noopener')}
         className="text-gray-500 hover:text-white !p-1 cursor-pointer"
         aria-label="Open resume in new tab"
         title="Open resume in new tab"
@@ -196,7 +196,7 @@ const ResumeModal = ({ onClose }) => (
       </Button>
     </div>
     <div className="flex-1 overflow-auto">
-      <iframe src="https://storage.pixly.sh/AyushSharmaResume.pdf" title="Ayush Sharma Resume" className="w-full h-full" style={{ minHeight: '70vh' }} />
+      <iframe src="https://storage.pixly.sh/ayush_resume.pdf" title="Ayush Sharma Resume" className="w-full h-full" style={{ minHeight: '70vh' }} />
     </div>
   </motion.div>
 );
