@@ -367,7 +367,7 @@ export default function Home() {
       </AnimatePresence>
 
       {/* Minimalist Footer */}
-      <footer className="absolute bottom-4 text-center w-full text-gray-500 text-xs z-10">© {new Date().getFullYear()} Ayush Sharma. All rights reserved.</footer>
+      <footer className="absolute bottom-4 text-center w-full text-gray-500 font-semibold text-shadow-white text-[.8em] z-10">Made with questionable decisions and coffee.</footer>
 
       <style jsx global>{`
         body.bg-gradient-animation {
