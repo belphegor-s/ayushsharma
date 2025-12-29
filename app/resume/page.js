@@ -2,6 +2,6 @@
 
 import { redirect } from 'next/navigation';
 
-export function GET() {
+export async function GET() {
   return redirect('https://storage.pixly.sh/ayush_resume.pdf');
 }
