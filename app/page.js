@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mail, X, Github, Linkedin, Twitter, BookOpen, Send, FileText, ExternalLink } from 'lucide-react';
+import { Mail, X, Github, Linkedin, Twitter, BookOpen, Send, FileText, ExternalLink, Coffee } from 'lucide-react';
 import toast, { Toaster } from 'react-hot-toast';
 import { initPostHog } from '@/lib/posthog';
 import posthog from '@/lib/posthog';
@@ -25,7 +25,7 @@ export const Button = ({ children, onClick, className = '', ...props }) => {
       whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
       whileTap={{ scale: 0.95 }}
       onClick={handleClick}
-      className={`px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-indigo-500 transition-all duration-200 ease-in-out ${className}`}
+      className={`px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-blue-500 transition-all duration-200 ease-in-out ${className}`}
       {...props}
     >
       {children}
@@ -39,7 +39,7 @@ const SocialLink = ({ href, icon: Icon, label }) => (
     target="_blank"
     rel="noopener noreferrer"
     aria-label={label}
-    className="text-gray-400 hover:text-white transition-colors duration-200"
+    className="text-white/80 hover:text-white transition-colors duration-200"
     whileHover={{ y: -2 }}
     whileTap={{ scale: 0.9 }}
   >
@@ -107,10 +107,10 @@ const ContactForm = ({ onClose }) => {
       initial={{ opacity: 0, y: 50, scale: 0.9 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, y: 50, scale: 0.9, transition: { duration: 0.2 } }}
-      className="relative bg-gray-800 p-8 rounded-xl shadow-2xl w-full max-w-md mx-auto border border-gray-700"
+      className="relative bg-neutral-700 p-8 rounded-xl shadow-2xl w-full max-w-md mx-auto border border-neutral-900"
       onClick={(e) => e.stopPropagation()}
     >
-      <Button onClick={onClose} className="absolute top-4 right-4 text-gray-500 hover:text-white !p-1 cursor-pointer" aria-label="Close contact form" title="Close contact form">
+      <Button onClick={onClose} className="absolute top-4 right-4 text-neutral-300 hover:text-white !p-1 cursor-pointer" aria-label="Close contact form" title="Close contact form">
         <X size={20} />
       </Button>
       <h2 className="text-2xl font-semibold text-white mb-6 text-center">Get In Touch</h2>
@@ -126,7 +126,7 @@ const ContactForm = ({ onClose }) => {
             value={formData.name}
             onChange={handleChange}
             required
-            className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+            className="w-full px-3 py-2 bg-neutral-600 border border-neutral-800 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             placeholder="Your Name"
           />
         </div>
@@ -141,7 +141,7 @@ const ContactForm = ({ onClose }) => {
             value={formData.email}
             onChange={handleChange}
             required
-            className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+            className="w-full px-3 py-2 bg-neutral-600 border border-neutral-800 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             placeholder="your.email@example.com"
           />
         </div>
@@ -156,7 +156,7 @@ const ContactForm = ({ onClose }) => {
             onChange={handleChange}
             required
             rows={4}
-            className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 resize-none"
+            className="w-full px-3 py-2 bg-neutral-600 border border-neutral-800 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none"
             placeholder="Your message here..."
           ></textarea>
         </div>
@@ -164,7 +164,7 @@ const ContactForm = ({ onClose }) => {
           <Button
             type="submit"
             disabled={isSubmitting}
-            className="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-700 text-white font-semibold disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer"
+            className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-semibold disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer"
           >
             {isSubmitting ? 'Sending...' : 'Send Message'} <Send size={18} />
           </Button>
@@ -176,22 +176,22 @@ const ContactForm = ({ onClose }) => {
 
 const ResumeModal = ({ onClose }) => (
   <motion.div
-    className="bg-gray-900 rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] flex flex-col overflow-hidden"
+    className="bg-neutral-900 rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] flex flex-col overflow-hidden"
     initial={{ opacity: 0, y: 50, scale: 0.9 }}
     animate={{ opacity: 1, y: 0, scale: 1 }}
     exit={{ opacity: 0, y: 50, scale: 0.9, transition: { duration: 0.2 } }}
     onClick={(e) => e.stopPropagation()}
   >
-    <div className="flex justify-end items-center gap-2 p-2 bg-gray-800 border-b border-gray-700">
+    <div className="flex justify-end items-center gap-2 p-2 bg-neutral-800 border-b border-gray-700">
       <Button
         onClick={() => open('https://storage.pixly.sh/ayush_resume.pdf', '_blank', 'noreferrer noopener')}
-        className="text-gray-500 hover:text-white !p-1 cursor-pointer"
+        className="text-neutral-300 hover:text-white !p-1 cursor-pointer"
         aria-label="Open resume in new tab"
         title="Open resume in new tab"
       >
         <ExternalLink size={20} />
       </Button>
-      <Button onClick={onClose} className="text-gray-500 hover:text-white !p-1 cursor-pointer" aria-label="Close resume" title="Close resume">
+      <Button onClick={onClose} className="text-neutral-300 hover:text-white !p-1 cursor-pointer" aria-label="Close resume" title="Close resume">
         <X size={20} />
       </Button>
     </div>
@@ -250,7 +250,7 @@ export default function Home() {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: 'easeOut' }}
-        className="relative z-10 text-center bg-gray-800/50 backdrop-blur-sm p-8 px-2 md:p-12 rounded-xl shadow-lg border border-gray-700/50 max-w-2xl w-full"
+        className="relative z-10 text-center bg-neutral-700/50 backdrop-blur-sm p-8 px-2 md:p-12 rounded-xl shadow-lg border border-neutral-800/50 max-w-2xl w-full"
       >
         <motion.div className="relative mb-6 flex justify-center w-max mx-auto bg-" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8 }}>
           <div className={'profile-image'}>
@@ -290,7 +290,7 @@ export default function Home() {
           </motion.h1>
 
           <motion.div
-            className="h-0.5 bg-gradient-to-r from-transparent via-indigo-400 to-transparent mx-auto"
+            className="h-0.5 bg-gradient-to-r from-transparent via-blue-400 to-transparent mx-auto"
             initial={{ width: 0, opacity: 0 }}
             animate={{ width: '100%', opacity: 1 }}
             transition={{ duration: 0.8, delay: 1, ease: 'easeInOut' }}
@@ -299,7 +299,7 @@ export default function Home() {
         </motion.div>
 
         <motion.p
-          className="text-md md:text-xl text-indigo-300 mb-6 font-semibold tracking-wide mt-4 shimmer-text"
+          className="text-md md:text-xl text-blue-300 mb-6 font-semibold tracking-wide mt-4 shimmer-text"
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5, delay: 0.4 }}
@@ -318,7 +318,7 @@ export default function Home() {
         <motion.div className="flex flex-wrap items-center justify-center gap-2 md:gap-4" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.75 }}>
           <Button
             onClick={() => setShowResume(true)}
-            className="border border-indigo-400 text-indigo-300 hover:text-white hover:border-white bg-transparent font-medium text-sm flex items-center justify-center gap-2 cursor-pointer"
+            className="border border-blue-400 text-blue-300 hover:text-white hover:border-white bg-transparent font-medium text-sm flex items-center justify-center gap-2 cursor-pointer"
           >
             <FileText size={18} /> View Résumé
           </Button>
@@ -328,7 +328,7 @@ export default function Home() {
               setIsContactOpen(true);
               posthog.capture('opened_contact_form');
             }}
-            className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold flex items-center justify-center gap-2 shadow-lg cursor-pointer"
+            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold flex items-center justify-center gap-2 shadow-lg cursor-pointer"
           >
             <Mail size={18} /> Contact Me
           </Button>
@@ -367,7 +367,9 @@ export default function Home() {
       </AnimatePresence>
 
       {/* Minimalist Footer */}
-      <footer className="absolute bottom-4 text-center w-full text-gray-500 font-semibold text-shadow-white text-[.8em] z-10">Made with questionable decisions and coffee.</footer>
+      <footer className="absolute bottom-4 text-center w-full text-white/90 font-medium text-shadow-white text-[.9em] z-10 flex items-center gap-2 justify-center">
+        Made with questionable decisions and coffee <Coffee size={14} />
+      </footer>
 
       <style jsx global>{`
         body.bg-gradient-animation {
