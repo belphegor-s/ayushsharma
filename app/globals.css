@@ -4,6 +4,11 @@
   --font-dancing: 'Dancing Script', cursive;
 }
 
+.bg-container {
+  background: rgba(29, 31, 32, 0.904) radial-gradient(rgba(255, 255, 255, 0.5) 10%, transparent 1%);
+  background-size: 11px 11px;
+}
+
 .profile-image {
   position: relative;
   width: 170px;

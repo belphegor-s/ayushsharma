@@ -244,8 +244,6 @@ export default function Home() {
           },
         }}
       />
-
-      {/* Main Content */}
       <motion.main
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -266,7 +264,6 @@ export default function Home() {
             />
           </div>
         </motion.div>
-
         <motion.div className="mb-2 relative" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
           <motion.h1
             className={`text-5xl md:text-6xl font-bold text-white tracking-tight relative inline-block ${dancing.className} antialiased`}
@@ -288,7 +285,6 @@ export default function Home() {
               </motion.span>
             ))}
           </motion.h1>
-
           <motion.div
             className="h-0.5 bg-gradient-to-r from-transparent via-blue-400 to-transparent mx-auto"
             initial={{ width: 0, opacity: 0 }}
@@ -297,7 +293,6 @@ export default function Home() {
             style={{ maxWidth: '360px' }}
           />
         </motion.div>
-
         <motion.p
           className="text-md md:text-xl text-blue-300 mb-6 font-semibold tracking-wide mt-4 shimmer-text"
           initial={{ opacity: 0, x: 50 }}
@@ -306,8 +301,6 @@ export default function Home() {
         >
           Developer / Tinkerer / Stoic
         </motion.p>
-
-        {/* Social Links */}
         <motion.div className="flex justify-center space-x-6 mb-8" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5, delay: 0.6, staggerChildren: 0.1 }}>
           <SocialLink href="https://pixly.sh/github" icon={Github} label="GitHub Profile" />
           <SocialLink href="https://pixly.sh/linkedin" icon={Linkedin} label="LinkedIn Profile" />
@@ -334,8 +327,6 @@ export default function Home() {
           </Button>
         </motion.div>
       </motion.main>
-
-      {/* Contact Popup */}
       <AnimatePresence>
         {isContactOpen && (
           <motion.div
@@ -350,7 +341,6 @@ export default function Home() {
           </motion.div>
         )}
       </AnimatePresence>
-
       <AnimatePresence>
         {showResume && (
           <motion.div
@@ -365,12 +355,11 @@ export default function Home() {
           </motion.div>
         )}
       </AnimatePresence>
-
-      {/* Minimalist Footer */}
-      <footer className="absolute bottom-4 text-center w-full text-white/90 font-medium text-shadow-white text-[.9em] z-10 flex items-center gap-2 justify-center">
-        Made with questionable decisions and coffee <Coffee size={14} />
-      </footer>
-
+      <motion.footer initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: 'easeOut' }} className="absolute bottom-4 w-full z-10 flex justify-center">
+        <div className="px-4 py-1 rounded-lg bg-neutral-800 backdrop-blur-sm text-center text-white/90 font-medium text-[.9em] flex items-center gap-2 shadow-lg shadow-neutral-900/40">
+          Made with questionable decisions and coffee <Coffee size={14} />
+        </div>
+      </motion.footer>
       <style jsx global>{`
         body.bg-gradient-animation {
           background: linear-gradient(-45deg, #111827, #1f2937, #374151, #111827); /* Dark gradient */
