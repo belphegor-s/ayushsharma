@@ -302,10 +302,10 @@ export default function Home() {
           Developer / Tinkerer / Stoic
         </motion.p>
         <motion.div className="flex justify-center space-x-6 mb-8" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5, delay: 0.6, staggerChildren: 0.1 }}>
-          <SocialLink href="https://pixly.sh/github" icon={Github} label="GitHub Profile" />
-          <SocialLink href="https://pixly.sh/linkedin" icon={Linkedin} label="LinkedIn Profile" />
-          <SocialLink href="https://pixly.sh/x" icon={Twitter} label="Twitter Profile" />
-          <SocialLink href="https://pixly.sh/blog" icon={BookOpen} label="Blog" />
+          <SocialLink href="https://short.pixly.sh/github" icon={Github} label="GitHub Profile" />
+          <SocialLink href="https://short.pixly.sh/linkedin" icon={Linkedin} label="LinkedIn Profile" />
+          <SocialLink href="https://short.pixly.sh/x" icon={Twitter} label="Twitter Profile" />
+          <SocialLink href="https://short.pixly.sh/blog" icon={BookOpen} label="Blog" />
         </motion.div>
 
         <motion.div className="flex flex-wrap items-center justify-center gap-2 md:gap-4" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.75 }}>
