@@ -20,7 +20,7 @@ export async function GET() {
           controller.close();
           clearInterval(interval);
         }
-      }, 500);
+      }, 800);
     },
   });
 
