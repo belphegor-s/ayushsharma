@@ -7,6 +7,7 @@ import { initPostHog } from '@/lib/posthog';
 import posthog from '@/lib/posthog';
 import Image from 'next/image';
 import { Dancing_Script } from 'next/font/google';
+import Link from 'next/link';
 
 const dancing = Dancing_Script({
   subsets: ['latin'],
@@ -269,7 +270,7 @@ export default function Home() {
             className={`text-5xl md:text-6xl font-bold text-white tracking-tight relative inline-block ${dancing.className} antialiased`}
             style={{ textShadow: '0 0 15px rgba(99, 102, 241, 0.3)' }}
           >
-            {Array.from('Ayush Sharma').map((letter, index) => (
+            {Array.from('Ayush Sharma').map((letter, index, arr) => (
               <motion.span
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
@@ -279,9 +280,10 @@ export default function Home() {
                   delay: 0.3 + index * 0.04,
                   ease: 'easeOut',
                 }}
-                className={letter === ' ' ? 'mx-2' : 'inline-block'}
+                className={letter === ' ' ? 'mx-2' : 'inline-block relative'}
               >
                 {letter}
+                {arr.length - 1 === index && <Link href={'/matrix'} className="w-[.05em] h-[.05em] bg-red-500 absolute bottom-0 right-0 -mr-[.15em] mb-[.45em] rounded-full cursor-pointer"></Link>}
               </motion.span>
             ))}
           </motion.h1>
