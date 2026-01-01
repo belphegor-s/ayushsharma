@@ -6,7 +6,7 @@ export async function GET() {
       const interval = setInterval(() => {
         controller.enqueue(encoder.encode(`count: ${count}\n`));
         count++;
-        if (count > 29) {
+        if (count > 9) {
           controller.enqueue(encoder.encode('\n...you waited? get a life.\n'));
           controller.close();
           clearInterval(interval);
