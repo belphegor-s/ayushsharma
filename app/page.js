@@ -303,13 +303,24 @@ export default function Home() {
         >
           Developer / Tinkerer / Stoic
         </motion.p>
+        <motion.a
+          className="text-white mb-6 font-semibold text-sm cursor-pointer flex items-center justify-center gap-2 hover:underline underline-offset-4"
+          href="https://storage.pixly.sh/leo.jpg"
+          target="_blank"
+          rel="noreferrer noopener"
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+        >
+          <ExternalLink size={14} />
+          Meet the Boss
+        </motion.a>
         <motion.div className="flex justify-center space-x-6 mb-8" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5, delay: 0.6, staggerChildren: 0.1 }}>
           <SocialLink href="https://short.pixly.sh/github" icon={Github} label="GitHub Profile" />
           <SocialLink href="https://short.pixly.sh/linkedin" icon={Linkedin} label="LinkedIn Profile" />
           <SocialLink href="https://short.pixly.sh/x" icon={Twitter} label="Twitter Profile" />
           <SocialLink href="https://short.pixly.sh/blog" icon={BookOpen} label="Blog" />
         </motion.div>
-
         <motion.div className="flex flex-wrap items-center justify-center gap-2 md:gap-4" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.75 }}>
           <Button
             onClick={() => setShowResume(true)}
