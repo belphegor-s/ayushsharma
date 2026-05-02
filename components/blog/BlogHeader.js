@@ -20,9 +20,6 @@ export default function BlogHeader() {
           <span>ayush</span>
         </Link>
         <nav className="flex items-center gap-5 text-sm">
-          <Link href="/blog" className="text-gray-300 hover:text-white transition-colors">
-            Writing
-          </Link>
           <Link
             href="/blog/rss.xml"
             className="text-gray-400 hover:text-blue-300 transition-colors"

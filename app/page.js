@@ -341,15 +341,14 @@ export default function Home() {
             <FileText size={18} /> View Résumé
           </Button>
 
-          <Link
-            href="/blog"
-            onClick={() => posthog.capture('clicked_blog_cta')}
-            className="group relative inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-white bg-gradient-to-r from-neutral-800 to-neutral-700 border border-blue-500/30 hover:border-blue-400/70 transition-all duration-200 cursor-pointer overflow-hidden"
-          >
-            <span className="absolute inset-0 bg-gradient-to-r from-blue-600/0 via-blue-500/10 to-blue-600/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            <BookOpen size={18} className="relative z-10" />
-            <span className="relative z-10">Read Writing</span>
-            <span className="relative z-10 text-blue-300 group-hover:translate-x-0.5 transition-transform">→</span>
+          <Link href="/blog" onClick={() => posthog.capture('clicked_blog_cta')}>
+            <motion.span
+              whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
+              whileTap={{ scale: 0.95 }}
+              className="px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-blue-500 transition-all duration-200 ease-in-out border border-blue-400 text-blue-300 hover:text-white hover:border-white bg-transparent font-medium text-sm flex items-center justify-center gap-2 cursor-pointer"
+            >
+              <BookOpen size={18} /> Blog
+            </motion.span>
           </Link>
 
           <Button
