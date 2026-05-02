@@ -228,7 +228,7 @@ export default function Home() {
 
 
   return (
-    <div className="bg-gradient-animation min-h-screen flex flex-col items-center justify-center p-6 relative overflow-hidden bg-container">
+    <div className="min-h-screen flex flex-col items-center justify-center p-6 relative overflow-hidden bg-container">
       <Toaster
         position="top-center"
         reverseOrder={false}
@@ -391,25 +391,6 @@ export default function Home() {
         </div>
       </motion.footer>
       <style jsx global>{`
-        .bg-gradient-animation {
-          background: linear-gradient(-45deg, #111827, #1f2937, #374151, #111827);
-          background-size: 400% 400%;
-          animation: gradientBG 15s ease infinite;
-        }
-
-        @keyframes gradientBG {
-          0% {
-            background-position: 0% 50%;
-          }
-          50% {
-            background-position: 100% 50%;
-          }
-          100% {
-            background-position: 0% 50%;
-          }
-        }
-
-        /* Improve scrollbar for aesthetics (optional) */
         ::-webkit-scrollbar {
           width: 6px;
           height: 6px;

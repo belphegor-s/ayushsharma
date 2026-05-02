@@ -18,8 +18,30 @@
 }
 
 .bg-container {
-  background: rgba(29, 31, 32, 0.904) radial-gradient(rgba(255, 255, 255, 0.5) 10%, transparent 1%);
-  background-size: 11px 11px;
+  background-color: #0c0d10;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.18) 1px, transparent 1.2px);
+  background-size: 14px 14px;
+  background-position: 0 0;
+}
+@media (min-width: 768px) {
+  .bg-container {
+    background-image: radial-gradient(rgba(255, 255, 255, 0.16) 1.1px, transparent 1.3px);
+    background-size: 18px 18px;
+  }
+}
+@media (min-width: 1280px) {
+  .bg-container {
+    background-image: radial-gradient(rgba(255, 255, 255, 0.14) 1.2px, transparent 1.4px);
+    background-size: 22px 22px;
+  }
+}
+.bg-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(12, 13, 16, 0.85) 100%);
+  z-index: 0;
 }
 
 /* Blog shell: solid bg, no dotted pattern bleed-through, soft blue glow */
