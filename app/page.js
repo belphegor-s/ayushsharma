@@ -328,26 +328,29 @@ export default function Home() {
           <SocialLink href="https://short.pixly.sh/linkedin" icon={FiLinkedin} label="LinkedIn Profile" />
           <SocialLink href="https://short.pixly.sh/x" icon={FaXTwitter} label="Twitter Profile" />
         </motion.div>
-        <motion.div className="flex items-center justify-center gap-3 md:gap-4" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.75 }}>
-          <Link href="/blog" onClick={() => posthog.capture('clicked_blog_cta')}>
+        <motion.div className="flex items-center justify-center gap-3" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.75 }}>
+          <Link href="/blog" onClick={() => posthog.capture('clicked_blog_cta')} className="w-32 sm:w-36">
             <motion.span
-              whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
-              whileTap={{ scale: 0.95 }}
-              className="min-w-[10rem] px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-blue-500 transition-all duration-200 ease-in-out border border-blue-400 text-blue-300 hover:text-white hover:border-white bg-transparent font-medium text-sm flex items-center justify-center gap-2 cursor-pointer"
+              whileHover={{ scale: 1.04, transition: { duration: 0.2 } }}
+              whileTap={{ scale: 0.96 }}
+              className="w-full px-3 py-1.5 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-blue-500 transition-all duration-200 ease-in-out border border-blue-400/80 text-blue-300 hover:text-white hover:border-white bg-transparent font-medium text-sm flex items-center justify-center gap-2 cursor-pointer"
             >
-              <BookOpen size={18} /> Blog
+              <BookOpen size={16} /> Blog
             </motion.span>
           </Link>
 
-          <Button
+          <motion.button
+            type="button"
             onClick={() => {
               setIsContactOpen(true);
               posthog.capture('opened_contact_form');
             }}
-            className="min-w-[10rem] bg-blue-600 hover:bg-blue-700 text-white font-medium text-sm flex items-center justify-center gap-2 shadow-lg cursor-pointer"
+            whileHover={{ scale: 1.04, transition: { duration: 0.2 } }}
+            whileTap={{ scale: 0.96 }}
+            className="w-32 sm:w-36 px-3 py-1.5 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-blue-500 transition-all duration-200 ease-in-out bg-blue-600 hover:bg-blue-700 text-white font-medium text-sm flex items-center justify-center gap-2 cursor-pointer"
           >
-            <Mail size={18} /> Contact Me
-          </Button>
+            <Mail size={16} /> Contact Me
+          </motion.button>
         </motion.div>
         <motion.button
           type="button"
