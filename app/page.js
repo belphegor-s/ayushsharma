@@ -328,19 +328,12 @@ export default function Home() {
           <SocialLink href="https://short.pixly.sh/linkedin" icon={FiLinkedin} label="LinkedIn Profile" />
           <SocialLink href="https://short.pixly.sh/x" icon={FaXTwitter} label="Twitter Profile" />
         </motion.div>
-        <motion.div className="flex flex-wrap items-center justify-center gap-2 md:gap-4" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.75 }}>
-          <Button
-            onClick={() => setShowResume(true)}
-            className="border border-blue-400 text-blue-300 hover:text-white hover:border-white bg-transparent font-medium text-sm flex items-center justify-center gap-2 cursor-pointer"
-          >
-            <FileText size={18} /> View Résumé
-          </Button>
-
+        <motion.div className="flex items-center justify-center gap-3 md:gap-4" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.75 }}>
           <Link href="/blog" onClick={() => posthog.capture('clicked_blog_cta')}>
             <motion.span
               whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
               whileTap={{ scale: 0.95 }}
-              className="px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-blue-500 transition-all duration-200 ease-in-out border border-blue-400 text-blue-300 hover:text-white hover:border-white bg-transparent font-medium text-sm flex items-center justify-center gap-2 cursor-pointer"
+              className="min-w-[10rem] px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-blue-500 transition-all duration-200 ease-in-out border border-blue-400 text-blue-300 hover:text-white hover:border-white bg-transparent font-medium text-sm flex items-center justify-center gap-2 cursor-pointer"
             >
               <BookOpen size={18} /> Blog
             </motion.span>
@@ -351,11 +344,24 @@ export default function Home() {
               setIsContactOpen(true);
               posthog.capture('opened_contact_form');
             }}
-            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold flex items-center justify-center gap-2 shadow-lg cursor-pointer"
+            className="min-w-[10rem] bg-blue-600 hover:bg-blue-700 text-white font-medium text-sm flex items-center justify-center gap-2 shadow-lg cursor-pointer"
           >
             <Mail size={18} /> Contact Me
           </Button>
         </motion.div>
+        <motion.button
+          type="button"
+          onClick={() => {
+            setShowResume(true);
+            posthog.capture('clicked_resume');
+          }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.9 }}
+          className="mt-5 mx-auto flex w-fit items-center gap-2 text-xs text-gray-400 hover:text-white transition-colors hover:underline underline-offset-4 cursor-pointer focus:outline-none focus:text-white"
+        >
+          <FileText size={14} /> View Résumé
+        </motion.button>
       </motion.main>
       <AnimatePresence>
         {isContactOpen && (

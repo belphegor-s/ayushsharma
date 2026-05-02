@@ -4,25 +4,23 @@ import { getAllPosts } from '@/lib/blog/posts';
 export const dynamic = 'force-dynamic';
 export const revalidate = false;
 
+const SCORE_CUTOFF = 0.45;
+
 let cachedFuse = null;
 let cachedIndexedPosts = null;
 
 function getIndex() {
   if (cachedFuse) return { fuse: cachedFuse, posts: cachedIndexedPosts };
-  const posts = getAllPosts().map(({ content, ...rest }) => ({
-    ...rest,
-    contentSnippet: content.slice(0, 4000),
-  }));
+  const posts = getAllPosts().map(({ content, ...rest }) => rest);
   const fuse = new Fuse(posts, {
     keys: [
-      { name: 'title', weight: 0.5 },
-      { name: 'tags', weight: 0.25 },
-      { name: 'description', weight: 0.2 },
-      { name: 'contentSnippet', weight: 0.05 },
+      { name: 'title', weight: 0.6 },
+      { name: 'tags', weight: 0.3 },
+      { name: 'description', weight: 0.1 },
     ],
-    threshold: 0.4,
+    threshold: 0.3,
     ignoreLocation: true,
-    minMatchCharLength: 2,
+    minMatchCharLength: 3,
     includeScore: true,
     includeMatches: true,
     useExtendedSearch: false,
@@ -71,7 +69,9 @@ export function GET(request) {
       .slice(0, 50)
       .map((p) => trim(p));
   } else {
-    const hits = fuse.search(q, { limit: 50 });
+    const hits = fuse
+      .search(q, { limit: 50 })
+      .filter((h) => (h.score ?? 1) <= SCORE_CUTOFF);
     results = hits
       .filter((h) => matchesTags(h.item))
       .map((h) =>
