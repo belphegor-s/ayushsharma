@@ -3,24 +3,24 @@ import BlogListing from '@/components/blog/BlogListing';
 import { siteConfig, absoluteUrl } from '@/lib/site';
 
 export const metadata = {
-  title: 'Writing',
+  title: 'Blog',
   description:
-    'Essays on software, AI, agents, and the craft of building. Notes from the workshop.',
+    'Where I work things out in public. Software, AI, agents, and the occasional rant.',
   alternates: {
     canonical: '/blog',
     types: { 'application/rss+xml': '/blog/rss.xml' },
   },
   openGraph: {
     type: 'website',
-    title: 'Writing',
-    description: 'Essays on software, AI, agents, and the craft of building.',
+    title: 'Blog',
+    description: 'Where I work things out in public. Software, AI, agents, and the occasional rant.',
     url: absoluteUrl('/blog'),
     siteName: siteConfig.name,
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Writing',
-    description: 'Essays on software, AI, agents, and the craft of building.',
+    title: 'Blog',
+    description: 'Where I work things out in public. Software, AI, agents, and the occasional rant.',
   },
 };
 
@@ -33,9 +33,9 @@ export default function BlogIndexPage() {
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Blog',
-    name: 'Writing — Ayush Sharma',
+    name: `${siteConfig.name} — Blog`,
     url: absoluteUrl('/blog'),
-    description: 'Essays on software, AI, agents, and the craft of building.',
+    description: 'Where I work things out in public. Software, AI, agents, and the occasional rant.',
     blogPost: posts.slice(0, 20).map((p) => ({
       '@type': 'BlogPosting',
       headline: p.title,
@@ -52,9 +52,9 @@ export default function BlogIndexPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <header className="mb-10 md:mb-14">
-        <h1 className="text-4xl md:text-5xl font-semibold tracking-tight text-white">Writing</h1>
+        <h1 className="text-4xl md:text-5xl font-semibold tracking-tight text-white">Blog</h1>
         <p className="mt-3 max-w-2xl text-gray-400 leading-relaxed">
-          {"Essays on software, AI, and the craft of building. Long-form notes that don't fit on Twitter and shouldn't."}
+          Where I work things out in public — software, AI, and the occasional rant.
         </p>
       </header>
       <BlogListing posts={serializable} tags={tags} />

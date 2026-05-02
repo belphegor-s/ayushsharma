@@ -12,11 +12,11 @@ export async function generateMetadata({ params }) {
   const { tag } = await params;
   const decoded = decodeURIComponent(tag);
   return {
-    title: `#${decoded} — Writing`,
+    title: `#${decoded} — Blog`,
     description: `Posts tagged #${decoded}.`,
     alternates: { canonical: `/blog/tag/${decoded}` },
     openGraph: {
-      title: `#${decoded} — Writing`,
+      title: `#${decoded} — Blog`,
       description: `Posts tagged #${decoded}.`,
       url: absoluteUrl(`/blog/tag/${decoded}`),
       siteName: siteConfig.name,

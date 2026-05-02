@@ -7,7 +7,7 @@ export function GET() {
   const posts = getAllPosts();
   const feed = {
     version: 'https://jsonfeed.org/version/1.1',
-    title: `${siteConfig.name} — Writing`,
+    title: `${siteConfig.name} — Blog`,
     home_page_url: absoluteUrl('/blog'),
     feed_url: absoluteUrl('/blog/feed.json'),
     description: siteConfig.description,
