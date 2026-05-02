@@ -90,10 +90,10 @@ async function main() {
     const { status, ok, body } = await submit(batch);
     const tag = batches.length > 1 ? ` [batch ${i + 1}/${batches.length}]` : '';
     if (ok || status === 202) {
-      console.log(`✓ ${status}${tag} — ${batch.length} URL(s) accepted`);
+      console.log(`✓ ${status}${tag} | ${batch.length} URL(s) accepted`);
     } else {
       failed += 1;
-      console.error(`✗ ${status}${tag} — ${body || '(no body)'}`);
+      console.error(`✗ ${status}${tag} | ${body || '(no body)'}`);
     }
   }
 
@@ -101,6 +101,6 @@ async function main() {
 }
 
 main().catch((err) => {
-  console.error('indexnow: fatal —', err.message);
+  console.error('indexnow: fatal:', err.message);
   process.exit(1);
 });

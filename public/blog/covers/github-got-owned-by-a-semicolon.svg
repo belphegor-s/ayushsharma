@@ -33,7 +33,7 @@
     </text>
 
     <text x="120" y="800" font-size="28" fill="#fca5a5cc">
-      <tspan fill="#ef4444" font-weight="700">— </tspan>Ayush Sharma
+      <tspan fill="#ef4444" font-weight="700">/ </tspan>Ayush Sharma
     </text>
     <text x="1480" y="800" font-size="24" fill="#7f1d1d" text-anchor="end">CVE-2026-3854</text>
   </g>

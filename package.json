@@ -4,14 +4,17 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
+    "prebuild": "node scripts/check-no-em-dash.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "check:dashes": "node scripts/check-no-em-dash.mjs",
     "postinstall": "patch-package",
     "indexnow": "node scripts/indexnow.mjs"
   },
   "dependencies": {
     "framer-motion": "^12.9.2",
+    "fuse.js": "^7.3.0",
     "gray-matter": "^4.0.3",
     "lucide-react": "^0.503.0",
     "next": "^15.5.15",

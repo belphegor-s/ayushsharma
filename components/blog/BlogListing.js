@@ -1,15 +1,30 @@
 'use client';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import PostCard from './PostCard';
 import SearchBar from './SearchBar';
 import TagFilter from './TagFilter';
 import { POSTS_PER_PAGE_CLIENT } from './constants';
 
+function localFilter(posts, query, selectedTags) {
+  const q = query.trim().toLowerCase();
+  return posts.filter((p) => {
+    if (selectedTags.length && !selectedTags.every((t) => p.tags.includes(t))) return false;
+    if (!q) return true;
+    if (p.title.toLowerCase().includes(q)) return true;
+    if (p.description.toLowerCase().includes(q)) return true;
+    if (p.tags.some((t) => t.toLowerCase().includes(q))) return true;
+    return false;
+  });
+}
+
 export default function BlogListing({ posts, tags }) {
   const [query, setQuery] = useState('');
   const [selectedTags, setSelectedTags] = useState([]);
   const [page, setPage] = useState(1);
+  const [remoteResults, setRemoteResults] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const requestIdRef = useRef(0);
 
   const toggleTag = (tag) => {
     setPage(1);
@@ -18,17 +33,43 @@ export default function BlogListing({ posts, tags }) {
     );
   };
 
+  useEffect(() => {
+    const trimmed = query.trim();
+    if (!trimmed) {
+      setRemoteResults(null);
+      setLoading(false);
+      return;
+    }
+
+    const reqId = ++requestIdRef.current;
+    setLoading(true);
+
+    const handle = setTimeout(async () => {
+      try {
+        const params = new URLSearchParams({ q: trimmed });
+        if (selectedTags.length) params.set('tags', selectedTags.join(','));
+        const res = await fetch(`/api/search?${params.toString()}`, {
+          headers: { Accept: 'application/json' },
+        });
+        if (!res.ok) throw new Error(`search failed: ${res.status}`);
+        const data = await res.json();
+        if (reqId !== requestIdRef.current) return;
+        setRemoteResults(data.results || []);
+      } catch {
+        if (reqId !== requestIdRef.current) return;
+        setRemoteResults(null);
+      } finally {
+        if (reqId === requestIdRef.current) setLoading(false);
+      }
+    }, 200);
+
+    return () => clearTimeout(handle);
+  }, [query, selectedTags]);
+
   const filtered = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    return posts.filter((p) => {
-      if (selectedTags.length && !selectedTags.every((t) => p.tags.includes(t))) return false;
-      if (!q) return true;
-      if (p.title.toLowerCase().includes(q)) return true;
-      if (p.description.toLowerCase().includes(q)) return true;
-      if (p.tags.some((t) => t.toLowerCase().includes(q))) return true;
-      return false;
-    });
-  }, [posts, query, selectedTags]);
+    if (remoteResults) return remoteResults;
+    return localFilter(posts, query, selectedTags);
+  }, [posts, query, selectedTags, remoteResults]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / POSTS_PER_PAGE_CLIENT));
   const safePage = Math.min(page, totalPages);
@@ -46,6 +87,12 @@ export default function BlogListing({ posts, tags }) {
         <SearchBar value={query} onChange={onSearchChange} />
         <TagFilter tags={tags} selected={selectedTags} onToggle={toggleTag} />
       </div>
+
+      {loading && (
+        <p className="text-xs text-gray-500" aria-live="polite">
+          Searching...
+        </p>
+      )}
 
       {filtered.length === 0 ? (
         <div className="rounded-xl border border-dashed border-neutral-800 py-16 text-center text-gray-400">

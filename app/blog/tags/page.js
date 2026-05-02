@@ -9,7 +9,7 @@ export const metadata = {
   alternates: { canonical: '/blog/tags' },
   openGraph: {
     type: 'website',
-    title: 'All tags — Blog',
+    title: 'All tags · Blog',
     description: 'Browse posts by topic.',
     url: absoluteUrl('/blog/tags'),
     siteName: siteConfig.name,

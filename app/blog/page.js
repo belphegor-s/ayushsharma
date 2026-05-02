@@ -33,7 +33,7 @@ export default function BlogIndexPage() {
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Blog',
-    name: `${siteConfig.name} — Blog`,
+    name: `${siteConfig.name} · Blog`,
     url: absoluteUrl('/blog'),
     description: 'Where I work things out in public. Software, AI, agents, and the occasional rant.',
     blogPost: posts.slice(0, 20).map((p) => ({
@@ -54,7 +54,7 @@ export default function BlogIndexPage() {
       <header className="mb-10 md:mb-14">
         <h1 className="text-4xl md:text-5xl font-semibold tracking-tight text-white">Blog</h1>
         <p className="mt-3 max-w-2xl text-gray-400 leading-relaxed">
-          Where I work things out in public — software, AI, and the occasional rant.
+          Where I work things out in public. Software, AI, and the occasional rant.
         </p>
       </header>
       <BlogListing posts={serializable} tags={tags} />

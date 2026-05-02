@@ -1,6 +1,6 @@
 ---
 title: "Claude 4.7 and the End of Prompt Engineering as We Knew It"
-description: "The era of bag-of-tricks prompts is closing. The new bottleneck isn't writing the perfect sentence — it's engineering the right context. Notes from a year of building with agentic models."
+description: "The era of bag-of-tricks prompts is closing. The new bottleneck isn't writing the perfect sentence. It's engineering the right context. Notes from a year of building with agentic models."
 date: "2026-05-01"
 updated: "2026-05-01"
 tags: ["ai", "claude", "agents", "essay"]
@@ -11,13 +11,13 @@ featured: true
 
 There's a moment in every developer's life with a new model where you stop trying to outsmart it.
 
-For me, with Claude 4.7, that moment came in March. I had inherited a 2,300-line legacy invoicing module — the kind of code where the original author's git email no longer resolves. I opened Claude Code, pointed it at the file, and typed exactly what I would have said to a senior engineer joining the team: *"This module is breaking on edge cases for multi-currency invoices. Figure out why and fix it."*
+For me, with Claude 4.7, that moment came in March. I had inherited a 2,300-line legacy invoicing module. The kind of code where the original author's git email no longer resolves. I opened Claude Code, pointed it at the file, and typed exactly what I would have said to a senior engineer joining the team: *"This module is breaking on edge cases for multi-currency invoices. Figure out why and fix it."*
 
 No "act as a 10x engineer." No "think step by step." No XML scaffolding around the request. No examples of input and output. Just the problem.
 
 It found the bug in 90 seconds. The fix was three lines. The PR description it wrote was better than what I'd have written myself.
 
-I closed my laptop and thought about all the prompt-engineering rituals I'd accumulated since GPT-3 — the personas, the few-shot examples, the magic incantations passed around in Discord screenshots — and realized most of them were now superstition. Not wrong, exactly. Just no longer load-bearing.
+I closed my laptop and thought about all the prompt-engineering rituals I'd accumulated since GPT-3 (the personas, the few-shot examples, the magic incantations passed around in Discord screenshots), and realized most of them were now superstition. Not wrong, exactly. Just no longer load-bearing.
 
 This essay is about what's changing, what isn't, and what to do instead.
 
@@ -35,9 +35,9 @@ Claude 4.7 doesn't need you to ask it to think before it speaks. It thinks. It d
 
 Two shifts, working in tandem:
 
-**Models got better at intent inference.** Earlier models matched your prompt syntactically. 4.7 matches your *purpose*. If you ask it to "clean up this function," it doesn't apply a checklist of style rules — it figures out what kind of function it is, what the surrounding code expects, and what "clean" means for this specific case. The output is the output a thoughtful colleague would produce after reading the file for thirty seconds.
+**Models got better at intent inference.** Earlier models matched your prompt syntactically. 4.7 matches your *purpose*. If you ask it to "clean up this function," it doesn't apply a checklist of style rules. It figures out what kind of function it is, what the surrounding code expects, and what "clean" means for this specific case. The output is the output a thoughtful colleague would produce after reading the file for thirty seconds.
 
-**Tools became first-class.** The model isn't just generating text anymore. It's grepping your codebase, running shell commands, querying your database, calling your APIs. Anthropic's been pushing this aggressively with [MCP](https://modelcontextprotocol.io) — Model Context Protocol — which is essentially a standard for "here's how a tool exposes itself to a language model." The result: instead of trying to *describe* your codebase in a prompt, you give the model `grep` and let it look.
+**Tools became first-class.** The model isn't just generating text anymore. It's grepping your codebase, running shell commands, querying your database, calling your APIs. Anthropic's been pushing this aggressively with [MCP](https://modelcontextprotocol.io), the Model Context Protocol, which is essentially a standard for "here's how a tool exposes itself to a language model." The result: instead of trying to *describe* your codebase in a prompt, you give the model `grep` and let it look.
 
 These two shifts compound. A model that can both infer intent and use tools doesn't need you to over-specify anything. It will go figure things out.
 
@@ -47,7 +47,7 @@ If prompts aren't the bottleneck, what is?
 
 **The right context being in the window when the model needs it.**
 
-This sounds obvious. It's not. Most of the failures I see now aren't prompt failures — they're context failures. The model didn't know about the constraint in `config/billing.yml` because nobody loaded it. It didn't know that `processPayment` was deprecated because the deprecation notice lives in a Slack thread from 2024. It didn't know your team prefers `Result<T,E>` over throwing because that lives in a CONTRIBUTING.md it never read.
+This sounds obvious. It's not. Most of the failures I see now aren't prompt failures. They're context failures. The model didn't know about the constraint in `config/billing.yml` because nobody loaded it. It didn't know that `processPayment` was deprecated because the deprecation notice lives in a Slack thread from 2024. It didn't know your team prefers `Result<T,E>` over throwing because that lives in a CONTRIBUTING.md it never read.
 
 The skill that matters now isn't writing better sentences. It's curating *what the model sees*.
 
@@ -57,13 +57,13 @@ Three concrete shifts that come out of this:
 
 Old habit: write a 600-word system prompt explaining how the model should behave.
 
-New habit: drop a `CLAUDE.md` at the root of your repo with the things it actually needs to know — the conventions, the gotchas, the "we tried this and it didn't work" history. Twenty lines beats a thousand-word prompt.
+New habit: drop a `CLAUDE.md` at the root of your repo with the things it actually needs to know: the conventions, the gotchas, the "we tried this and it didn't work" history. Twenty lines beats a thousand-word prompt.
 
 ```markdown
 # Conventions
 
 - We use `Result<T, E>` for fallible ops, never throw.
-- Database queries go through `lib/db/` only — no inline SQL.
+- Database queries go through `lib/db/` only. No inline SQL.
 - Money values are always stored as integer cents.
   Decimals will silently corrupt across the GraphQL boundary.
 - The legacy `services/billing-v1/` is read-only. Don't touch it.
@@ -85,7 +85,7 @@ The same logic extends out: a database is a tool, not a prompt. Your issue track
 
 The third move is recognizing that some context shouldn't be re-derived every conversation. *"This user is a senior backend engineer who hates yak-shaving and wants terse answers"* is the kind of thing that should outlive a session.
 
-Claude Code's memory system, the long-term memory in the apps, the sub-agent persistence patterns — all variations of the same idea: don't rebuild context that you already built.
+Claude Code's memory system, the long-term memory in the apps, the sub-agent persistence patterns, all variations of the same idea: don't rebuild context that you already built.
 
 If you find yourself re-explaining your stack, your preferences, or your project's history every time you start a chat, that's a memory problem, not a prompt problem.
 
@@ -143,7 +143,7 @@ The pattern: keep the prompting techniques that *give the model real information
 
 If prompt engineering is fading, what's the replacement? My working answer: **context engineering**.
 
-Context engineering is the discipline of making sure the right information is available to the model at the right time, through the right channel — files, tools, memory, retrieval — without overwhelming the window or under-feeding the question.
+Context engineering is the discipline of making sure the right information is available to the model at the right time, through the right channel (files, tools, memory, retrieval), without overwhelming the window or under-feeding the question.
 
 It's a real engineering discipline, and it's harder than prompt engineering ever was, because the failure modes are more varied. A prompt either works or it doesn't, and you iterate. A context system can fail in ten different ways: stale memory, wrong file fetched, tool returning the wrong shape, retrieval missing the obvious match, system prompt and user request contradicting each other.
 
@@ -160,7 +160,7 @@ That last one is the underrated piece. A lot of people are still stuck in the pr
 
 Prompt engineering isn't dead. It rotated 90 degrees and became something bigger.
 
-The clever-sentence-writing era is winding down because the models stopped needing clever sentences. The systems-design era is starting, because the models started needing — and rewarding — well-designed surroundings: clean context, sharp tools, durable memory, sensible defaults.
+The clever-sentence-writing era is winding down because the models stopped needing clever sentences. The systems-design era is starting, because the models started needing (and rewarding) well-designed surroundings: clean context, sharp tools, durable memory, sensible defaults.
 
 If you spent the last few years getting good at writing prompts: most of that taste transfers. You learned to be specific, to think about ambiguity, to anticipate failure. Those are systems-design skills wearing a costume.
 

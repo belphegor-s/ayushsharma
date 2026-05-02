@@ -17,7 +17,7 @@ export const metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
     default: siteConfig.title,
-    template: '%s — Ayush Sharma',
+    template: '%s · Ayush Sharma',
   },
   description: siteConfig.description,
   applicationName: siteConfig.name,

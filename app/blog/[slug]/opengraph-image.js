@@ -1,5 +1,7 @@
+/* eslint-disable @next/next/no-img-element */
 import { ImageResponse } from 'next/og';
 import { getPost, formatDate } from '@/lib/blog/posts';
+import { absoluteUrl } from '@/lib/site';
 
 export const alt = 'Post cover';
 export const size = { width: 1200, height: 630 };
@@ -11,6 +13,120 @@ export default async function OgImage({ params }) {
   const title = post?.title || 'ayushsharma.me';
   const date = post?.date ? formatDate(post.date) : '';
   const tags = post?.tags?.slice(0, 3) || [];
+  const coverUrl = post?.cover ? absoluteUrl(post.cover) : null;
+
+  if (coverUrl) {
+    return new ImageResponse(
+      (
+        <div
+          style={{
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            position: 'relative',
+            background: '#0b0f17',
+            fontFamily: 'sans-serif',
+          }}
+        >
+          <img
+            src={coverUrl}
+            alt=""
+            width={1200}
+            height={630}
+            style={{
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+            }}
+          />
+          <div
+            style={{
+              position: 'absolute',
+              left: 0,
+              right: 0,
+              bottom: 0,
+              height: '70%',
+              background:
+                'linear-gradient(0deg, rgba(11,15,23,0.96) 0%, rgba(11,15,23,0.78) 35%, rgba(11,15,23,0.35) 70%, rgba(11,15,23,0) 100%)',
+              display: 'flex',
+            }}
+          />
+          <div
+            style={{
+              position: 'absolute',
+              left: 0,
+              top: 0,
+              width: '8px',
+              height: '100%',
+              background: 'linear-gradient(180deg, #1d4ed8, #3b82f6, #60a5fa)',
+            }}
+          />
+          <div
+            style={{
+              position: 'absolute',
+              left: 72,
+              top: 56,
+              display: 'flex',
+              alignItems: 'center',
+              gap: 12,
+              color: '#bfdbfe',
+              fontSize: 22,
+              fontWeight: 500,
+              letterSpacing: '0.05em',
+              textShadow: '0 2px 14px rgba(0,0,0,0.6)',
+            }}
+          >
+            ayushsharma.me / writing
+          </div>
+          <div
+            style={{
+              position: 'absolute',
+              left: 72,
+              right: 72,
+              bottom: 64,
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 22,
+            }}
+          >
+            <div
+              style={{
+                fontSize: title.length > 60 ? 56 : 72,
+                fontWeight: 700,
+                lineHeight: 1.08,
+                letterSpacing: '-0.02em',
+                color: '#ffffff',
+                textShadow: '0 2px 18px rgba(0,0,0,0.55)',
+              }}
+            >
+              {title}
+            </div>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 14,
+                fontSize: 22,
+                color: '#cbd5e1',
+              }}
+            >
+              {date && <span>{date}</span>}
+              {date && tags.length > 0 && <span style={{ color: '#475569' }}>·</span>}
+              <div style={{ display: 'flex', gap: 12 }}>
+                {tags.map((t) => (
+                  <span key={t} style={{ color: '#93c5fd' }}>#{t}</span>
+                ))}
+              </div>
+              <span style={{ marginLeft: 'auto', color: '#94a3b8' }}>Ayush Sharma</span>
+            </div>
+          </div>
+        </div>
+      ),
+      { ...size }
+    );
+  }
 
   return new ImageResponse(
     (
@@ -98,7 +214,7 @@ export default async function OgImage({ params }) {
               color: '#cbd5e1',
             }}
           >
-            <span style={{ color: '#3b82f6', fontWeight: 700 }}>—</span>
+            <span style={{ color: '#3b82f6', fontWeight: 700 }}>·</span>
             <span>Ayush Sharma</span>
           </div>
         </div>

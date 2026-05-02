@@ -9,11 +9,15 @@ export default function SearchBar({ value, onChange, placeholder = 'Search posts
         className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"
       />
       <input
-        type="search"
+        type="text"
+        inputMode="search"
+        enterKeyHint="search"
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
         aria-label="Search posts"
+        autoComplete="off"
+        spellCheck={false}
         className="w-full rounded-lg border border-neutral-800 bg-neutral-900/60 py-2 pl-9 pr-9 text-sm text-white placeholder-gray-500 focus:border-blue-500/60 focus:outline-none focus:ring-2 focus:ring-blue-500/30 transition-colors"
       />
       {value && (
