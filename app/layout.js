@@ -73,7 +73,7 @@ export default function RootLayout({ children }) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
         />
-        <div className="min-h-screen bg-neutral-800 text-gray-100 font-sans relative overflow-hidden bg-container">{children}</div>
+        <div className="min-h-screen bg-neutral-800 text-gray-100 font-sans">{children}</div>
       </body>
     </html>
   );

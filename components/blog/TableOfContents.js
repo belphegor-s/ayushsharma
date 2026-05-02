@@ -37,7 +37,7 @@ export default function TableOfContents({ content }) {
           setActiveId(visible[0].target.id);
         }
       },
-      { rootMargin: '-80px 0px -70% 0px', threshold: 0 }
+      { rootMargin: '-72px 0px -70% 0px', threshold: 0 }
     );
     for (const h of headings) {
       const el = document.getElementById(h.id);
