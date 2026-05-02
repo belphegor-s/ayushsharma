@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 const ROOT = process.cwd();
 const SKIP_DIRS = new Set([
@@ -42,7 +43,7 @@ const EN_DASH = String.fromCharCode(0x2013);
 const ESC_EM = '\\u2014';
 const ESC_EN = '\\u2013';
 
-const SELF = path.resolve(import.meta.url.replace(/^file:\/\/\/?/, ''));
+const SELF = path.resolve(fileURLToPath(import.meta.url));
 
 function walk(dir, out = []) {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
