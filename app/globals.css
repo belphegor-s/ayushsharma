@@ -4,16 +4,17 @@
   --font-dancing: 'Dancing Script', cursive;
 }
 
-html,
-body {
-  background-color: #0c0d10;
-  min-height: 100%;
-}
-
-html {
-  scroll-padding-top: 4.5rem;
-  scroll-behavior: smooth;
-  overscroll-behavior-y: contain;
+@layer base {
+  html,
+  body {
+    background-color: #0c0d10;
+    min-height: 100%;
+  }
+  html {
+    scroll-padding-top: 4.5rem;
+    scroll-behavior: smooth;
+    overscroll-behavior-y: contain;
+  }
 }
 
 .bg-container {

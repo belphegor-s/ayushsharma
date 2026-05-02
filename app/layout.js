@@ -69,10 +69,12 @@ export default function RootLayout({ children }) {
 
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#0c0d10] text-gray-100 font-sans`}
+      >
         <NextTopLoader color="#3b82f6" showSpinner={false} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }} />
-        <div className="min-h-screen bg-neutral-800 text-gray-100 font-sans">{children}</div>
+        <div className="min-h-screen">{children}</div>
       </body>
     </html>
   );

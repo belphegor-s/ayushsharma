@@ -226,15 +226,9 @@ export default function Home() {
     }
   }, []);
 
-  useEffect(() => {
-    document.body.classList.add('bg-gradient-animation');
-    return () => {
-      document.body.classList.remove('bg-gradient-animation');
-    };
-  }, []);
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-6 relative overflow-hidden bg-container">
+    <div className="bg-gradient-animation min-h-screen flex flex-col items-center justify-center p-6 relative overflow-hidden bg-container">
       <Toaster
         position="top-center"
         reverseOrder={false}
@@ -397,8 +391,8 @@ export default function Home() {
         </div>
       </motion.footer>
       <style jsx global>{`
-        body.bg-gradient-animation {
-          background: linear-gradient(-45deg, #111827, #1f2937, #374151, #111827); /* Dark gradient */
+        .bg-gradient-animation {
+          background: linear-gradient(-45deg, #111827, #1f2937, #374151, #111827);
           background-size: 400% 400%;
           animation: gradientBG 15s ease infinite;
         }
