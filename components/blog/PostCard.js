@@ -36,14 +36,15 @@ export default function PostCard({ post, priority = false }) {
           <p className="text-sm text-gray-400 leading-relaxed line-clamp-2">{post.description}</p>
         )}
         {post.tags?.length > 0 && (
-          <div className="mt-auto flex flex-wrap gap-1.5 pt-2">
+          <div className="relative z-20 mt-auto flex flex-wrap gap-1.5 pt-2">
             {post.tags.slice(0, 4).map((tag) => (
-              <span
+              <Link
                 key={tag}
-                className="text-[11px] text-blue-300/80 font-medium"
+                href={`/blog/tag/${encodeURIComponent(tag)}`}
+                className="text-[11px] text-blue-300/80 font-medium hover:text-blue-200 hover:underline underline-offset-2"
               >
                 #{tag}
-              </span>
+              </Link>
             ))}
           </div>
         )}

@@ -8,6 +8,7 @@ export default function sitemap() {
   const staticEntries = [
     { url: `${base}/`, lastModified: now, changeFrequency: 'monthly', priority: 1.0 },
     { url: `${base}/blog`, lastModified: now, changeFrequency: 'weekly', priority: 0.9 },
+    { url: `${base}/blog/tags`, lastModified: now, changeFrequency: 'weekly', priority: 0.6 },
   ];
 
   const posts = getAllPosts().map((p) => ({

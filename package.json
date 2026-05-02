@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "postinstall": "patch-package"
+    "postinstall": "patch-package",
+    "indexnow": "node scripts/indexnow.mjs"
   },
   "dependencies": {
     "framer-motion": "^12.9.2",
@@ -33,6 +34,7 @@
     "@tailwindcss/postcss": "^4",
     "eslint": "^9",
     "eslint-config-next": "^15.5.15",
+    "fast-xml-parser": "^5.7.2",
     "patch-package": "^8.0.1",
     "tailwindcss": "^4"
   },
