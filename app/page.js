@@ -1,13 +1,15 @@
 'use client';
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mail, X, Github, Linkedin, Twitter, BookOpen, Send, FileText, ExternalLink, Coffee } from 'lucide-react';
+import { Mail, X, BookOpen, Send, FileText, ExternalLink, Coffee } from 'lucide-react';
 import toast, { Toaster } from 'react-hot-toast';
 import { initPostHog } from '@/lib/posthog';
 import posthog from '@/lib/posthog';
 import Image from 'next/image';
 import { Dancing_Script } from 'next/font/google';
 import Link from 'next/link';
+import { FaXTwitter } from 'react-icons/fa6';
+import { FiGithub, FiLinkedin } from 'react-icons/fi';
 
 const dancing = Dancing_Script({
   subsets: ['latin'],
@@ -328,10 +330,9 @@ export default function Home() {
           Meet the Boss
         </motion.a>
         <motion.div className="flex justify-center space-x-6 mb-8" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5, delay: 0.6, staggerChildren: 0.1 }}>
-          <SocialLink href="https://short.pixly.sh/github" icon={Github} label="GitHub Profile" />
-          <SocialLink href="https://short.pixly.sh/linkedin" icon={Linkedin} label="LinkedIn Profile" />
-          <SocialLink href="https://short.pixly.sh/x" icon={Twitter} label="Twitter Profile" />
-          <SocialLink href="/blog" icon={BookOpen} label="Blog" internal />
+          <SocialLink href="https://short.pixly.sh/github" icon={FiGithub} label="GitHub Profile" />
+          <SocialLink href="https://short.pixly.sh/linkedin" icon={FiLinkedin} label="LinkedIn Profile" />
+          <SocialLink href="https://short.pixly.sh/x" icon={FaXTwitter} label="Twitter Profile" />
         </motion.div>
         <motion.div className="flex flex-wrap items-center justify-center gap-2 md:gap-4" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.75 }}>
           <Button
