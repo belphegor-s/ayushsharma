@@ -1,0 +1,22 @@
+diff --git a/node_modules/next/dist/build/webpack/loaders/next-metadata-route-loader.js b/node_modules/next/dist/build/webpack/loaders/next-metadata-route-loader.js
+index 8508f20..6161b46 100644
+--- a/node_modules/next/dist/build/webpack/loaders/next-metadata-route-loader.js
++++ b/node_modules/next/dist/build/webpack/loaders/next-metadata-route-loader.js
+@@ -32,7 +32,7 @@ function _interop_require_default(obj) {
+ function errorOnBadHandler(resourcePath) {
+     return `
+   if (typeof handler !== 'function') {
+-    throw new Error('Default export is missing in ${JSON.stringify(resourcePath)}')
++    throw new Error(${JSON.stringify('Default export is missing in ' + JSON.stringify(resourcePath))})
+   }
+   `;
+ }
+@@ -88,7 +88,7 @@ const buffer = Buffer.from(${JSON.stringify((await _fs.default.promises.readFile
+ if (${isTwitter || isOpenGraph}) {
+   const fileSizeInMB = buffer.byteLength / 1024 / 1024
+   if (fileSizeInMB > ${fileSizeLimit}) {
+-    throw new Error('File size for ${imgName} image ${JSON.stringify(resourcePath)} exceeds ${fileSizeLimit}MB. ' +
++    throw new Error(${JSON.stringify('File size for ' + imgName + ' image ' + JSON.stringify(resourcePath) + ' exceeds ' + fileSizeLimit + 'MB. ')} +
+     \`(Current: \${fileSizeInMB.toFixed(2)}MB)\n\` +
+     'Read more: https://nextjs.org/docs/app/api-reference/file-conventions/metadata/opengraph-image#image-files-jpg-png-gif'
+     )

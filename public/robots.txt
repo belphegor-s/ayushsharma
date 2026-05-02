@@ -1,5 +1,8 @@
 user-agent: *
 allow: /
+disallow: /api/
+
+sitemap: https://ayushsharma.me/sitemap.xml
 
 # robots welcome.
 # humans? questionable.

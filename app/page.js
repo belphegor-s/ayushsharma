@@ -34,19 +34,31 @@ export const Button = ({ children, onClick, className = '', ...props }) => {
   );
 };
 
-const SocialLink = ({ href, icon: Icon, label }) => (
-  <motion.a
-    href={href}
-    target="_blank"
-    rel="noopener noreferrer"
-    aria-label={label}
-    className="text-white/80 hover:text-white transition-colors duration-200"
-    whileHover={{ y: -2 }}
-    whileTap={{ scale: 0.9 }}
-  >
-    <Icon size={24} />
-  </motion.a>
-);
+const SocialLink = ({ href, icon: Icon, label, internal = false }) => {
+  const isInternal = internal || href.startsWith('/');
+  if (isInternal) {
+    return (
+      <Link href={href} aria-label={label} className="text-white/80 hover:text-white transition-colors duration-200">
+        <motion.span whileHover={{ y: -2 }} whileTap={{ scale: 0.9 }} className="inline-flex">
+          <Icon size={24} />
+        </motion.span>
+      </Link>
+    );
+  }
+  return (
+    <motion.a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={label}
+      className="text-white/80 hover:text-white transition-colors duration-200"
+      whileHover={{ y: -2 }}
+      whileTap={{ scale: 0.9 }}
+    >
+      <Icon size={24} />
+    </motion.a>
+  );
+};
 
 const ContactForm = ({ onClose }) => {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
@@ -220,7 +232,7 @@ export default function Home() {
   }, []);
 
   return (
-    <>
+    <div className="min-h-screen flex flex-col items-center justify-center p-6 relative">
       <Toaster
         position="top-center"
         reverseOrder={false}
@@ -319,7 +331,7 @@ export default function Home() {
           <SocialLink href="https://short.pixly.sh/github" icon={Github} label="GitHub Profile" />
           <SocialLink href="https://short.pixly.sh/linkedin" icon={Linkedin} label="LinkedIn Profile" />
           <SocialLink href="https://short.pixly.sh/x" icon={Twitter} label="Twitter Profile" />
-          <SocialLink href="https://short.pixly.sh/blog" icon={BookOpen} label="Blog" />
+          <SocialLink href="/blog" icon={BookOpen} label="Blog" internal />
         </motion.div>
         <motion.div className="flex flex-wrap items-center justify-center gap-2 md:gap-4" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.75 }}>
           <Button
@@ -328,6 +340,17 @@ export default function Home() {
           >
             <FileText size={18} /> View Résumé
           </Button>
+
+          <Link
+            href="/blog"
+            onClick={() => posthog.capture('clicked_blog_cta')}
+            className="group relative inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-white bg-gradient-to-r from-neutral-800 to-neutral-700 border border-blue-500/30 hover:border-blue-400/70 transition-all duration-200 cursor-pointer overflow-hidden"
+          >
+            <span className="absolute inset-0 bg-gradient-to-r from-blue-600/0 via-blue-500/10 to-blue-600/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            <BookOpen size={18} className="relative z-10" />
+            <span className="relative z-10">Read Writing</span>
+            <span className="relative z-10 text-blue-300 group-hover:translate-x-0.5 transition-transform">→</span>
+          </Link>
 
           <Button
             onClick={() => {
@@ -402,6 +425,6 @@ export default function Home() {
           border-radius: 4px;
         }
       `}</style>
-    </>
+    </div>
   );
 }
