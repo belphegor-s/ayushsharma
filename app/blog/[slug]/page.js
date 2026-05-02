@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
+import { ArrowLeft } from 'lucide-react';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import { getAllPosts, getPost, getPostNeighbors, formatDate } from '@/lib/blog/posts';
 import { remarkPlugins, rehypePlugins } from '@/lib/blog/rehype-config';
@@ -92,9 +93,9 @@ export default async function PostPage({ params }) {
 
       <Link
         href="/blog"
-        className="mb-8 inline-flex items-center gap-1 text-sm text-gray-400 hover:text-white transition-colors"
+        className="mb-8 inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-white transition-colors"
       >
-        ← All posts
+        <ArrowLeft size={14} /> All posts
       </Link>
 
       <header className="mb-10">

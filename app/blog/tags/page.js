@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { ArrowLeft } from 'lucide-react';
 import { getAllTags } from '@/lib/blog/posts';
 import { siteConfig, absoluteUrl } from '@/lib/site';
 
@@ -21,8 +22,11 @@ export default function TagsIndexPage() {
   return (
     <>
       <header className="mb-10">
-        <Link href="/blog" className="text-sm text-gray-400 hover:text-white transition-colors">
-          ← All posts
+        <Link
+          href="/blog"
+          className="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-white transition-colors"
+        >
+          <ArrowLeft size={14} /> All posts
         </Link>
         <h1 className="mt-3 text-3xl md:text-4xl font-semibold tracking-tight text-white">Tags</h1>
         <p className="mt-2 text-gray-400">

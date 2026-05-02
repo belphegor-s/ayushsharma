@@ -1,6 +1,7 @@
 'use client';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import { ArrowLeft } from 'lucide-react';
 
 export default function NotFound() {
   return (
@@ -21,7 +22,7 @@ export default function NotFound() {
             href="/"
             className="inline-flex items-center gap-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 text-sm transition-colors shadow-lg"
           >
-            ← Home
+            <ArrowLeft size={14} /> Home
           </Link>
           <Link
             href="/blog"

@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import { ArrowLeft } from 'lucide-react';
 import { getAllTags, getPostsByTag } from '@/lib/blog/posts';
 import PostCard from '@/components/blog/PostCard';
 import { siteConfig, absoluteUrl } from '@/lib/site';
@@ -34,8 +35,11 @@ export default async function TagPage({ params }) {
   return (
     <>
       <header className="mb-10">
-        <Link href="/blog" className="text-sm text-gray-400 hover:text-white transition-colors">
-          ← All posts
+        <Link
+          href="/blog"
+          className="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-white transition-colors"
+        >
+          <ArrowLeft size={14} /> All posts
         </Link>
         <h1 className="mt-3 text-3xl md:text-4xl font-semibold tracking-tight text-white">
           <span className="text-blue-400">#</span>
