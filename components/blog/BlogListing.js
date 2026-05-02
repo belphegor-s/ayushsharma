@@ -18,8 +18,11 @@ function localFilter(posts, query, selectedTags) {
   });
 }
 
+const SEARCH_DEBOUNCE_MS = 350;
+
 export default function BlogListing({ posts, tags }) {
   const [query, setQuery] = useState('');
+  const [debouncedQuery, setDebouncedQuery] = useState('');
   const [selectedTags, setSelectedTags] = useState([]);
   const [page, setPage] = useState(1);
   const [remoteResults, setRemoteResults] = useState(null);
@@ -35,7 +38,21 @@ export default function BlogListing({ posts, tags }) {
 
   useEffect(() => {
     const trimmed = query.trim();
+    if (trimmed === debouncedQuery) return;
     if (!trimmed) {
+      setDebouncedQuery('');
+      setLoading(false);
+      return;
+    }
+    setLoading(true);
+    const handle = setTimeout(() => {
+      setDebouncedQuery(trimmed);
+    }, SEARCH_DEBOUNCE_MS);
+    return () => clearTimeout(handle);
+  }, [query, debouncedQuery]);
+
+  useEffect(() => {
+    if (!debouncedQuery) {
       setRemoteResults(null);
       setLoading(false);
       return;
@@ -44,9 +61,9 @@ export default function BlogListing({ posts, tags }) {
     const reqId = ++requestIdRef.current;
     setLoading(true);
 
-    const handle = setTimeout(async () => {
+    (async () => {
       try {
-        const params = new URLSearchParams({ q: trimmed });
+        const params = new URLSearchParams({ q: debouncedQuery });
         if (selectedTags.length) params.set('tags', selectedTags.join(','));
         const res = await fetch(`/api/search?${params.toString()}`, {
           headers: { Accept: 'application/json' },
@@ -61,15 +78,13 @@ export default function BlogListing({ posts, tags }) {
       } finally {
         if (reqId === requestIdRef.current) setLoading(false);
       }
-    }, 200);
-
-    return () => clearTimeout(handle);
-  }, [query, selectedTags]);
+    })();
+  }, [debouncedQuery, selectedTags]);
 
   const filtered = useMemo(() => {
     if (remoteResults) return remoteResults;
-    return localFilter(posts, query, selectedTags);
-  }, [posts, query, selectedTags, remoteResults]);
+    return localFilter(posts, debouncedQuery, selectedTags);
+  }, [posts, debouncedQuery, selectedTags, remoteResults]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / POSTS_PER_PAGE_CLIENT));
   const safePage = Math.min(page, totalPages);
@@ -109,7 +124,7 @@ export default function BlogListing({ posts, tags }) {
         </div>
       ) : (
         <motion.div
-          key={`${query}-${selectedTags.join(',')}-${safePage}`}
+          key={`${debouncedQuery}-${selectedTags.join(',')}-${safePage}`}
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.35, ease: 'easeOut' }}
