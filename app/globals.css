@@ -6,24 +6,14 @@
 
 html,
 body {
-  background-color: #1d1f20;
+  background-color: #0c0d10;
   min-height: 100%;
 }
 
 html {
   scroll-padding-top: 4.5rem;
   scroll-behavior: smooth;
-  overscroll-behavior-y: none;
-}
-
-@supports (-webkit-touch-callout: none) {
-  body {
-    background-color: #0c0d10;
-  }
-}
-
-.blog-shell {
-  background-color: #0c0d10;
+  overscroll-behavior-y: contain;
 }
 
 .bg-container {

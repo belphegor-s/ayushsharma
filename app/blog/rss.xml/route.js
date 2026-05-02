@@ -19,19 +19,24 @@ export function GET() {
   const items = posts
     .map((p) => {
       const url = absoluteUrl(`/blog/${p.slug}`);
+      const cover = p.cover ? absoluteUrl(p.cover) : absoluteUrl(`/blog/${p.slug}/opengraph-image`);
+      const ogImage = absoluteUrl(`/blog/${p.slug}/opengraph-image`);
       return `    <item>
       <title>${escapeXml(p.title)}</title>
       <link>${url}</link>
       <guid isPermaLink="true">${url}</guid>
       <pubDate>${new Date(p.date).toUTCString()}</pubDate>
       <description>${escapeXml(p.description)}</description>
+      <enclosure url="${ogImage}" type="image/png" length="0" />
+      <media:content url="${ogImage}" medium="image" type="image/png" />
+      <media:thumbnail url="${cover}" />
       ${p.tags.map((t) => `<category>${escapeXml(t)}</category>`).join('\n      ')}
     </item>`;
     })
     .join('\n');
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/">
   <channel>
     <title>${escapeXml(siteConfig.name)} · Blog</title>
     <link>${absoluteUrl('/blog')}</link>
