@@ -26,19 +26,6 @@ export async function POST(request) {
       return res.status(400).json({ error: 'Message is required' });
     }
 
-    const response = await fetch(`${process.env.NEXT_PUBLIC_CONTACT_FORM_SUBMISSION_ENDPOINT}/api/submit`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ name, email, message }),
-    });
-
-    if (response && response.status === 201) {
-      const data = await response.json();
-      console.log('Contact form submission successful:', data);
-    }
-
     const html = `
       <table role="presentation" width="100%" style="max-width: 600px; margin: 0 auto; background-color: #f9f9f9; font-family: Arial, sans-serif; color: #333;">
         <tr>
