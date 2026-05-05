@@ -2,6 +2,7 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { siteConfig } from '@/lib/site';
 import NextTopLoader from 'nextjs-toploader';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -69,12 +70,11 @@ export default function RootLayout({ children }) {
 
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#0c0d10] text-gray-100 font-sans`}
-      >
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#0c0d10] text-gray-100 font-sans`}>
         <NextTopLoader color="#3b82f6" showSpinner={false} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }} />
         <div className="min-h-screen">{children}</div>
+        <SpeedInsights />
       </body>
     </html>
   );

@@ -13,6 +13,7 @@
     "indexnow": "node scripts/indexnow.mjs"
   },
   "dependencies": {
+    "@vercel/speed-insights": "^2.0.0",
     "framer-motion": "^12.9.2",
     "fuse.js": "^7.3.0",
     "gray-matter": "^4.0.3",
