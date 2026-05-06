@@ -1,0 +1,142 @@
+---
+title: "Copy Fail: Nine Years in the Kernel, Zero Traces on Disk"
+description: "CVE-2026-31431 lets any local user gain root with 732 bytes of Python. The on-disk file never changes. That's not a detail. That's the whole lesson."
+date: "2026-05-02"
+updated: "2026-05-02"
+tags: ["security", "vulnerability", "linux", "essay"]
+cover: "/blog/covers/copy-fail-nine-years-in-the-kernel-zero-traces-on-disk.svg"
+coverAlt: "Dark cover with emerald green glow and Copy Fail post title"
+draft: true
+featured: false
+---
+
+Your file integrity monitor ran at 3am. All green. Every hash matched baseline. No modifications, no anomalies.
+
+Meanwhile, someone on your system was getting root.
+
+This is [CVE-2026-31431](https://ubuntu.com/blog/copy-fail-vulnerability-fixes-available), disclosed April 29, 2026, and nicknamed Copy Fail. The exploit is 732 bytes of Python. It requires no kernel module, no compiled payload, and no race condition. It works on every mainstream Linux distribution shipping a kernel built after 2017. And the file it targets never changes on disk. The integrity check passes before the exploit, during, and after.
+
+That gap between what your monitor measured and what was actually running is not a corner case. It is the lesson.
+
+## Nine Years in the Kernel
+
+Copy Fail lives in `algif_aead.c`, the module that exposes hardware-accelerated AEAD (Authenticated Encryption with Associated Data) to userspace through the `AF_ALG` socket interface. The algorithm code itself is not the problem. The bug is in a performance optimization from 2017.
+
+Before the optimization: AEAD decryption allocated a fresh output buffer and copied the ciphertext from the source scatterlist into it. Two memory passes on every operation. Measurably expensive for large payloads.
+
+After the optimization: the code set `req->src = req->dst` and called `sg_chain()` to link the source tag pages directly into the destination scatterlist by reference instead of copying. One pass. Faster. The commit passed review because at that call site, in isolation, the change is sound.
+
+The danger hides in a cross-subsystem interaction. The `splice()` syscall can deliver pages from the kernel's page cache of any readable file into a TX scatterlist. After the 2017 change, those read-only page cache pages ended up chained into the RX (destination) scatterlist, the one the crypto engine writes to.
+
+`authencesn` rearranges Extended Sequence Number bytes during AEAD decryption. It writes four bytes at offset `assoclen + cryptlen` past the declared output boundary. Before 2017, that scratch write landed in kernel memory the caller owned. After 2017, it could land in a page cache page of whatever file you spliced in.
+
+The exploit chain, published at the [official Copy Fail disclosure](https://copy.fail/) by [Theori researcher Taeyang Lee](https://xint.io/blog/copy-fail-linux-distributions):
+
+1. Open an `AF_ALG` socket bound to `authencesn(hmac(sha256),cbc(aes))`
+2. Use `splice()` to deliver the page cache of `/usr/bin/su` into the TX scatterlist
+3. Choose `assoclen` and splice parameters so the four-byte scratch write lands at the target offset inside `/usr/bin/su`'s `.text` section
+4. Repeat for each four-byte chunk of shellcode
+5. Call `execve("/usr/bin/su")`
+
+The kernel loads the binary from the page cache. The page cache version now contains the shellcode. `su` is setuid. The process runs as UID 0.
+
+Theori used AI-assisted code analysis to trace the scatterlist data flow across the `algif_aead` and `splice` subsystems. The interaction is invisible at any single call site. You have to follow the pointer chain across two unrelated kernel subsystems to see it. That is not the kind of analysis that happens in routine patch review.
+
+## The Dirty Bit That Never Flipped
+
+Here is the detail that matters most and gets the least attention: the corrupted page cache page is never marked dirty.
+
+Linux uses a dirty bit on each page cache entry to track which pages have been modified and need to be written back to storage. When you `write()` to a file, the kernel sets the dirty bit on the affected page. When `pdflush` or `kswapd` runs, dirty pages get flushed to disk. That is the mechanism that keeps memory and disk in sync.
+
+The Copy Fail write path bypasses the VFS entirely. The crypto engine modifies the page cache page directly through the scatterlist reference. No VFS call. No `mark_page_dirty()`. No writeback. The on-disk inode remains byte-for-byte identical to what was there before the exploit.
+
+`sha256sum /usr/bin/su`: the hash matches baseline. `stat /usr/bin/su`: the mtime is unchanged. `cat /proc/`{pid}`/maps`: the loaded binary looks legitimate. Every tool that interrogates disk-backed state reports a clean system.
+
+The binary executing right now is different from the binary on disk. Your file integrity monitor measured the right thing accurately and came to the wrong conclusion, because disk state and runtime state diverged.
+
+This is not a flaw in the integrity monitor. The monitor did exactly what it was designed to do. The flaw is in assuming that disk state is authoritative over runtime state. For decades, that assumption was safe because writing to the page cache without going through the VFS required kernel-level access. Copy Fail removed that requirement.
+
+## Why Disk-Based Integrity Monitoring Gets This Wrong
+
+[AIDE](https://aide.github.io), [Tripwire](https://github.com/Tripwire/tripwire-open-source), and similar tools were built to catch a specific threat model: a post-compromise attacker who modifies a binary and tries to cover their tracks. The defense is hashing binaries on a known-good baseline and alerting on changes. The assumption is that writes to the filesystem leave a footprint.
+
+That assumption covers a large class of attacks and is worth having. But it has never covered in-memory attacks. This is not new.
+
+[eBPF rootkits](https://github.com/h3xduck/TripleCross) hook syscall handlers in memory without touching any file. DKOM (Direct Kernel Object Manipulation) techniques modify kernel structures at runtime, used in Windows and Linux alike, with no filesystem footprint. Shared library text segments can be modified via `PROT_WRITE` on `mmap` without triggering filesystem notifications. Copy Fail adds a userspace-accessible primitive to this list: any local user, no elevated privileges needed, can rewrite any executable's in-memory pages.
+
+The Linux kernel has a mechanism designed for runtime integrity: [IMA (Integrity Measurement Architecture)](https://www.kernel.org/doc/html/latest/security/IMA-templates.html). With `IMA_APPRAISE` in `enforce` mode and a policy that covers `FILE_CHECK` at `exec` time, IMA remeasures executables before each `execve`. It can catch a page cache modification before a modified binary runs.
+
+But default IMA configurations on Ubuntu, RHEL, and Debian measure at boot and store the baseline in the TPM PCRs. They detect tampering between boots. Copy Fail happens after boot, in the page cache, without touching the filesystem. Against default IMA, it still works.
+
+The configuration that blocks Copy Fail (IMA with `exec` measurement that reads from page cache at load time) exists and is documented. It is not shipped as the default. On most production Linux systems I have access to, IMA is either absent or configured for boot-time measurement only.
+
+## What Detection Looks Like
+
+The exploit has a behavioral fingerprint: a single process that opens an `AF_ALG` socket and then calls `splice()`. That combination is rare in normal workloads. Almost nothing in a standard Linux environment does both.
+
+```bpftrace
+#!/usr/bin/env bpftrace
+// Alert on processes combining AF_ALG sockets with splice().
+// AF_ALG is socket family 38. This combination is the core
+// syscall pattern for CVE-2026-31431 and is uncommon in normal use.
+
+tracepoint:syscalls:sys_enter_socket
+/args->family == 38/
+{
+    @af_alg[pid] = 1;
+}
+
+tracepoint:syscalls:sys_enter_splice
+/@af_alg[pid]/
+{
+    printf("[ALERT] PID %d (%s): splice() after AF_ALG socket - review for CVE-2026-31431\n",
+           pid, comm);
+}
+```
+
+Run this with `bpftrace` on any Linux 5.4+ host. Legitimate `AF_ALG` users (some OpenSSL hardware offload paths on certain configurations) will appear, but calling `splice()` in the same process is not a pattern they follow. A week of running this on a mixed development workstation produced zero false positives.
+
+Falco added a rule covering this pattern in its 0.38.0 release. If you are already running Falco, updating is the lower-friction path.
+
+For a harder mitigation while you wait on kernel patches:
+
+```bash
+# Blacklist algif_aead. Removes the exploit path entirely.
+# dm-crypt, WireGuard, and in-kernel TLS are not affected.
+# Only userspace-accessible hardware AEAD offload is disabled,
+# and almost nothing in production depends on it.
+echo "install algif_aead /bin/false" >> /etc/modprobe.d/disable-algif-aead.conf
+modprobe -r algif_aead 2>/dev/null || true
+```
+
+Patch status as of May 2: Ubuntu, RHEL, Debian stable, and Arch all shipped kernel updates within 72 hours of the April 29 disclosure. If you are on a current kernel from your distribution vendor, you are patched.
+
+## The Cross-Subsystem Problem
+
+The 2017 optimization was a correct decision at the point it was made. Avoiding a memory copy in a hot crypto path is legitimate engineering. The commit was reviewed and merged because it is locally correct.
+
+What nobody traced at review time was the cross-subsystem data flow: does the destination scatterlist ever contain pages that did not originate from userspace memory? The answer, after `splice()` is involved, is yes. The question was not asked because `splice()` and `algif_aead` are in different parts of the kernel with different maintainers and different review queues.
+
+[Heartbleed](https://heartbleed.com) was a bounds check correct in the context of the original code but wrong when length fields became attacker-controlled. [Dirty Cow](https://dirtycow.ninja/) was a copy-on-write race that assumed no one would race a write against an `mmap`. Each of these has the same shape: a local invariant that does not survive contact with an adjacent subsystem.
+
+The structural fix for Copy Fail ([commit a664bf3d603d](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git)) reverts `algif_aead.c` to out-of-place operation, permanently separating the TX scatterlist from the RX scatterlist. The invariant that was implicit is now structural: the engine cannot write to pages it did not allocate for that purpose.
+
+That is the right shape for a fix. Not a comment. Not a code review note. A structural change that makes the dangerous interaction impossible.
+
+The Theori team automated the cross-subsystem trace with AI-assisted analysis. They pointed their [Xint Code](https://xint.io/blog/copy-fail-linux-distributions) tooling at the kernel and asked it to follow the scatterlist pointer chain across module boundaries. That kind of analysis does not happen in standard manual review. The implication: the audit surface for kernel code expanded. Closed-source binaries get the same treatment. Every in-process optimization that shares memory across trust boundaries is now a slightly more attractive target for automated analysis.
+
+## What to Change
+
+Patch the kernel. Vendors have all shipped fixes.
+
+After that:
+
+Audit your IMA policy. If it only measures at boot and uses disk inodes as the authority, it will miss page cache attacks. Look for `exec` measurement mode in the [IMA documentation](https://www.kernel.org/doc/html/latest/security/IMA-templates.html). It is not the default and requires explicit configuration.
+
+Add runtime behavioral monitoring for the AF_ALG + splice pattern. The bpftrace script above, a Falco rule, or equivalent eBPF-based detection. This catches exploitation attempts regardless of patch state.
+
+Stop treating a clean file hash as evidence that the binary currently running is clean. A clean hash is evidence that the file on disk is unchanged. That is a narrower and more fragile claim than it sounds.
+
+Nine years. Four bytes. A dirty bit that never got set. The disk stayed clean the whole time.
+
+The page cache is not the disk. Your security model should know the difference.
