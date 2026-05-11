@@ -25,7 +25,7 @@
   <rect width="1600" height="900" fill="url(#glow2)"/>
 
   <g font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" fill="#ecfdf5">
-    <text x="120" y="180" font-size="28" fill="#34d399" letter-spacing="3">AYUSHSHARMA.ME / BLOG</text>
+    <text x="120" y="180" font-size="28" fill="#34d399" letter-spacing="3">AYUSHSHARMA.ME · BLOG</text>
 
     <text x="120" y="390" font-size="94" font-weight="700" letter-spacing="-2">
       <tspan x="120" dy="0">Copy Fail:</tspan>
