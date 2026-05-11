@@ -41,6 +41,8 @@ Every cover at `public/blog/covers/*.svg` must follow this exact structure. No d
 | blue | #0b0f17 to #1e293b | rgba(59,130,246,...) | #93c5fd / #3b82f6 |
 | red | #0d0a08 to #2a1410 | rgba(239,68,68,...) | #fca5a5 / #ef4444 |
 | green | #060d0a to #111f17 | rgba(34,197,94,...) | #4ade80 / #22c55e |
+| purple | #0d0b17 to #1a1033 | rgba(139,92,246,...) | #c4b5fd / #8b5cf6 |
+| orange | #0f0a04 to #1f1206 | rgba(249,115,22,...) | #fdba74 / #f97316 |
 
 ### Reference SVG (do not modify without updating this doc)
 
