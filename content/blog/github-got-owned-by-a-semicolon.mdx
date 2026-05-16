@@ -1,13 +1,12 @@
 ---
-title: "GitHub Got Owned by a Semicolon"
+title: 'GitHub Got Owned by a Semicolon'
 description: "CVE-2026-3854 let any authenticated user pop GitHub's backend with a single git push. The bug class is older than I am. So why does it keep working?"
-date: "2026-05-02"
-updated: "2026-05-02"
-tags: ["security", "vulnerability", "github", "essay"]
-cover: "/blog/covers/github-got-owned-by-a-semicolon.svg"
-coverAlt: "Dark cover with a glowing red accent and the post title"
-accent: "red"
-featured: true
+date: '2026-05-02'
+updated: '2026-05-02'
+tags: ['security', 'vulnerability', 'github', 'essay']
+cover: '/blog/covers/github-got-owned-by-a-semicolon.svg'
+coverAlt: 'Dark cover with a glowing red accent and the post title'
+accent: 'red'
 ---
 
 Last week, [Wiz Research](https://www.wiz.io/blog/github-rce-vulnerability-cve-2026-3854) showed that any authenticated GitHub user could execute arbitrary code on GitHub.com's backend with one `git push`. The payload was a semicolon. The blast radius was millions of private repos.
@@ -28,7 +27,7 @@ X-Stat: rails_env=production;custom_hooks_dir=/data/hooks;repo_pre_receive_hooks
 
 `babeld` did the obvious thing. It took the user-supplied value and concatenated it. It did not escape semicolons.
 
-So you push with `-o "rails_env=production;custom_hooks_dir=/tmp;repo_pre_receive_hooks=../../bin/sh"`, and now the receiving service parses your *single* push option as three of them. One flips the environment from sandbox to production-direct. One redirects where pre-receive hooks are loaded from. One does a path traversal to a binary the service will helpfully execute as the git user.
+So you push with `-o "rails_env=production;custom_hooks_dir=/tmp;repo_pre_receive_hooks=../../bin/sh"`, and now the receiving service parses your _single_ push option as three of them. One flips the environment from sandbox to production-direct. One redirects where pre-receive hooks are loaded from. One does a path traversal to a binary the service will helpfully execute as the git user.
 
 Six lines of conceptual surface, three orders of impact. CVSS 8.7. About [88% of self-hosted GHES instances were still unpatched at disclosure](https://www.csoonline.com/article/4164925/critical-github-rce-bug-exposed-millions-of-repositories.html).
 
@@ -40,9 +39,9 @@ The naive answer is "because the developer forgot to escape." That's true and us
 
 When I started building things, the threat model for header injection was external: an attacker controls something that flows into an HTTP response or a log line, and they smuggle a CRLF to forge a header. We learned that. Modern frameworks reject `\r\n` in header values. Reverse proxies normalize. The naive version is mostly handled.
 
-What we did not handle is the explosion of *internal* protocols. Microservices talk to each other in HTTP-shaped envelopes that nobody calls HTTP. Service meshes inject `X-Forwarded-*`. RPC layers prepend `X-Tenant-Id`. Internal proxies invent their own headers (`X-Stat`, `X-Internal-Auth`, `X-Trace-Span`), and those headers get parsed by another service downstream. Each new header is a tiny ad-hoc protocol. Each ad-hoc protocol gets ad-hoc parsing. Ad-hoc parsing skips the escaping nobody remembered to spec.
+What we did not handle is the explosion of _internal_ protocols. Microservices talk to each other in HTTP-shaped envelopes that nobody calls HTTP. Service meshes inject `X-Forwarded-*`. RPC layers prepend `X-Tenant-Id`. Internal proxies invent their own headers (`X-Stat`, `X-Internal-Auth`, `X-Trace-Span`), and those headers get parsed by another service downstream. Each new header is a tiny ad-hoc protocol. Each ad-hoc protocol gets ad-hoc parsing. Ad-hoc parsing skips the escaping nobody remembered to spec.
 
-The framework-level protections that made external header injection rare don't help here, because the framework doesn't know your `X-Stat` is a delimited list. To the framework it's a string. *You* are the parser.
+The framework-level protections that made external header injection rare don't help here, because the framework doesn't know your `X-Stat` is a delimited list. To the framework it's a string. _You_ are the parser.
 
 GitHub's mistake was not "we forgot to escape." It was "we built a serialization format inside an HTTP header and didn't write it down." If `X-Stat` had been documented as `key=value` pairs joined by semicolons with this escaping rule, the next engineer touching `babeld` would have had a fighting chance. Instead the format lived in two places (the writer and the reader), and neither knew about the other's assumptions.
 
@@ -84,7 +83,7 @@ I'm wary of writing security checklists. Most of them are tribal knowledge laund
 
 **Sandbox escapes shouldn't be a config flag.** The first link in this chain was `rails_env=production` flipping the binary out of a sandboxed execution path. If your sandbox is opt-in by config string, your sandbox is not a sandbox. The escape needs to be load-time-only, signed-binary-checked, or just plain absent. Anything that lives in user-influenced state is a trapdoor.
 
-**Audit your "ergonomic" features for trust boundaries.** Push options were added because someone wanted CI hooks to receive metadata from the push. Reasonable feature. The trust boundary, though, walks straight from the user's keyboard into an internal proxy that does internal things. Every new ergonomic feature needs an "is this string trusted by anything downstream?" review. Most don't get one because the feature doesn't *feel* dangerous.
+**Audit your "ergonomic" features for trust boundaries.** Push options were added because someone wanted CI hooks to receive metadata from the push. Reasonable feature. The trust boundary, though, walks straight from the user's keyboard into an internal proxy that does internal things. Every new ergonomic feature needs an "is this string trusted by anything downstream?" review. Most don't get one because the feature doesn't _feel_ dangerous.
 
 The ergonomic-feature point is the one I keep returning to. Push options sound boring. Logger metadata fields sound boring. Cookie attributes sound boring. They're all the same trapdoor. Convenience surfaces that quietly become attack surfaces because the threat model didn't update when the feature shipped.
 
@@ -94,7 +93,7 @@ The Wiz writeup mentions in passing that they used "AI-augmented reverse enginee
 
 GitHub's `babeld` is a Go binary that ships in GHES. It's not on GitHub. You cannot read its source. Until recently, finding bugs in it required either a leak, a debugger session against a paid GHES license, or the patience of a saint with IDA Pro. Wiz pointed an LLM at the disassembly, asked it to summarize control flow, and got somewhere fast.
 
-That's a phase change for offensive research. The set of *practically auditable* software just expanded by an order of magnitude. Every closed-source binary on a defender's network is now slightly less private. I don't have a tidy take on what to do with that. But if your security model has been "the bug isn't worth finding because the source isn't public," that model is over.
+That's a phase change for offensive research. The set of _practically auditable_ software just expanded by an order of magnitude. Every closed-source binary on a defender's network is now slightly less private. I don't have a tidy take on what to do with that. But if your security model has been "the bug isn't worth finding because the source isn't public," that model is over.
 
 For defenders, the same techniques work. Take your own production binaries. Disassemble them. Ask an LLM where the parsers are. You will find at least one place that doesn't validate input. I'd bet a coffee.
 

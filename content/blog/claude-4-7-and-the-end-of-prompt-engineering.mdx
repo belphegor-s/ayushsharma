@@ -1,18 +1,17 @@
 ---
-title: "Claude 4.7 and the End of Prompt Engineering as We Knew It"
+title: 'Claude 4.7 and the End of Prompt Engineering as We Knew It'
 description: "The era of bag-of-tricks prompts is closing. The new bottleneck isn't writing the perfect sentence. It's engineering the right context. Notes from a year of building with agentic models."
-date: "2026-05-01"
-updated: "2026-05-01"
-tags: ["ai", "claude", "agents", "essay"]
-cover: "/blog/covers/claude-4-7-and-the-end-of-prompt-engineering.svg"
-coverAlt: "Abstract dark gradient with a vertical blue accent line"
-accent: "blue"
-featured: true
+date: '2026-05-01'
+updated: '2026-05-01'
+tags: ['ai', 'claude', 'agents', 'essay']
+cover: '/blog/covers/claude-4-7-and-the-end-of-prompt-engineering.svg'
+coverAlt: 'Abstract dark gradient with a vertical blue accent line'
+accent: 'blue'
 ---
 
 There's a moment in every developer's life with a new model where you stop trying to outsmart it.
 
-For me, with Claude 4.7, that moment came in March. I had inherited a 2,300-line legacy invoicing module. The kind of code where the original author's git email no longer resolves. I opened Claude Code, pointed it at the file, and typed exactly what I would have said to a senior engineer joining the team: *"This module is breaking on edge cases for multi-currency invoices. Figure out why and fix it."*
+For me, with Claude 4.7, that moment came in March. I had inherited a 2,300-line legacy invoicing module. The kind of code where the original author's git email no longer resolves. I opened Claude Code, pointed it at the file, and typed exactly what I would have said to a senior engineer joining the team: _"This module is breaking on edge cases for multi-currency invoices. Figure out why and fix it."_
 
 No "act as a 10x engineer." No "think step by step." No XML scaffolding around the request. No examples of input and output. Just the problem.
 
@@ -26,7 +25,7 @@ This essay is about what's changing, what isn't, and what to do instead.
 
 For most of the last four years, prompt engineering looked like rhetoric class. We learned to flatter the model ("you are an expert"), to threaten it ("if you get this wrong, a kitten dies"), to bargain with it ("I'll tip you $200"), and to coax intermediate steps out of it ("let's think step by step"). Whole startups were funded on the premise that prompting was a craft you could productize.
 
-Some of those tricks worked. Most of them worked because the underlying models were unreliable in specific, predictable ways: they'd skip steps, hallucinate confidently, and go off-task if you didn't pin them down. The prompts were *workarounds* for model weaknesses, not interactions with model strengths.
+Some of those tricks worked. Most of them worked because the underlying models were unreliable in specific, predictable ways: they'd skip steps, hallucinate confidently, and go off-task if you didn't pin them down. The prompts were _workarounds_ for model weaknesses, not interactions with model strengths.
 
 What happens when the weaknesses go away? You're left holding a toolbox of solutions to problems the model no longer has.
 
@@ -36,9 +35,9 @@ Claude 4.7 doesn't need you to ask it to think before it speaks. It thinks. It d
 
 Two shifts, working in tandem:
 
-**Models got better at intent inference.** Earlier models matched your prompt syntactically. 4.7 matches your *purpose*. If you ask it to "clean up this function," it doesn't apply a checklist of style rules. It figures out what kind of function it is, what the surrounding code expects, and what "clean" means for this specific case. The output is the output a thoughtful colleague would produce after reading the file for thirty seconds.
+**Models got better at intent inference.** Earlier models matched your prompt syntactically. 4.7 matches your _purpose_. If you ask it to "clean up this function," it doesn't apply a checklist of style rules. It figures out what kind of function it is, what the surrounding code expects, and what "clean" means for this specific case. The output is the output a thoughtful colleague would produce after reading the file for thirty seconds.
 
-**Tools became first-class.** The model isn't just generating text anymore. It's grepping your codebase, running shell commands, querying your database, calling your APIs. Anthropic's been pushing this aggressively with [MCP](https://modelcontextprotocol.io), the Model Context Protocol, which is essentially a standard for "here's how a tool exposes itself to a language model." The result: instead of trying to *describe* your codebase in a prompt, you give the model `grep` and let it look.
+**Tools became first-class.** The model isn't just generating text anymore. It's grepping your codebase, running shell commands, querying your database, calling your APIs. Anthropic's been pushing this aggressively with [MCP](https://modelcontextprotocol.io), the Model Context Protocol, which is essentially a standard for "here's how a tool exposes itself to a language model." The result: instead of trying to _describe_ your codebase in a prompt, you give the model `grep` and let it look.
 
 These two shifts compound. A model that can both infer intent and use tools doesn't need you to over-specify anything. It will go figure things out.
 
@@ -50,7 +49,7 @@ If prompts aren't the bottleneck, what is?
 
 This sounds obvious. It's not. Most of the failures I see now aren't prompt failures. They're context failures. The model didn't know about the constraint in `config/billing.yml` because nobody loaded it. It didn't know that `processPayment` was deprecated because the deprecation notice lives in a Slack thread from 2024. It didn't know your team prefers `Result<T,E>` over throwing because that lives in a CONTRIBUTING.md it never read.
 
-The skill that matters now isn't writing better sentences. It's curating *what the model sees*.
+The skill that matters now isn't writing better sentences. It's curating _what the model sees_.
 
 Three concrete shifts that come out of this:
 
@@ -76,15 +75,15 @@ The model reads this once and behaves accordingly. No system prompt acrobatics.
 
 Old habit: paste the relevant file into the prompt.
 
-New habit: give the model a way to *fetch* the file when it decides it needs to.
+New habit: give the model a way to _fetch_ the file when it decides it needs to.
 
-This is a meaningful inversion. When you paste a file, you're guessing what's relevant before the model has thought about the problem. When you give it `read_file` and `grep`, you let it look at what it needs *after* it's reasoned about the task. The token economics are radically better, and the answers are better because the model is reasoning over the actual code rather than your edited summary of it.
+This is a meaningful inversion. When you paste a file, you're guessing what's relevant before the model has thought about the problem. When you give it `read_file` and `grep`, you let it look at what it needs _after_ it's reasoned about the task. The token economics are radically better, and the answers are better because the model is reasoning over the actual code rather than your edited summary of it.
 
 The same logic extends out: a database is a tool, not a prompt. Your issue tracker is a tool. Your design docs are a tool. The model with three good tools eats the model with a perfect prompt.
 
 ### 3. Memory persists what conversation cannot.
 
-The third move is recognizing that some context shouldn't be re-derived every conversation. *"This user is a senior backend engineer who hates yak-shaving and wants terse answers"* is the kind of thing that should outlive a session.
+The third move is recognizing that some context shouldn't be re-derived every conversation. _"This user is a senior backend engineer who hates yak-shaving and wants terse answers"_ is the kind of thing that should outlive a session.
 
 Claude Code's memory system, the long-term memory in the apps, the sub-agent persistence patterns, all variations of the same idea: don't rebuild context that you already built.
 
@@ -103,7 +102,7 @@ What it did:
 1. Grepped for `webhook` to find the existing delivery code.
 2. Read the file, noticed we already had a `BackoffPolicy` utility from a different module.
 3. Read `BackoffPolicy` to understand its interface.
-4. Asked the question I would have asked: *"I see a `BackoffPolicy` in `lib/retry/`. Should I reuse it, or does payment delivery have constraints that need a separate policy (e.g., idempotency keys, max-age cutoffs)?"*
+4. Asked the question I would have asked: _"I see a `BackoffPolicy` in `lib/retry/`. Should I reuse it, or does payment delivery have constraints that need a separate policy (e.g., idempotency keys, max-age cutoffs)?"_
 
 I told it to reuse, and that idempotency keys were already handled upstream. It implemented the retry, added a small migration to track delivery state, wrote a test that hit the actual webhook server with a flaky-on-purpose handler, ran the test, and opened a PR.
 
@@ -115,13 +114,13 @@ The thing that made this work wasn't a clever prompt. It was that:
 - It had `bash` to run the test.
 - It had the previous payment-related PRs in its working memory.
 
-I wrote twenty-four words. Everything else was *infrastructure*. That's the shift.
+I wrote twenty-four words. Everything else was _infrastructure_. That's the shift.
 
 ## What to drop
 
 In rough order of how much it pains me to admit each one:
 
-- **"You are an expert in X."** Models don't need to be told this anymore. It biases the output toward the kind of thing an "expert" *talks like* rather than what an expert *would do*.
+- **"You are an expert in X."** Models don't need to be told this anymore. It biases the output toward the kind of thing an "expert" _talks like_ rather than what an expert _would do_.
 - **"Let's think step by step."** Modern Claude already thinks. Adding this phrase mostly bloats the output.
 - **Few-shot examples for general tasks.** Still useful for genuinely novel formats. Mostly redundant for well-known ones.
 - **Threats and bribes.** Embarrassing in retrospect. The model is not a child and was never motivated by your fictitious tip.
@@ -132,13 +131,13 @@ In rough order of how much it pains me to admit each one:
 
 Not everything from the prompting era is dead:
 
-- **Specificity about the goal.** "Fix the bug" is fine; "make the code better" is not. The model needs to know what *done* looks like.
+- **Specificity about the goal.** "Fix the bug" is fine; "make the code better" is not. The model needs to know what _done_ looks like.
 - **Constraints that aren't visible from the code.** Performance budgets, compatibility requirements, deadlines, things the user values that aren't expressible in tests.
 - **Structured output when you need to programmatically parse.** Schemas and tool-call signatures, yes. Vague "return JSON" pleas, less needed.
 - **Worked examples for genuinely tricky domain DSLs.** If you're asking for output in a custom format with seventeen rules, show, don't tell.
 - **The "ignore my last message" escape hatch.** Still works. Still useful.
 
-The pattern: keep the prompting techniques that *give the model real information*. Drop the ones that just try to coerce its behavior.
+The pattern: keep the prompting techniques that _give the model real information_. Drop the ones that just try to coerce its behavior.
 
 ## The skill that replaces it
 

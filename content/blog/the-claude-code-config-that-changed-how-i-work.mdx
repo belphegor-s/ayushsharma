@@ -1,13 +1,12 @@
 ---
-title: "The Claude Code Config That Changed How I Work"
+title: 'The Claude Code Config That Changed How I Work'
 description: "Running Claude Code out of the box is leaving a lot on the table. Here's the exact setup I use: Opus 4.7, extended thinking, 1M context, and a hook that makes every prompt leaner before it hits the model."
-date: "2026-05-11"
-updated: "2026-05-11"
-tags: ["ai", "claude", "tools", "productivity"]
-cover: "/blog/covers/the-claude-code-config-that-changed-how-i-work.svg"
-coverAlt: "Dark cover with a green glow accent and white title text"
-accent: "green"
-featured: true
+date: '2026-05-11'
+updated: '2026-05-11'
+tags: ['ai', 'claude', 'tools', 'productivity']
+cover: '/blog/covers/the-claude-code-config-that-changed-how-i-work.svg'
+coverAlt: 'Dark cover with a green glow accent and white title text'
+accent: 'green'
 ---
 
 Six months ago I cloned a repo, ran `claude`, and figured I was using Claude Code. I was, technically. But the gap between the default setup and what I actually run now is the gap between "pretty good" and "I genuinely don't want to go back to the old way."
@@ -58,7 +57,7 @@ This one needs some context.
 
 Claude Code supports hooks: shell scripts that fire at specific events in a conversation. One of those events is `UserPromptSubmit`, which fires before your message reaches the model. You can use it to transform the prompt on the way in.
 
-The caveman plugin is a `UserPromptSubmit` hook that strips your prompt down to the essentials: no articles (a, an, the), no filler words (just, really, basically, actually), no pleasantries (sure, certainly, of course), no hedging. If you type *"Can you please help me figure out why this function is basically just returning null instead of the expected value?"*, the plugin rewrites that to *"Why function return null instead of expected value?"* before it hits the model.
+The caveman plugin is a `UserPromptSubmit` hook that strips your prompt down to the essentials: no articles (a, an, the), no filler words (just, really, basically, actually), no pleasantries (sure, certainly, of course), no hedging. If you type _"Can you please help me figure out why this function is basically just returning null instead of the expected value?"_, the plugin rewrites that to _"Why function return null instead of expected value?"_ before it hits the model.
 
 That sounds aggressive. It is. But it works for a specific reason: the model doesn't need the pleasantries. "Please" doesn't make it more polite. "Just" doesn't make your request easier to process. These are tokens you're paying for that do zero work.
 
