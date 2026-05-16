@@ -1,0 +1,104 @@
+---
+title: "The Interaction Model Pattern Will Outlast Voice AI"
+description: "Thinking Machines unveiled full-duplex AI this week. Everyone wrote about the 0.4-second latency. The two-model architecture underneath it is the more durable idea."
+date: "2026-05-16"
+updated: "2026-05-16"
+tags: ["ai", "essay", "tools"]
+cover: "/blog/covers/the-interaction-model-pattern-will-outlast-voice-ai.svg"
+coverAlt: "Dark gradient cover with blue glow and white title text"
+accent: "blue"
+draft: true
+featured: false
+---
+
+I have a voice AI problem. Not technically. Personally.
+
+I've tried to build something with GPT-Realtime twice. Both times I abandoned it halfway through. The latency on the second attempt was fine, well under a second. That wasn't the issue. The issue was subtler: something about the interaction felt like a game show buzzer round. I'd finish talking, there was a beat of silence, and then the model started. I'd finish a sentence and wait. The model would respond, I'd want to jump in, and it wouldn't let me. Every exchange had this invisible traffic light managing who could talk.
+
+It felt polite in a way that real conversation is not.
+
+I thought this was a product problem, maybe even a preference problem. Turns out it's an architecture problem. And Thinking Machines published a demo this week that shows what a different architecture looks like.
+
+The headlines this week were about speed: [Thinking Machines Lab unveiled an interaction model that responds in 0.4 seconds](https://techcrunch.com/2026/05/11/thinking-machines-wants-to-build-an-ai-that-actually-listens-while-it-talks/), compared to 1.18 seconds for GPT-Realtime-2.0. That framing buries the thing that matters.
+
+The thing that matters is the split.
+
+## How current voice AI is built
+
+The standard voice AI stack is a pipeline with five stages you can name: voice activity detection (VAD), automatic speech recognition (ASR), language model inference, text-to-speech (TTS), and a streaming layer to glue them together. Every major product in this space, GPT-Realtime included, is a version of this stack.
+
+The innovations have been incremental. Make each stage faster. Make the handoffs smoother. Fuse ASR and LLM into one end-to-end model so you skip transcription latency. OpenAI's Realtime API does some of this. The result is a pipeline that completes faster, but is still a pipeline.
+
+A pipeline has a fundamental character: it has a front and a back. Something goes in the front (your voice), something comes out the back (the model's voice). While the model is at the back computing, it is not at the front listening. While it is listening, it is not computing. The traffic light is inherent to the design.
+
+You can tune this until you have 300ms round trips. You are still building around a turn.
+
+## What Thinking Machines did differently
+
+The [Thinking Machines architecture](https://www.semafor.com/article/05/13/2026/mira-muratis-thinking-machines-previews-interaction-models) does not run the model after you finish speaking. It runs two models simultaneously, continuously, throughout the conversation.
+
+Model one: the interaction model. Small. Always live. Handles audio, video, and text natively, no stitched components, no VAD calling timeout. Its job is to track what is happening in the conversation right now. When you pause, it notices. When you start a new sentence mid-thought, it tracks that too. When the moment is right to respond, it decides. It emits what the team calls 200ms micro-turns: short provisional responses that the conversation can continue over, pause, or update.
+
+Model two: the background model. Large. 276 billion parameters as a mixture-of-experts, 12 billion active at any time. Its job is actual reasoning. Tool calls, retrieval, longer-horizon thinking. It runs asynchronously, sharing full conversation context with the interaction model, but not on the hot path.
+
+The two models share context. The interaction model surfaces partial responses. The background model fills them in or corrects them as it catches up. The user never waits for the background model to complete before hearing something, because the interaction model is already responding.
+
+The result is a conversation that does not feel like a pipeline. Not because the latency is lower, but because the model's attention is continuous. You talk over it and it adjusts. You trail off in the middle of a sentence and it picks up. The 0.4-second number is a symptom of this. The underlying cause is that the model stopped being turn-based.
+
+## Why the architecture is the story
+
+Faster pipelines converge. GPT-Realtime at 1.18 seconds will be 0.8 seconds in six months. The next iteration will be 0.5. Several labs will engineer their way to 0.4 with a fast pipeline and a small model.
+
+What you cannot engineer your way to is the behavioral change. An interaction model that tracks context continuously and a background model that reasons asynchronously are not the same as a fast pipeline, even if their output latency numbers eventually match. The interaction model is always watching. The background model is always running. The interface to the user is provisional by design, not because the model is slow, but because it is never done.
+
+That is a different thing.
+
+The most interesting sentence in the [coverage from Semafor](https://www.semafor.com/article/05/13/2026/mira-muratis-thinking-machines-previews-interaction-models) was this: the interaction model and background model "share full conversation context throughout." This is not a memory lookup. Both models have access to the same state simultaneously. When the background model updates something, the interaction model immediately reflects it. When the interaction model adds a new micro-turn, the background model folds that in.
+
+I don't know the exact implementation. Shared key-value cache, synchronized weight states, something else. But the design decision is significant: they did not build a slow model with a fast frontend. They built two models that stay synchronized.
+
+## Where this pattern escapes voice
+
+Everything described above is also a solution to a problem that has nothing to do with audio.
+
+Consider the standard agentic coding loop. You give the agent a task. It works. You wait. When it has something to show you, it surfaces the result. While it is working, it is not interacting with you. While it is interacting, it is not working. Same traffic light, different medium.
+
+The natural response to this is not "make the agent faster." It is a model that keeps you informed continuously while the background work proceeds. Something that knows: here is what I have looked at so far, here is what I am checking now, here is what surprised me. Not a log dump. Not a spinner with a percentage. An ongoing acknowledgment of where the work stands.
+
+This is also the pattern that makes ambient computing work. The phrase means AI that lives in your environment and acts when there is something useful to act on, without you starting a conversation to trigger it. An assistant running on a pipeline model will always feel like something that was asleep and suddenly awake. An assistant running a live interaction model feels like something that was already paying attention.
+
+Peripheral displays. Smart glasses. Continuous code review in the background of an IDE. Build monitoring with human-legible status that does not require opening a dashboard. Any environment where the user is present and active but not "using the AI" as a primary activity: all of these benefit from a model that tracks context live and responds proportionally to what's happening.
+
+The two-model split is what makes this tractable at cost. You cannot have a 276B MoE paying full attention to everything all the time. But you can have a 12B active model staying live and cheap, escalating to the big reasoner when the situation demands it. The asymmetry is the point.
+
+## Skepticism that holds up
+
+Let me register a few genuine concerns before this becomes too optimistic.
+
+The first is availability. Thinking Machines announced a [limited preview later in 2026](https://theaiinsider.tech/2026/05/12/mira-muratis-thinking-machines-lab-unveils-full-duplex-ai-that-responds-in-0-4-seconds/). This is not a shipping product. The claims about context sharing and micro-turns come from a blog post and a demo. Whether the architecture holds under actual load, real interruptions, real multimodal input noise, none of that is publicly verified yet. Product announcements and shipped software are different categories.
+
+The second is that voice AI has a narrower use case footprint than every voice AI announcement implies. The demos are always impressive. Retention in deployed products is almost always lower. People use text for reasons: voice interaction is spatially constrained (you cannot use it in public without being that person), cognitively loaded (you have to think out loud), and often slower than typing for anyone who types well. The market exists, but it is not everything.
+
+The third: the split model pattern might get absorbed into a single model architecture as capability improves. The reason to split is cost asymmetry. If inference costs keep falling and small models keep getting smarter, the case for a dedicated interaction model weakens. The pattern could be a bridge technology.
+
+All three concerns are real. None of them change what I said about the architecture.
+
+## What this means if you are building
+
+If you are building AI applications now, there is one question worth asking that this announcement sharpens: what in your system is always running, and what is on-demand?
+
+Most AI applications are on-demand by default. The user does something, the model responds. That is the simplest architecture and it works for most things.
+
+But if you are building something where the user is present for longer periods, where context builds over a session, or where you want the AI to behave as infrastructure rather than a discrete tool, the Thinking Machines split is worth modeling. Keep something small live. Run something large in the background. Connect them.
+
+This pattern is not new in software. It is how operating systems handle foreground and background processes. It is how a browser handles a page: the interaction surface is fast and responsive; the work happens elsewhere. What is new is applying it to language model inference in a way the end user experiences as a coherent single model. That is the hard part. Thinking Machines has at least a working prototype.
+
+## The thing worth watching
+
+The latency number will age poorly. In a year, several products will respond in under half a second. The 0.4-second lead is a product differentiator for a few quarters.
+
+The architectural pattern is worth more than the latency number. If the split model ships and works and the context-sharing mechanism is as described, every team building ambient AI products is going to look at it. Some will copy it. Some will reach for variations. The pattern will become vocabulary.
+
+Good architecture works that way. It does not stay with one company. It becomes a category.
+
+I want to get into the limited preview. Not because of the full-duplex headline. Because I want to see what the interaction model does when you stop cooperating with it.
