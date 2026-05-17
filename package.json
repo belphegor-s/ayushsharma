@@ -4,12 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "prebuild": "node scripts/check-no-em-dash.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "check:dashes": "node scripts/check-no-em-dash.mjs",
-    "postinstall": "patch-package",
     "indexnow": "node scripts/indexnow.mjs"
   },
   "dependencies": {
