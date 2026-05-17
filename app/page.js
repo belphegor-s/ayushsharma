@@ -226,7 +226,6 @@ export default function Home() {
     }
   }, []);
 
-
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-6 relative overflow-hidden bg-container">
       <Toaster
@@ -329,16 +328,21 @@ export default function Home() {
           <SocialLink href="https://short.pixly.sh/x" icon={FaXTwitter} label="Twitter Profile" />
         </motion.div>
         <motion.div className="flex items-center justify-center gap-3" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.75 }}>
-          <Link href="/blog" onClick={() => posthog.capture('clicked_blog_cta')} className="w-32 sm:w-36">
+          <motion.button
+            onClick={() => {
+              setShowResume(true);
+              posthog.capture('clicked_resume');
+            }}
+            className="w-32 sm:w-36"
+          >
             <motion.span
               whileHover={{ scale: 1.04, transition: { duration: 0.2 } }}
               whileTap={{ scale: 0.96 }}
               className="w-full px-3 py-1.5 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-blue-500 transition-all duration-200 ease-in-out border border-blue-400/80 text-blue-300 hover:text-white hover:border-white bg-transparent font-medium text-sm flex items-center justify-center gap-2 cursor-pointer"
             >
-              <BookOpen size={16} /> Blog
+              <FileText size={16} /> Résumé
             </motion.span>
-          </Link>
-
+          </motion.button>
           <motion.button
             type="button"
             onClick={() => {
@@ -352,19 +356,6 @@ export default function Home() {
             <Mail size={16} /> Contact Me
           </motion.button>
         </motion.div>
-        <motion.button
-          type="button"
-          onClick={() => {
-            setShowResume(true);
-            posthog.capture('clicked_resume');
-          }}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.9 }}
-          className="mt-5 mx-auto flex w-fit items-center gap-2 text-xs text-gray-400 hover:text-white transition-colors hover:underline underline-offset-4 cursor-pointer focus:outline-none focus:text-white"
-        >
-          <FileText size={14} /> View Résumé
-        </motion.button>
       </motion.main>
       <AnimatePresence>
         {isContactOpen && (
