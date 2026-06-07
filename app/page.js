@@ -224,7 +224,7 @@ export default function Home() {
           </div>
 
           {/* Hero */}
-          <section className="relative flex min-h-[80vh] flex-col items-center justify-center px-5 py-16 text-center">
+          <section className="relative flex min-h-[80vh] flex-col items-center justify-center px-5 pt-16 pb-28 text-center sm:py-16">
             <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease: 'easeOut' }}>
               <div className="profile-image">
                 <Image
@@ -350,7 +350,7 @@ export default function Home() {
           <Rule />
 
           {/* Footer */}
-          <footer className="flex items-center justify-between gap-4 px-5 py-5">
+          <footer className="flex items-center justify-center gap-4 px-5 py-5 sm:justify-between">
             <span className="hidden font-mono text-[0.7rem] uppercase tracking-[0.18em] text-white/30 sm:inline">© {new Date().getFullYear()}</span>
             <span className="flex items-center gap-2 text-center text-xs font-medium text-white/45">
               Made with questionable decisions and coffee <Coffee size={13} />
