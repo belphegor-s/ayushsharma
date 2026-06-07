@@ -198,7 +198,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="bg-container relative min-h-screen w-full overflow-x-hidden text-white">
+    <div className="bg-container relative min-h-screen w-full text-white">
       <Toaster
         position="top-center"
         reverseOrder={false}
@@ -210,7 +210,7 @@ export default function Home() {
       />
 
       {/* Framed central column with side rails + plus corners */}
-      <div className="relative z-10 mx-auto w-full max-w-3xl">
+      <div className="relative z-10 mx-auto w-full max-w-3xl px-4 sm:px-0">
         <div className="relative border-x border-white/10">
           <Plus at="tl" />
           <Plus at="tr" />
@@ -219,7 +219,7 @@ export default function Home() {
           <div className="flex items-center justify-between border-b border-white/10 px-5 py-3">
             <Label>ayushsharma.me</Label>
             <Link href="/matrix" className="font-mono text-[0.7rem] uppercase tracking-[0.2em] text-white/30 transition-colors hover:text-blue-400">
-              {'// 2026'}
+              {'// ' + new Date().getFullYear()}
             </Link>
           </div>
 
@@ -254,9 +254,7 @@ export default function Home() {
                     className={letter === ' ' ? 'mx-2' : 'relative inline-block'}
                   >
                     {letter}
-                    {arr.length - 1 === index && (
-                      <Link href={'/matrix'} className="absolute bottom-0 right-0 -mr-[.15em] mb-[.45em] h-[.05em] w-[.05em] cursor-pointer rounded-full bg-red-500" />
-                    )}
+                    {arr.length - 1 === index && <Link href={'/matrix'} className="absolute bottom-0 right-0 -mr-[.15em] mb-[.45em] h-[.05em] w-[.05em] cursor-pointer rounded-full bg-red-500" />}
                   </motion.span>
                 ))}
               </motion.h1>
@@ -269,12 +267,7 @@ export default function Home() {
               />
             </div>
 
-            <motion.p
-              className="shimmer-text mt-4 text-base font-semibold tracking-wide md:text-xl"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.5 }}
-            >
+            <motion.p className="shimmer-text mt-4 text-base font-semibold tracking-wide md:text-xl" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5, delay: 0.5 }}>
               Developer / Tinkerer / Stoic
             </motion.p>
 
@@ -314,12 +307,7 @@ export default function Home() {
             </motion.div>
 
             {/* CTAs */}
-            <motion.div
-              className="mt-5 flex items-center justify-center gap-3"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.8 }}
-            >
+            <motion.div className="mt-5 flex items-center justify-center gap-3" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.8 }}>
               <button
                 onClick={() => {
                   setShowResume(true);
@@ -363,7 +351,7 @@ export default function Home() {
 
           {/* Footer */}
           <footer className="flex items-center justify-between gap-4 px-5 py-5">
-            <span className="hidden font-mono text-[0.7rem] uppercase tracking-[0.18em] text-white/30 sm:inline">© 2026</span>
+            <span className="hidden font-mono text-[0.7rem] uppercase tracking-[0.18em] text-white/30 sm:inline">© {new Date().getFullYear()}</span>
             <span className="flex items-center gap-2 text-center text-xs font-medium text-white/45">
               Made with questionable decisions and coffee <Coffee size={13} />
             </span>

@@ -19,42 +19,30 @@
 
 .bg-container {
   background-color: #0c0d10;
-}
-/* Dot matrix + glow live on fixed, GPU composited layers so they never */
-/* repaint while the page scrolls (kills scroll jitter). */
-.bg-container::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
   background-image: radial-gradient(rgba(255, 255, 255, 0.18) 1px, transparent 1.2px);
   background-size: 14px 14px;
   background-position: 0 0;
-  transform: translateZ(0);
-  will-change: transform;
-}
-.bg-container::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  background: radial-gradient(70% 45% at 50% -5%, rgba(59, 130, 246, 0.09), transparent 60%),
-    radial-gradient(ellipse at center, transparent 45%, rgba(12, 13, 16, 0.9) 100%);
-  transform: translateZ(0);
 }
 @media (min-width: 768px) {
-  .bg-container::after {
+  .bg-container {
     background-image: radial-gradient(rgba(255, 255, 255, 0.16) 1.1px, transparent 1.3px);
     background-size: 18px 18px;
   }
 }
 @media (min-width: 1280px) {
-  .bg-container::after {
+  .bg-container {
     background-image: radial-gradient(rgba(255, 255, 255, 0.14) 1.2px, transparent 1.4px);
     background-size: 22px 22px;
   }
+}
+.bg-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(70% 45% at 50% -5%, rgba(59, 130, 246, 0.09), transparent 60%),
+    radial-gradient(ellipse at center, transparent 40%, rgba(12, 13, 16, 0.85) 100%);
 }
 
 /* Blog shell: solid bg, no dotted pattern bleed-through, soft blue glow */
