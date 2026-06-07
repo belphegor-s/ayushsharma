@@ -38,35 +38,24 @@ export async function POST(request) {
     const safeMessage = escapeHtml(message.trim()).replace(/\n/g, '<br>');
 
     const html = `
-      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color: #0c0d10; padding: 32px 16px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color: #0c0d10; background-image: radial-gradient(rgba(255,255,255,0.10) 1px, transparent 1.2px); background-size: 18px 18px; padding: 40px 16px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
         <tr>
           <td align="center">
-            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width: 520px; margin: 0 auto; background-color: #131419; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; overflow: hidden;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width: 500px; margin: 0 auto; background-color: #131419; border: 1px solid rgba(255,255,255,0.08); border-radius: 10px;">
               <tr>
-                <td style="height: 3px; background: linear-gradient(90deg, #3b82f6, #60a5fa);"></td>
-              </tr>
-              <tr>
-                <td style="padding: 36px 36px 28px;">
-                  <h1 style="margin: 0 0 16px; font-size: 20px; font-weight: 600; color: #f3f4f6; letter-spacing: -0.01em;">
-                    Thanks for reaching out, ${safeName}
-                  </h1>
+                <td style="padding: 40px 40px 32px;">
+                  <p style="margin: 0 0 18px; font-size: 15px; line-height: 1.6; color: #e5e7eb;">
+                    Hi ${safeName},
+                  </p>
                   <p style="margin: 0 0 28px; font-size: 15px; line-height: 1.6; color: #9ca3af;">
-                    Got your message — I'll get back to you shortly.
+                    Thanks for writing in. I got your message and I'll reply soon.
                   </p>
-                  <p style="margin: 0 0 10px; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: #60a5fa;">
-                    Your message
-                  </p>
-                  <div style="padding: 16px 18px; background-color: #0c0d10; border: 1px solid rgba(255,255,255,0.06); border-left: 2px solid #3b82f6; border-radius: 6px; font-size: 14px; line-height: 1.6; color: #d1d5db;">
+                  <div style="padding: 18px 20px; background-color: #0c0d10; border: 1px solid rgba(255,255,255,0.07); border-radius: 8px; font-size: 14px; line-height: 1.65; color: #cbd5e1;">
                     ${safeMessage}
                   </div>
-                </td>
-              </tr>
-              <tr>
-                <td style="padding: 20px 36px 32px; border-top: 1px solid rgba(255,255,255,0.06);">
-                  <p style="margin: 0; font-size: 13px; color: #6b7280;">
-                    — Ayush Sharma
+                  <p style="margin: 32px 0 0; font-size: 15px; line-height: 1.6; color: #9ca3af;">
+                    Ayush
                   </p>
-                  <a href="https://ayushsharma.me" style="font-size: 13px; color: #60a5fa; text-decoration: none;">ayushsharma.me</a>
                 </td>
               </tr>
             </table>
