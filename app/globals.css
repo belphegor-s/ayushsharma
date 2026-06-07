@@ -19,21 +19,29 @@
 
 .bg-container {
   background-color: #0c0d10;
-  background-image: radial-gradient(rgba(255, 255, 255, 0.18) 1px, transparent 1.2px);
+  background-image: radial-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1.2px);
   background-size: 14px 14px;
   background-position: 0 0;
 }
 @media (min-width: 768px) {
   .bg-container {
-    background-image: radial-gradient(rgba(255, 255, 255, 0.16) 1.1px, transparent 1.3px);
+    background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1.1px, transparent 1.3px);
     background-size: 18px 18px;
   }
 }
 @media (min-width: 1280px) {
   .bg-container {
-    background-image: radial-gradient(rgba(255, 255, 255, 0.14) 1.2px, transparent 1.4px);
+    background-image: radial-gradient(rgba(255, 255, 255, 0.09) 1.2px, transparent 1.4px);
     background-size: 22px 22px;
   }
+}
+
+/* Reading column lifts off the dot grid: faint tint + soft blur mutes dots
+   directly behind content while margins keep crisp full-strength texture. */
+.content-frame {
+  background-color: rgba(11, 12, 15, 0.4);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
 }
 .bg-container::before {
   content: '';

@@ -211,7 +211,7 @@ export default function Home() {
 
       {/* Framed central column with side rails + plus corners */}
       <div className="relative z-10 mx-auto w-full max-w-3xl px-4 sm:px-0">
-        <div className="relative border-x border-white/10">
+        <div className="content-frame relative border-x border-white/10">
           <Plus at="tl" />
           <Plus at="tr" />
 
