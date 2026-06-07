@@ -19,29 +19,42 @@
 
 .bg-container {
   background-color: #0c0d10;
+}
+/* Dot matrix + glow live on fixed, GPU composited layers so they never */
+/* repaint while the page scrolls (kills scroll jitter). */
+.bg-container::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
   background-image: radial-gradient(rgba(255, 255, 255, 0.18) 1px, transparent 1.2px);
   background-size: 14px 14px;
   background-position: 0 0;
+  transform: translateZ(0);
+  will-change: transform;
+}
+.bg-container::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(70% 45% at 50% -5%, rgba(59, 130, 246, 0.09), transparent 60%),
+    radial-gradient(ellipse at center, transparent 45%, rgba(12, 13, 16, 0.9) 100%);
+  transform: translateZ(0);
 }
 @media (min-width: 768px) {
-  .bg-container {
+  .bg-container::after {
     background-image: radial-gradient(rgba(255, 255, 255, 0.16) 1.1px, transparent 1.3px);
     background-size: 18px 18px;
   }
 }
 @media (min-width: 1280px) {
-  .bg-container {
+  .bg-container::after {
     background-image: radial-gradient(rgba(255, 255, 255, 0.14) 1.2px, transparent 1.4px);
     background-size: 22px 22px;
   }
-}
-.bg-container::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: radial-gradient(ellipse at center, transparent 40%, rgba(12, 13, 16, 0.85) 100%);
-  z-index: 0;
 }
 
 /* Blog shell: solid bg, no dotted pattern bleed-through, soft blue glow */
@@ -71,18 +84,14 @@
   height: 170px;
   margin: 0.5em 0;
 
+  /* Soft blue glow pooled behind the avatar. */
   &::before {
     content: '';
     position: absolute;
-    top: -5px;
-    left: -5px;
-    width: 180px;
-    height: 180px;
+    inset: -22px;
     border-radius: 50%;
-    /* background: conic-gradient(#6366f1, #8b5cf6, #1e1e2f, #6366f1); */
-    /* background: conic-gradient(#3b82f6, #60a5fa, #1e1e2f, #3b82f6); */
-    background: conic-gradient(#1d4ed8, #3b82f6, #0f172a, #1d4ed8);
-    animation: spin 3s linear infinite;
+    background: radial-gradient(circle at 50% 45%, rgba(59, 130, 246, 0.35), transparent 70%);
+    filter: blur(6px);
     z-index: 0;
   }
 
@@ -96,15 +105,7 @@
     height: 170px;
     display: block;
     object-fit: cover;
-  }
-
-  @keyframes spin {
-    0% {
-      transform: rotate(0turn);
-    }
-    100% {
-      transform: rotate(1turn);
-    }
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.06), inset 0 0 0 1px rgba(255, 255, 255, 0.04);
   }
 }
 
