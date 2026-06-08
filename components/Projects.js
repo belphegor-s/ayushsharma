@@ -11,7 +11,7 @@ const projects = [
     domain: 'transcode.pixly.sh',
     url: 'https://transcode.pixly.sh/',
     meta: 'Video infra',
-    blurb: 'Upload a video, get back adaptive HLS from 144p to 4K with AI captions in two languages. No ffmpeg, no infra to babysit.',
+    blurb: 'Upload a video, get back adaptive HLS from 144p to 4K with AI captions in two languages. No ffmpeg, no infra to babysit, scalable to infinity (∞).',
     stack: ['HLS', 'AI captions', 'Serverless', 'CDN'],
     accent: '#22d3ee',
   },
@@ -49,11 +49,7 @@ const ProjectRow = ({ project, i }) => {
       className="group relative -mx-4 block rounded-lg px-4 transition-colors duration-300 hover:bg-white/[0.025]"
     >
       {/* accent rule that draws down the card edge on hover */}
-      <span
-        aria-hidden
-        className="absolute left-0 top-1/2 hidden h-0 w-px -translate-y-1/2 transition-all duration-300 ease-out group-hover:h-[68%] sm:block"
-        style={{ background: accent }}
-      />
+      <span aria-hidden className="absolute left-0 top-1/2 hidden h-0 w-px -translate-y-1/2 transition-all duration-300 ease-out group-hover:h-[68%] sm:block" style={{ background: accent }} />
 
       <div className={`grid grid-cols-1 gap-y-3 py-8 sm:grid-cols-12 sm:gap-x-6 ${i > 0 ? 'border-t border-white/10' : ''}`}>
         <div className="hidden sm:col-span-1 sm:block">
@@ -88,13 +84,7 @@ const ProjectRow = ({ project, i }) => {
 const Projects = () => {
   return (
     <section id="projects" className="relative px-5 py-14">
-      <motion.div
-        initial={{ opacity: 0, y: 14 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: '-80px' }}
-        transition={{ duration: 0.5, ease: 'easeOut' }}
-        className="mb-2"
-      >
+      <motion.div initial={{ opacity: 0, y: 14 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-80px' }} transition={{ duration: 0.5, ease: 'easeOut' }} className="mb-2">
         <p className="font-mono text-[0.7rem] uppercase tracking-[0.2em] text-white/45">
           <span className="font-bold text-blue-400">/</span> work
         </p>
