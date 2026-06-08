@@ -25,10 +25,9 @@ export const metadata = {
   authors: [{ name: siteConfig.author.name, url: siteConfig.url }],
   creator: siteConfig.author.name,
   publisher: siteConfig.author.name,
-  keywords: ['Ayush Sharma', 'software developer', 'portfolio', 'blog', 'AI', 'agents', 'Claude'],
+  keywords: ['Ayush Sharma', 'software developer', 'portfolio', 'AI', 'agents', 'Claude'],
   alternates: {
     canonical: '/',
-    types: { 'application/rss+xml': '/blog/rss.xml' },
   },
   openGraph: {
     type: 'website',

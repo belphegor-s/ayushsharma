@@ -18,7 +18,7 @@ async function loadGoogleFont(family, weight, text) {
 
 export default async function OgImage() {
   const NAME = 'Ayush Sharma';
-  const MONO = 'ayushsharma.me//20Devlopr/Tinker,Sto·cEsayonftwAI& hgubld.';
+  const MONO = 'AYUSHRMEI/206 ©· DevloprTinkStoic';
 
   const [dancing, mono, monoBold] = await Promise.all([
     loadGoogleFont('Dancing Script', 700, NAME),
@@ -172,17 +172,6 @@ export default async function OgImage() {
               }}
             >
               Developer / Tinkerer / Stoic
-            </div>
-
-            <div
-              style={{
-                display: 'flex',
-                marginTop: 14,
-                fontSize: 17,
-                color: 'rgba(255,255,255,0.40)',
-              }}
-            >
-              Essays on software, AI &amp; the craft of building.
             </div>
           </div>
 
