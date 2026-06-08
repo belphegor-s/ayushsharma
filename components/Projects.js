@@ -46,7 +46,7 @@ const ProjectRow = ({ project, i }) => {
       onClick={() => posthog.capture('clicked_project', { project: project.name })}
       custom={i}
       variants={rowVariant}
-      className="group relative -mx-4 block rounded-lg px-4 py-8 transition-colors duration-300 hover:bg-white/[0.025]"
+      className="group relative -mx-4 block rounded-lg px-4 transition-colors duration-300 hover:bg-white/[0.025]"
     >
       {/* accent rule that draws down the card edge on hover */}
       <span
@@ -55,7 +55,7 @@ const ProjectRow = ({ project, i }) => {
         style={{ background: accent }}
       />
 
-      <div className="grid grid-cols-1 gap-y-3 sm:grid-cols-12 sm:gap-x-6">
+      <div className={`grid grid-cols-1 gap-y-3 py-8 sm:grid-cols-12 sm:gap-x-6 ${i > 0 ? 'border-t border-white/10' : ''}`}>
         <div className="hidden sm:col-span-1 sm:block">
           <span className="font-mono text-sm text-white/30 transition-colors duration-300 group-hover:text-white/60">{project.index}</span>
         </div>
@@ -101,7 +101,7 @@ const Projects = () => {
         <h2 className="mt-3 text-xl font-semibold tracking-tight text-white sm:text-2xl">A couple of things I have shipped.</h2>
       </motion.div>
 
-      <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-60px' }} className="divide-y divide-white/10">
+      <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-60px' }}>
         {projects.map((project, i) => (
           <ProjectRow key={project.name} project={project} i={i} />
         ))}
