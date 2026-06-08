@@ -292,6 +292,17 @@
   color: #fff;
 }
 
+/* iOS Safari zooms the viewport when focusing a control whose font-size
+   is below 16px. Force 16px on touch devices only — desktop sizing (text-sm)
+   stays intact. !important is needed to beat Tailwind utility specificity. */
+@media (pointer: coarse) {
+  input:not([type='checkbox']):not([type='radio']):not([type='range']),
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
+}
+
 .heading-anchor {
   margin-left: 0.5em;
   color: rgba(96, 165, 250, 0);
