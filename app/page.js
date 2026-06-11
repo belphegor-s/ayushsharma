@@ -224,7 +224,7 @@ export default function Home() {
           </div>
 
           {/* Hero */}
-          <section className="relative flex min-h-[80vh] flex-col items-center justify-center px-5 pt-16 pb-28 text-center sm:py-16">
+          <section className="relative flex min-h-[80vh] flex-col items-center justify-center px-5 pt-16 pb-28 text-center sm:pt-16">
             <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease: 'easeOut' }}>
               <div className="profile-image">
                 <Image
