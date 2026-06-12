@@ -49,11 +49,11 @@ function Frame({ children }: { children: ReactNode }) {
       <div className="relative flex flex-col border-x border-white/10 bg-[#0c0d10]/60 backdrop-blur min-h-screen">
         <span className="plus" /> <span className="plus top-left" />
         <span className="plus top-right" />
-        <header className="flex items-center justify-between border-b border-white/10 px-5 py-3">
-          <span className="font-mono text-[0.7rem] uppercase tracking-[0.2em] text-white/45">
+        <header className="flex items-center justify-between gap-3 border-b border-white/10 px-4 sm:px-5 py-3">
+          <span className="font-mono text-[0.62rem] sm:text-[0.7rem] uppercase tracking-[0.2em] text-white/45 truncate min-w-0">
             <span className="text-[#3b82f6] font-bold mr-1.5">/</span>app.ayushsharma.me
           </span>
-          <nav className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-white/25">
+          <nav className="font-mono text-[0.62rem] sm:text-[0.7rem] uppercase tracking-[0.18em] text-white/25 shrink-0">
             <a href="/" className="ml-4 text-[#93b4ff]">
               console
             </a>
@@ -62,9 +62,17 @@ function Frame({ children }: { children: ReactNode }) {
             </a>
           </nav>
         </header>
-        <main className="flex-1 px-5 py-7">{children}</main>
-        <footer className="flex justify-center gap-3.5 px-5 py-4 border-t border-white/10 font-mono text-[0.7rem] uppercase tracking-[0.2em]">
-          <a href="https://ayushsharma.me" className="text-white/25 hover:text-white/45">
+        <main className="flex-1 px-4 sm:px-5 py-7">{children}</main>
+        <footer className="flex flex-wrap justify-center items-center gap-x-3 gap-y-1 px-5 py-4 border-t border-white/10 font-mono text-[0.7rem] uppercase tracking-[0.2em] text-white/25">
+          <a href="/privacy" className="hover:text-white/45">
+            privacy
+          </a>
+          <span aria-hidden="true">·</span>
+          <a href="/terms" className="hover:text-white/45">
+            terms
+          </a>
+          <span aria-hidden="true">·</span>
+          <a href="https://ayushsharma.me" className="hover:text-white/45">
             ayushsharma.me
           </a>
         </footer>
@@ -79,7 +87,7 @@ function SignIn({ csrf }: { csrf: string }) {
       <span className="font-mono text-[0.7rem] uppercase tracking-[0.2em] text-white/45">
         <span className="text-[#3b82f6] font-bold mr-1.5">/</span>developer console
       </span>
-      <h1 className="font-cursive font-bold text-[2.6rem] mb-1.5 mt-0 text-shadow-blue">Developer API</h1>
+      <h1 className="font-cursive font-bold text-[2rem] sm:text-[2.6rem] mb-1.5 mt-0 text-shadow-blue">Developer API</h1>
       <p className="text-white/45 mb-3 max-w-prose">
         <span className="text-white/85">app.ayushsharma.me</span> is a free developer API and console by Ayush Sharma. It provides HTTP endpoints for design utilities (contrast, palettes, color
         conversion) and text &amp; developer utilities (readability, slugs, JWT decode, hashing, UUIDs, cron).
@@ -145,10 +153,10 @@ function Dashboard({ session, csrf }: { session: { name: string; email: string; 
         <span className="text-[#3b82f6] font-bold mr-1.5">/</span>developer console
       </span>
       <div className="flex items-center gap-3 mt-3.5">
-        {session.image && <img src={session.image} alt="" className="w-[42px] h-[42px] rounded-full border border-white/10" referrerPolicy="no-referrer" />}
-        <div>
-          <div className="font-semibold">{session.name || 'Signed in'}</div>
-          <div className="text-white/45 text-sm">{session.email}</div>
+        {session.image && <img src={session.image} alt="" className="w-[42px] h-[42px] rounded-full border border-white/10 shrink-0" referrerPolicy="no-referrer" />}
+        <div className="min-w-0">
+          <div className="font-semibold truncate">{session.name || 'Signed in'}</div>
+          <div className="text-white/45 text-sm truncate">{session.email}</div>
         </div>
         {csrf ? (
           <form method="post" action="/api/auth/signout" className="ml-auto inline m-0">
@@ -173,7 +181,7 @@ function Dashboard({ session, csrf }: { session: { name: string; email: string; 
       ) : keysError ? (
         <div className="card flex items-center justify-between gap-4">
           <span className="plus" /> <span className="plus top-left" />
-          <p className="text-white/60 text-sm m-0">Couldn't load your keys.</p>
+          <p className="text-white/60 text-sm m-0">Couldn&apos;t load your keys.</p>
           <button className="btn flex-shrink-0" onClick={() => refetch()}>
             Retry
           </button>
@@ -181,7 +189,8 @@ function Dashboard({ session, csrf }: { session: { name: string; email: string; 
       ) : !keys || keys.length === 0 ? (
         <EmptyKeys />
       ) : (
-        <table className="w-full text-sm border-collapse">
+        <div className="-mx-1 overflow-x-auto">
+        <table className="w-full min-w-[460px] text-sm border-collapse">
           <thead>
             <tr>
               <th className="text-left p-2 border-b border-white/[0.06] font-mono text-[0.68rem] uppercase tracking-[0.14em] text-white/25 font-medium">Key</th>
@@ -218,6 +227,7 @@ function Dashboard({ session, csrf }: { session: { name: string; email: string; 
             ))}
           </tbody>
         </table>
+        </div>
       )}
       <button
         className="btn primary mt-4"
@@ -245,7 +255,7 @@ function Dashboard({ session, csrf }: { session: { name: string; email: string; 
 
       <h2 className="text-[1.05rem] mt-7 mb-2.5">Quick start</h2>
       <p className="text-white/45 text-sm">Base URL</p>
-      <span className="codeblock">
+      <span className="codeblock max-w-full overflow-x-auto">
         <span className="dot" />
         https://app.ayushsharma.me
         <CopyButton text="https://app.ayushsharma.me" label="Copy base URL" inblock />
@@ -353,8 +363,12 @@ function RevokeModal({ onClose, onConfirm, pending, error }: { onClose: () => vo
   };
   return (
     <div className={`modal-overlay ${closing ? 'closing' : ''} fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4`} onClick={safeClose}>
-      <div className={`modal-panel ${closing ? 'closing' : ''} card max-w-[420px] w-full`} onClick={(e) => e.stopPropagation()}>
-        <span className="plus" /> <span className="plus top-left" />
+      <div
+        className={`modal-panel ${closing ? 'closing' : ''} card max-w-[420px] w-full`}
+        style={{ backgroundColor: '#0e0f13' }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <span className="plus top-left" />
         <span className="plus top-right" />
         <span className="plus bottom-left" />
         <span className="plus bottom-right" />
@@ -387,8 +401,12 @@ function KeyModal({ plaintext, onClose }: { plaintext: string; onClose: () => vo
   const { closing, requestClose } = useModalClose(onClose);
   return (
     <div className={`modal-overlay ${closing ? 'closing' : ''} fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4`} onClick={requestClose}>
-      <div className={`modal-panel ${closing ? 'closing' : ''} card max-w-[460px] w-full`} onClick={(e) => e.stopPropagation()}>
-        <span className="plus" /> <span className="plus top-left" />
+      <div
+        className={`modal-panel ${closing ? 'closing' : ''} card max-w-[460px] w-full`}
+        style={{ backgroundColor: '#0e0f13' }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <span className="plus top-left" />
         <span className="plus top-right" />
         <span className="plus bottom-left" />
         <span className="plus bottom-right" />
@@ -401,7 +419,7 @@ function KeyModal({ plaintext, onClose }: { plaintext: string; onClose: () => vo
           <div className="key whitespace-normal pr-12">{plaintext}</div>
         </div>
         <div className="flex items-center gap-2.5 mt-4">
-          <button className="btn primary" onClick={requestClose}>
+          <button className="btn" onClick={requestClose}>
             Back to console
           </button>
         </div>
