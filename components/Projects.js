@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, ExternalLink } from 'lucide-react';
 import posthog from '@/lib/posthog';
 
 const projects = [
@@ -59,12 +59,15 @@ const ProjectRow = ({ project, i }) => {
         <div className="sm:col-span-7">
           <div className="flex items-baseline gap-3">
             <span className="font-mono text-xs text-white/30 sm:hidden">{project.index}</span>
-            <h3 className="text-2xl font-semibold tracking-tight text-white sm:text-[1.8rem]">
+            <h3
+              className="text-2xl font-semibold tracking-tight transition-colors duration-300 sm:text-[1.8rem]"
+              style={{ color: accent }}
+            >
               {project.name}
-              <ArrowUpRight
-                size={18}
-                className="ml-1 inline-block -translate-y-0.5 opacity-0 transition-all duration-300 group-hover:translate-x-1 group-hover:opacity-100"
-                style={{ color: accent }}
+              <ExternalLink
+                size={16}
+                strokeWidth={2.25}
+                className="ml-1.5 inline align-baseline opacity-70 transition-all duration-300 group-hover:translate-x-1 group-hover:opacity-100"
               />
             </h3>
           </div>
