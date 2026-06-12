@@ -271,7 +271,7 @@ export default function Home() {
               Developer / Tinkerer / Stoic
             </motion.p>
 
-            <motion.p
+            {/* <motion.p
               className="mt-4 max-w-md text-sm leading-relaxed text-white/55"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -281,7 +281,7 @@ export default function Home() {
               through the contact form. It also hosts the Ayush Sharma Developer API, a free API with
               Design and Text toolkits. You sign in with Google so the API can verify your identity
               and issue you a personal API key. It uses only your name, email, and avatar for that.
-            </motion.p>
+            </motion.p> */}
 
             <motion.a
               className="mt-4 inline-flex items-center gap-1.5 rounded-md border border-white/10 bg-white/[0.02] px-3 py-1.5 font-mono text-[0.7rem] uppercase tracking-[0.18em] text-white/55 transition-colors hover:border-blue-400/60 hover:text-white"

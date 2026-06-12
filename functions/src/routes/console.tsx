@@ -3,53 +3,38 @@ import type { Context } from 'hono';
 import type { Env } from '../env';
 import { getUser } from '../lib/session';
 import { listKeys, createKey, revokeKey } from '../lib/db';
-import { ConsoleSignedOut, ConsoleSignedIn, KeyCreated } from '../ui/console';
+import { fail } from '../lib/respond';
 
-export const console_ = new Hono<Env>();
+export const consoleApi = new Hono<Env>();
 
-/**
- * Fetch an Auth.js CSRF token and forward its Set-Cookie to the browser so the
- * token and cookie match. Lets us render our own branded sign-in / sign-out
- * forms that POST straight to Auth.js (no default sign-in page).
- */
-async function getCsrf(c: Context<Env>): Promise<string> {
-  try {
-    const res = await fetch(new URL('/api/auth/csrf', c.req.url), {
-      headers: { cookie: c.req.header('cookie') ?? '' },
-    });
-    if (!res.ok) return '';
-    const setCookie = res.headers.get('set-cookie');
-    if (setCookie) c.header('set-cookie', setCookie, { append: true });
-    const data = await res.json() as { csrfToken: string };
-    return data.csrfToken ?? '';
-  } catch {
-    return '';
-  }
-}
-
-// Dashboard.
-console_.get('/console', async (c) => {
+/** Get current session or null. */
+consoleApi.get('/session', async (c) => {
   const user = await getUser(c);
-  const csrfToken = await getCsrf(c);
-  if (!user) return c.html(<ConsoleSignedOut csrfToken={csrfToken} />);
+  if (!user) return c.json(null);
+  return c.json({ id: user.id, name: user.name, email: user.email, image: user.image });
+});
+
+/** List active API keys for the signed-in user. */
+consoleApi.get('/keys', async (c) => {
+  const user = await getUser(c);
+  if (!user) return c.json({ error: { code: 'unauthorized', message: 'Sign in required' } }, 401);
   const keys = await listKeys(c.env.DB, user.id);
-  return c.html(
-    <ConsoleSignedIn name={user.name} email={user.email} image={user.image} keys={keys} csrfToken={csrfToken} />,
-  );
+  return c.json(keys);
 });
 
-// Create a key, reveal plaintext once.
-console_.post('/console/keys', async (c) => {
+/** Create a new API key. */
+consoleApi.post('/keys', async (c) => {
   const user = await getUser(c);
-  if (!user) return c.redirect('/console');
-  const { plaintext } = await createKey(c.env.DB, user.id);
-  return c.html(<KeyCreated plaintext={plaintext} />);
+  if (!user) return c.json({ error: { code: 'unauthorized', message: 'Sign in required' } }, 401);
+  const { plaintext, id } = await createKey(c.env.DB, user.id);
+  return c.json({ plaintext, id });
 });
 
-// Revoke a key the user owns.
-console_.post('/console/keys/:id/revoke', async (c) => {
+/** Revoke a key the user owns. */
+consoleApi.post('/keys/:id/revoke', async (c) => {
   const user = await getUser(c);
-  if (!user) return c.redirect('/console');
-  await revokeKey(c.env.DB, user.id, c.req.param('id'));
-  return c.redirect('/console');
+  if (!user) return c.json({ error: { code: 'unauthorized', message: 'Sign in required' } }, 401);
+  const ok = await revokeKey(c.env.DB, user.id, c.req.param('id'));
+  if (!ok) return fail(c, 'not_found', 'Key not found or already revoked.', 404);
+  return c.json({ ok: true });
 });

@@ -5,11 +5,14 @@
   "type": "module",
   "scripts": {
     "dev": "wrangler dev",
+    "dev:console": "npm -C console-app run dev",
+    "build": "npm -C console-app run build && node scripts/sync-console.js",
     "deploy": "wrangler deploy",
+    "ship": "npm run build && npm run deploy",
     "typecheck": "tsc --noEmit",
     "db:create": "wrangler d1 create ayush-api",
-    "db:local": "wrangler d1 migrations apply ayush-api --local",
-    "db:remote": "wrangler d1 migrations apply ayush-api --remote",
+    "db:migrate:local": "wrangler d1 migrations apply ayush-api --local",
+    "db:migrate:remote": "wrangler d1 migrations apply ayush-api --remote",
     "cf-typegen": "wrangler types"
   },
   "dependencies": {

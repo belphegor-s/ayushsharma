@@ -6,7 +6,7 @@ import { authConfig } from './auth';
 import { apiKeyGuard } from './middleware/apiKey';
 import { design } from './routes/v1/design';
 import { text } from './routes/v1/text';
-import { console_ } from './routes/console';
+import { consoleApi } from './routes/console';
 import { Docs } from './ui/docs';
 import { Home } from './ui/home';
 import { fail } from './lib/respond';
@@ -53,8 +53,8 @@ app.use('/v1/*', apiKeyGuard);
 app.route('/v1', design);
 app.route('/v1/text', text);
 
-// Console (auth-gated inside) + docs.
-app.route('/', console_);
+// Console JSON API (used by the React SPA served from Workers Assets).
+app.route('/console/api', consoleApi);
 app.get('/docs', (c) => c.html(<Docs />));
 app.get('/', (c) => c.html(<Home />));
 

@@ -1,0 +1,107 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Geist', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, monospace;
+  --font-cursive: 'Dancing Script', cursive;
+}
+
+body {
+  margin: 0;
+  background-color: #0a0b0d;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.10) 1px, transparent 1px);
+  background-size: 22px 22px;
+  color: #e8e9ec;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* + markers */
+.plus { position: absolute; width: 9px; height: 9px; pointer-events: none; z-index: 20; }
+.plus::before, .plus::after { content: ''; position: absolute; background: rgba(255,255,255,0.25); }
+.plus::before { left: 50%; top: 0; height: 100%; width: 1px; transform: translateX(-50%); }
+.plus::after { top: 50%; left: 0; width: 100%; height: 1px; transform: translateY(-50%); }
+.plus.top-left { left: -5px; top: -5px; }
+.plus.top-right { right: -5px; top: -5px; }
+.plus.bottom-left { left: -5px; bottom: -5px; }
+.plus.bottom-right { right: -5px; bottom: -5px; }
+
+/* Card */
+.card {
+  position: relative;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(255,255,255,0.02);
+  padding: 18px 20px;
+  margin: 14px 0;
+}
+
+/* Button */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(255,255,255,0.03);
+  color: #e8e9ec;
+  font-size: 0.85rem;
+  font-weight: 500;
+  padding: 9px 16px;
+  border-radius: 6px;
+  transition: all .15s;
+  text-decoration: none;
+}
+.btn:hover { border-color: rgba(255,255,255,0.3); }
+.btn.primary { background: #3b82f6; border-color: #3b82f6; color: #fff; }
+.btn.primary:hover { background: #2f74ec; }
+.btn.danger:hover { border-color: #ef4444; color: #ff8a8a; }
+
+/* Meter */
+.meter { height: 6px; background: rgba(255,255,255,0.08); border-radius: 999px; overflow: hidden; }
+.meter > span { display: block; height: 100%; background: linear-gradient(90deg, #3b82f6, #60a5fa); }
+
+/* Key */
+.key {
+  font-family: 'Geist Mono', ui-monospace, monospace;
+  font-size: 0.9rem;
+  word-break: break-all;
+  background: #06070a;
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 6px;
+  padding: 12px 14px;
+  color: #9be6a8;
+}
+
+/* Codeblock */
+.codeblock {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.82rem;
+  background: linear-gradient(135deg, rgba(59,130,246,0.08), rgba(147,180,255,0.04));
+  border: 1px solid rgba(59,130,246,0.2);
+  border-radius: 10px;
+  padding: 8px 14px;
+  color: #93b4ff;
+  box-shadow: 0 0 12px rgba(59,130,246,0.06), inset 0 1px 0 rgba(255,255,255,0.04);
+}
+.codeblock .dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #34d399;
+  box-shadow: 0 0 8px #34d39988;
+}
+
+/* Banner */
+.banner {
+  border: 1px solid;
+  border-radius: 6px;
+  padding: 12px 16px;
+  font-size: 0.88rem;
+}
+.banner.warn { border-color: rgba(234,179,8,0.4); background: rgba(234,179,8,0.06); color: #f5d77a; }
+
+/* Text shadow for cursive title */
+.text-shadow-blue { text-shadow: 0 0 15px rgba(99,102,241,0.3); }
+

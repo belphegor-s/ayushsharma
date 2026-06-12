@@ -18,6 +18,17 @@ export type ApiKeyView = ApiKeyRow & { used: number };
 
 const DEFAULT_QUOTA = 1000;
 
+/** Look up a single active key by id + owner. */
+export async function getKey(db: D1Database, userId: string, id: string): Promise<ApiKeyRow | null> {
+  return db
+    .prepare(
+      `SELECT id, user_id, name, prefix, monthly_quota, created_at, last_used_at, revoked_at
+       FROM api_keys WHERE id = ? AND user_id = ? AND revoked_at IS NULL`,
+    )
+    .bind(id, userId)
+    .first<ApiKeyRow>();
+}
+
 /** Active (non-revoked) keys for a user, with current-period usage attached. */
 export async function listKeys(db: D1Database, userId: string): Promise<ApiKeyView[]> {
   const { results } = await db

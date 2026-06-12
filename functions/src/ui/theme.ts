@@ -48,6 +48,7 @@ a:hover { color: #fff; }
 .plus::before { left: 50%; top: 0; height: 100%; width: 1px; transform: translateX(-50%); }
 .plus::after { top: 50%; left: 0; width: 100%; height: 1px; transform: translateY(-50%); }
 .plus.tl { left: -5px; top: -5px; } .plus.tr { right: -5px; top: -5px; }
+.plus.bl { left: -5px; bottom: -5px; } .plus.br { right: -5px; bottom: -5px; }
 .bar {
   display: flex; align-items: center; justify-content: space-between;
   border-bottom: 1px solid var(--line); padding: 12px 20px;

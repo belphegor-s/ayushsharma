@@ -1,4 +1,5 @@
 import { Layout } from './layout';
+import { highlight } from './shiki';
 import type { ApiKeyView } from '../lib/db';
 
 /** Signed-out landing: explain the product + branded Google sign-in. */
@@ -62,8 +63,13 @@ export function ConsoleSignedOut(props: { csrfToken: string }) {
 }
 
 /** Signed-in dashboard: profile, keys, usage, quick start. */
-export function ConsoleSignedIn(props: { name: string; email: string; image?: string; keys: ApiKeyView[]; csrfToken: string }) {
+export async function ConsoleSignedIn(props: { name: string; email: string; image?: string; keys: ApiKeyView[]; csrfToken: string }) {
   const { name, email, image, keys, csrfToken } = props;
+  const curlHtml = await highlight(
+    `curl -H "Authorization: Bearer ak_live_..." \\
+  "https://api.ayushsharma.me/v1/contrast?fg=%23ffffff&bg=%230c0d10"`,
+    'bash',
+  );
   return (
     <Layout title="Developer Console · Ayush Sharma API" active="console">
       <div class="section">
@@ -78,13 +84,19 @@ export function ConsoleSignedIn(props: { name: string; email: string; image?: st
               {email}
             </div>
           </div>
-          <form class="inline" method="post" action="/api/auth/signout" style="margin-left:auto;">
-            <input type="hidden" name="csrfToken" value={csrfToken} />
-            <input type="hidden" name="callbackUrl" value="/console" />
-            <button class="btn" type="submit">
+          {csrfToken ? (
+            <form class="inline" method="post" action="/api/auth/signout" style="margin-left:auto;">
+              <input type="hidden" name="csrfToken" value={csrfToken} />
+              <input type="hidden" name="callbackUrl" value="/console" />
+              <button class="btn" type="submit">
+                Sign out
+              </button>
+            </form>
+          ) : (
+            <a class="btn" href="/api/auth/signout" style="margin-left:auto;">
               Sign out
-            </button>
-          </form>
+            </a>
+          )}
         </div>
       </div>
 
@@ -122,12 +134,9 @@ export function ConsoleSignedIn(props: { name: string; email: string; image?: st
                   </td>
                   <td class="muted">{new Date(k.created_at).toISOString().slice(0, 10)}</td>
                   <td>
-                    <form class="inline" method="post" action={`/console/keys/${k.id}/revoke`}>
-                      <input type="hidden" name="csrfToken" value={csrfToken} />
-                      <button class="btn danger" type="submit">
-                        Revoke
-                      </button>
-                    </form>
+                    <a class="btn danger" href={`/console/keys/${k.id}/revoke`}>
+                      Revoke
+                    </a>
                   </td>
                 </tr>
               ))}
@@ -156,11 +165,46 @@ export function ConsoleSignedIn(props: { name: string; email: string; image?: st
         <p class="muted" style="margin-top:16px;">
           Send your key as a Bearer token:
         </p>
-        <pre class="key" style="color:var(--text);">{`curl -H "Authorization: Bearer ak_live_..." \\
-  "https://api.ayushsharma.me/v1/contrast?fg=%23ffffff&bg=%230c0d10"`}</pre>
+        <div dangerouslySetInnerHTML={{ __html: curlHtml }} />
         <p class="muted" style="margin-top:12px;">
           Full reference in the <a href="/docs">docs</a>.
         </p>
+      </div>
+    </Layout>
+  );
+}
+
+/** Confirmation page before revoking a key. */
+export function RevokeConfirm(props: { keyId: string; keyPrefix: string; csrfToken: string }) {
+  return (
+    <Layout title="Revoke key · Ayush Sharma API" active="console">
+      <div class="section" style="display:flex;align-items:center;justify-content:center;min-height:40vh;">
+        <div class="card" style="max-width:420px;width:100%;position:relative;">
+          <span class="plus tl" />
+          <span class="plus tr" />
+          <span class="plus bl" />
+          <span class="plus br" />
+          <span class="label">
+            <span class="slash">/</span>confirm revoke
+          </span>
+          <p style="margin:16px 0 8px;">
+            Permanently revoke <code>{props.keyPrefix}…</code>?
+          </p>
+          <p class="muted" style="font-size:0.85rem;margin:0 0 18px;">
+            All requests using this key will be rejected immediately. This cannot be undone.
+          </p>
+          <div style="display:flex;gap:10px;">
+            <form method="post" action={`/console/keys/${props.keyId}/revoke`}>
+              <input type="hidden" name="csrfToken" value={props.csrfToken} />
+              <button class="btn danger" type="submit">
+                Yes, revoke
+              </button>
+            </form>
+            <a class="btn" href="/console">
+              Cancel
+            </a>
+          </div>
+        </div>
       </div>
     </Layout>
   );
