@@ -54,11 +54,11 @@ function Frame({ children }: { children: ReactNode }) {
             <span className="text-[#3b82f6] font-bold mr-1.5">/</span>app.ayushsharma.me
           </span>
           <nav className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-white/25">
-            <a href="/docs" className="ml-4 hover:text-white/45">
-              docs
-            </a>
             <a href="/" className="ml-4 text-[#93b4ff]">
               console
+            </a>
+            <a href="/docs" className="ml-4 hover:text-white/45">
+              docs
             </a>
           </nav>
         </header>
@@ -84,9 +84,7 @@ function SignIn({ csrf }: { csrf: string }) {
         <span className="text-white/85">app.ayushsharma.me</span> is a free developer API and console by Ayush Sharma. It provides HTTP endpoints for design utilities (contrast, palettes, color
         conversion) and text &amp; developer utilities (readability, slugs, JWT decode, hashing, UUIDs, cron).
       </p>
-      <p className="text-white/45 mb-4 max-w-prose">
-        Sign in with Google to create a personal API key and track your monthly usage.
-      </p>
+      <p className="text-white/45 mb-4 max-w-prose">Sign in with Google to create a personal API key and track your monthly usage.</p>
 
       {csrf ? (
         <form method="post" action="/api/auth/signin/google" className="mb-4">
@@ -206,11 +204,7 @@ function Dashboard({ session, csrf }: { session: { name: string; email: string; 
                 </td>
                 <td className="p-2 border-b border-white/[0.06] text-white/45 text-xs">{new Date(k.created_at).toISOString().slice(0, 10)}</td>
                 <td className="p-2 border-b border-white/[0.06]">
-                  <button
-                    className="btn danger"
-                    onClick={() => setRevokeId(k.id)}
-                    disabled={revokeKey.isPending && revokeId === k.id}
-                  >
+                  <button className="btn danger" onClick={() => setRevokeId(k.id)} disabled={revokeKey.isPending && revokeId === k.id}>
                     {revokeKey.isPending && revokeId === k.id ? (
                       <>
                         <span className="spinner" /> Revoking…
@@ -351,17 +345,7 @@ function EmptyKeys() {
   );
 }
 
-function RevokeModal({
-  onClose,
-  onConfirm,
-  pending,
-  error,
-}: {
-  onClose: () => void;
-  onConfirm: () => void;
-  pending?: boolean;
-  error?: string;
-}) {
+function RevokeModal({ onClose, onConfirm, pending, error }: { onClose: () => void; onConfirm: () => void; pending?: boolean; error?: string }) {
   const { closing, requestClose } = useModalClose(onClose, pending);
   // Don't let the user dismiss mid-request.
   const safeClose = () => {
@@ -458,8 +442,7 @@ function CurlBlock() {
     <div className="keywrap">
       <CopyButton text={code} label="Copy command" />
       <pre className="codeblock-pre">
-        <span className="tok-cmd">curl</span> <span className="tok-flag">-H</span>{' '}
-        <span className="tok-str">"Authorization: Bearer ak_live_..."</span> <span className="tok-punc">\</span>
+        <span className="tok-cmd">curl</span> <span className="tok-flag">-H</span> <span className="tok-str">"Authorization: Bearer ak_live_..."</span> <span className="tok-punc">\</span>
         {'\n  '}
         <span className="tok-str">"https://app.ayushsharma.me/v1/contrast?fg=%23ffffff&amp;bg=%230c0d10"</span>
       </pre>
