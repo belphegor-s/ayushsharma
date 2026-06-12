@@ -105,3 +105,26 @@ body {
 /* Text shadow for cursive title */
 .text-shadow-blue { text-shadow: 0 0 15px rgba(99,102,241,0.3); }
 
+/* Modal — matches the portfolio motion language: backdrop fade + panel
+   fade/slide/scale on the [0.22,1,0.36,1] ease curve. */
+@keyframes overlay-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes modal-in {
+  from { opacity: 0; transform: translateY(14px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes overlay-out { from { opacity: 1; } to { opacity: 0; } }
+@keyframes modal-out {
+  from { opacity: 1; transform: translateY(0) scale(1); }
+  to   { opacity: 0; transform: translateY(8px) scale(0.97); }
+}
+.modal-overlay { animation: overlay-in .28s ease both; }
+.modal-panel {
+  animation: modal-in .42s cubic-bezier(0.22, 1, 0.36, 1) both;
+  box-shadow: 0 24px 60px -12px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.04);
+}
+.modal-overlay.closing { animation: overlay-out .2s ease both; }
+.modal-panel.closing { animation: modal-out .2s cubic-bezier(0.4, 0, 1, 1) both; }
+@media (prefers-reduced-motion: reduce) {
+  .modal-overlay, .modal-panel { animation-duration: .01ms; }
+}
+

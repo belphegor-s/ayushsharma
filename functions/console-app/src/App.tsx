@@ -1,6 +1,21 @@
 import { useSession, useKeys, useCreateKey, useRevokeKey } from './lib/useApi';
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import type { ReactNode } from 'react';
+
+/** Animate a modal out before unmounting, and close on Escape. */
+function useModalClose(onClose: () => void) {
+  const [closing, setClosing] = useState(false);
+  const requestClose = useCallback(() => {
+    setClosing(true);
+    setTimeout(onClose, 200); // matches .closing animation duration
+  }, [onClose]);
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && requestClose();
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [requestClose]);
+  return { closing, requestClose };
+}
 
 export function App() {
   const { session, csrf, isLoading } = useSession();
@@ -40,8 +55,15 @@ function SignIn({ csrf }: { csrf: string }) {
         <span className="text-[#3b82f6] font-bold mr-1.5">/</span>developer console
       </span>
       <h1 className="font-cursive font-bold text-[2.6rem] mb-1.5 mt-0 text-shadow-blue">Developer API</h1>
+      <p className="text-white/45 mb-3 max-w-prose">
+        <span className="text-white/85">app.ayushsharma.me</span> is a free developer API and console
+        by Ayush Sharma. It provides HTTP endpoints for design utilities (contrast, palettes, color
+        conversion) and text &amp; developer utilities (readability, slugs, JWT decode, hashing,
+        UUIDs, cron).
+      </p>
       <p className="text-white/45 mb-4 max-w-prose">
-        A small, fast, free API by Ayush Sharma. Sign in with Google to get a personal API key with a monthly quota.
+        Sign in with Google to create a personal API key and track your monthly usage. Google sign-in
+        is used only to identify your account and issue your key — your password is never seen.
       </p>
 
       {csrf ? (
@@ -203,9 +225,10 @@ function Dashboard({ session, csrf }: { session: { name: string; email: string; 
 }
 
 function RevokeModal({ onClose, onConfirm }: { onClose: () => void; onConfirm: () => void }) {
+  const { closing, requestClose } = useModalClose(onClose);
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4" onClick={onClose}>
-      <div className="card max-w-[420px] w-full" onClick={(e) => e.stopPropagation()}>
+    <div className={`modal-overlay ${closing ? 'closing' : ''} fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4`} onClick={requestClose}>
+      <div className={`modal-panel ${closing ? 'closing' : ''} card max-w-[420px] w-full`} onClick={(e) => e.stopPropagation()}>
         <span className="plus" /> <span className="plus top-left" />
         <span className="plus top-right" />
         <span className="plus bottom-left" />
@@ -221,7 +244,7 @@ function RevokeModal({ onClose, onConfirm }: { onClose: () => void; onConfirm: (
         </p>
         <div className="flex items-center gap-2.5">
           <button className="btn danger flex items-center" onClick={onConfirm}>Yes, revoke</button>
-          <button className="btn" onClick={onClose}>Cancel</button>
+          <button className="btn" onClick={requestClose}>Cancel</button>
         </div>
       </div>
     </div>
@@ -230,9 +253,10 @@ function RevokeModal({ onClose, onConfirm }: { onClose: () => void; onConfirm: (
 
 function KeyModal({ plaintext, onClose }: { plaintext: string; onClose: () => void }) {
   const [copied, setCopied] = useState(false);
+  const { closing, requestClose } = useModalClose(onClose);
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4" onClick={onClose}>
-      <div className="card max-w-[460px] w-full" onClick={(e) => e.stopPropagation()}>
+    <div className={`modal-overlay ${closing ? 'closing' : ''} fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4`} onClick={requestClose}>
+      <div className={`modal-panel ${closing ? 'closing' : ''} card max-w-[460px] w-full`} onClick={(e) => e.stopPropagation()}>
         <span className="plus" /> <span className="plus top-left" />
         <span className="plus top-right" />
         <span className="plus bottom-left" />
@@ -255,7 +279,7 @@ function KeyModal({ plaintext, onClose }: { plaintext: string; onClose: () => vo
           >
             {copied ? 'Copied!' : 'Copy key'}
           </button>
-          <button className="btn" onClick={onClose}>Back to console</button>
+          <button className="btn" onClick={requestClose}>Back to console</button>
         </div>
       </div>
     </div>

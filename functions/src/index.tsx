@@ -11,6 +11,7 @@ import { consoleApi } from './routes/console';
 import { Docs } from './ui/docs';
 import { Home } from './ui/home';
 import { Privacy, Terms } from './ui/legal';
+import { getUser } from './lib/session';
 import { fail } from './lib/respond';
 
 const app = new Hono<Env>();
@@ -61,7 +62,13 @@ app.route('/console/api', consoleApi);
 app.get('/docs', (c) => c.html(<Docs />));
 app.get('/privacy', (c) => c.html(<Privacy />));
 app.get('/terms', (c) => c.html(<Terms />));
-app.get('/', (c) => c.html(<Home />));
+// Root is the developer console home: explains the app + drives sign-in.
+// Already-authenticated visitors skip straight to the console dashboard.
+app.get('/', async (c) => {
+  const user = await getUser(c);
+  if (user) return c.redirect('/console');
+  return c.html(<Home />);
+});
 
 app.notFound((c) => {
   if (c.req.path.startsWith('/v1')) return fail(c, 'not_found', 'No such endpoint.', 404);
