@@ -33,6 +33,20 @@ export async function incrementUsage(
   return row?.count ?? 1;
 }
 
+/** Refund one request from the current period (used when the server errors). */
+export async function decrementUsage(
+  db: D1Database,
+  keyId: string,
+  period: string,
+): Promise<void> {
+  await db
+    .prepare(
+      `UPDATE usage_counters SET count = MAX(0, count - 1) WHERE key_id = ? AND period = ?`,
+    )
+    .bind(keyId, period)
+    .run();
+}
+
 /** Read the current count without incrementing (for the console usage bar). */
 export async function readUsage(
   db: D1Database,

@@ -81,8 +81,15 @@ export function Docs() {
 { "ok": false, "error": { "code": "bad_request", "message": "..." } }`}
         />
         <p class="muted">
-          Rate limit headers (<code>X-RateLimit-Limit</code>, <code>-Remaining</code>,<code>-Reset</code>) are returned on every call. Default quota is 1000 requests/month; exceeding it returns{' '}
-          <code>429</code>.
+          Three limits apply, all returning <code>429</code> with a <code>Retry-After</code> header:
+        </p>
+        <ParamTable>
+          <Param name="Monthly quota" desc="1000 requests/month per key (default). Resets at the UTC month boundary; X-RateLimit-Limit / -Remaining / -Reset are on every response." />
+          <Param name="Per-key burst" desc="Up to 60 requests per 10 seconds per key." />
+          <Param name="Per-IP" desc="Up to 120 requests per 60 seconds per source IP." />
+        </ParamTable>
+        <p class="muted" style="font-size:0.85rem;">
+          Requests that fail with a server error (<code>5xx</code>) are refunded and don't count against your monthly quota.
         </p>
       </div>
 
