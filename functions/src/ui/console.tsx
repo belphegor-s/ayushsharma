@@ -1,27 +1,44 @@
 import { Layout } from './layout';
 import type { ApiKeyView } from '../lib/db';
 
-const SIGNIN = '/api/auth/signin?callbackUrl=%2Fconsole';
-const SIGNOUT = '/api/auth/signout?callbackUrl=%2Fconsole';
-
-/** Signed-out landing: explain the product + Google sign-in. */
-export function ConsoleSignedOut() {
+/** Signed-out landing: explain the product + branded Google sign-in. */
+export function ConsoleSignedOut(props: { csrfToken: string }) {
   return (
     <Layout title="Developer Console · Ayush Sharma API" active="console">
       <div class="section">
         <span class="label"><span class="slash">/</span>developer console</span>
         <h1 class="title">Developer API</h1>
         <p class="lead">
-          A small, fast, free API by Ayush Sharma. Two toolkits: <strong>Design</strong> (WCAG
-          contrast, palettes, color conversion) and <strong>Text Intelligence</strong> (readability,
-          slugs, excerpts, keywords). Sign in with Google to get a personal API key with a monthly
-          quota. We only use your Google name, email, and avatar to identify your account and issue
-          your key.
+          A small, fast, free API by Ayush Sharma. Sign in with Google to get a personal API key with
+          a monthly quota. Your Google name, email, and avatar are used only to identify your account
+          and issue your key.
         </p>
-        <a class="btn google" href={SIGNIN}>
-          <GoogleMark /> Sign in with Google
-        </a>
-        <p class="muted" style="margin-top:14px; font-size:0.85rem;">
+
+        <form method="post" action="/api/auth/signin/google">
+          <input type="hidden" name="csrfToken" value={props.csrfToken} />
+          <input type="hidden" name="callbackUrl" value="/console" />
+          <button class="btn google" type="submit"><GoogleMark /> Sign in with Google</button>
+        </form>
+
+        <div class="scopes">
+          <span class="chip">openid</span>
+          <span class="chip">email</span>
+          <span class="chip">profile</span>
+          <span class="chip">no password access</span>
+        </div>
+
+        <div class="toolkit-grid">
+          <div class="card"><span class="plus tl" />
+            <h3 style="margin-top:0;">Design Toolkit</h3>
+            <p class="muted" style="margin:0;">WCAG contrast, color palettes, and hex / rgb / hsl / oklch conversion.</p>
+          </div>
+          <div class="card"><span class="plus tl" />
+            <h3 style="margin-top:0;">Text Intelligence</h3>
+            <p class="muted" style="margin:0;">Readability stats, slugs, smart excerpts, and keyword extraction.</p>
+          </div>
+        </div>
+
+        <p class="muted" style="font-size:0.85rem;">
           New here? Read the <a href="/docs">API docs</a> first.
         </p>
       </div>
@@ -30,19 +47,27 @@ export function ConsoleSignedOut() {
 }
 
 /** Signed-in dashboard: profile, keys, usage, quick start. */
-export function ConsoleSignedIn(props: { name: string; email: string; image?: string; keys: ApiKeyView[] }) {
-  const { name, email, image, keys } = props;
+export function ConsoleSignedIn(props: {
+  name: string;
+  email: string;
+  image?: string;
+  keys: ApiKeyView[];
+  csrfToken: string;
+}) {
+  const { name, email, image, keys, csrfToken } = props;
   return (
     <Layout title="Developer Console · Ayush Sharma API" active="console">
       <div class="section">
         <span class="label"><span class="slash">/</span>developer console</span>
-        <div style="display:flex; align-items:center; gap:12px; margin-top:12px;">
-          {image ? <img src={image} alt="" width="40" height="40" style="border-radius:50%;" referrerpolicy="no-referrer" /> : null}
+        <div style="display:flex; align-items:center; gap:12px; margin-top:14px;">
+          {image ? <img src={image} alt="" width="42" height="42" style="border-radius:50%; border:1px solid var(--line);" referrerpolicy="no-referrer" /> : null}
           <div>
             <div style="font-weight:600;">{name || 'Signed in'}</div>
             <div class="muted" style="font-size:0.85rem;">{email}</div>
           </div>
-          <form class="inline" method="get" action={SIGNOUT} style="margin-left:auto;">
+          <form class="inline" method="post" action="/api/auth/signout" style="margin-left:auto;">
+            <input type="hidden" name="csrfToken" value={csrfToken} />
+            <input type="hidden" name="callbackUrl" value="/console" />
             <button class="btn" type="submit">Sign out</button>
           </form>
         </div>
@@ -51,7 +76,7 @@ export function ConsoleSignedIn(props: { name: string; email: string; image?: st
       <div class="rule"><span class="plus tl" /></div>
 
       <div class="section">
-        <h2>API keys</h2>
+        <h2 style="margin-top:0;">API keys</h2>
         {keys.length === 0 ? (
           <p class="muted">No keys yet. Create one to start calling the API.</p>
         ) : (
@@ -70,6 +95,7 @@ export function ConsoleSignedIn(props: { name: string; email: string; image?: st
                   <td class="muted">{new Date(k.created_at).toISOString().slice(0, 10)}</td>
                   <td>
                     <form class="inline" method="post" action={`/console/keys/${k.id}/revoke`}>
+                      <input type="hidden" name="csrfToken" value={csrfToken} />
                       <button class="btn danger" type="submit">Revoke</button>
                     </form>
                   </td>
@@ -78,7 +104,8 @@ export function ConsoleSignedIn(props: { name: string; email: string; image?: st
             </tbody>
           </table>
         )}
-        <form method="post" action="/console/keys" style="margin-top:16px;">
+        <form method="post" action="/console/keys" style="margin-top:18px;">
+          <input type="hidden" name="csrfToken" value={csrfToken} />
           <button class="btn primary" type="submit">+ Create API key</button>
         </form>
       </div>
@@ -86,11 +113,13 @@ export function ConsoleSignedIn(props: { name: string; email: string; image?: st
       <div class="rule"><span class="plus tl" /></div>
 
       <div class="section">
-        <h2>Quick start</h2>
-        <p class="muted">Send your key as a Bearer token. Example:</p>
+        <h2 style="margin-top:0;">Quick start</h2>
+        <p class="muted">Base URL</p>
+        <span class="codeblock"><span class="dot" />https://api.ayushsharma.me</span>
+        <p class="muted" style="margin-top:16px;">Send your key as a Bearer token:</p>
         <pre class="key" style="color:var(--text);">{`curl -H "Authorization: Bearer ak_live_..." \\
   "https://api.ayushsharma.me/v1/contrast?fg=%23ffffff&bg=%230c0d10"`}</pre>
-        <p class="muted" style="margin-top:10px;">Full reference in the <a href="/docs">docs</a>.</p>
+        <p class="muted" style="margin-top:12px;">Full reference in the <a href="/docs">docs</a>.</p>
       </div>
     </Layout>
   );
@@ -102,7 +131,7 @@ export function KeyCreated(props: { plaintext: string }) {
     <Layout title="API key created · Ayush Sharma API" active="console">
       <div class="section">
         <span class="label"><span class="slash">/</span>new api key</span>
-        <h2>Copy your key now</h2>
+        <h2 style="margin-top:14px;">Copy your key now</h2>
         <div class="banner warn">
           This is the only time the full key is shown. Store it somewhere safe. If you lose it,
           revoke it and create a new one.

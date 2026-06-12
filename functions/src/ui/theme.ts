@@ -34,12 +34,15 @@ a:hover { color: #fff; }
 .wrap { max-width: 880px; margin: 0 auto; padding: 0 16px; }
 .frame {
   position: relative;
+  display: flex;
+  flex-direction: column;
   border-left: 1px solid var(--line);
   border-right: 1px solid var(--line);
   background: rgba(12,13,16,0.6);
   backdrop-filter: blur(6px);
   min-height: 100vh;
 }
+.content { flex: 1 1 auto; }
 .plus { position: absolute; width: 9px; height: 9px; pointer-events: none; z-index: 20; }
 .plus::before, .plus::after { content: ''; position: absolute; background: rgba(255,255,255,0.25); }
 .plus::before { left: 50%; top: 0; height: 100%; width: 1px; transform: translateX(-50%); }
@@ -102,9 +105,19 @@ th { font-family: 'Geist Mono', monospace; font-size: 0.68rem; text-transform: u
 .banner.warn { border-color: rgba(234,179,8,0.4); background: rgba(234,179,8,0.06); color: #f5d77a; }
 .swatch { display: inline-block; width: 18px; height: 18px; border-radius: 4px; vertical-align: middle;
   border: 1px solid rgba(255,255,255,0.15); margin-right: 6px; }
-.shiki { border: 1px solid var(--line); border-radius: 6px; padding: 14px 16px; overflow-x: auto;
-  font-size: 0.82rem; line-height: 1.55; margin: 10px 0; }
+.shiki { border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; overflow-x: auto;
+  font-size: 0.82rem; line-height: 1.6; margin: 10px 0; }
 .shiki code { font-family: 'Geist Mono', ui-monospace, monospace; }
+/* Inline highlighted base URL, code-block style. */
+.codeblock { display: inline-flex; align-items: center; gap: 8px; font-family: 'Geist Mono', monospace;
+  font-size: 0.82rem; background: #06070a; border: 1px solid var(--line); border-radius: 8px;
+  padding: 8px 12px; color: #93b4ff; }
+.codeblock .dot { width: 7px; height: 7px; border-radius: 50%; background: #34d399; box-shadow: 0 0 8px #34d39988; }
+.scopes { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.chip { font-family: 'Geist Mono', monospace; font-size: 0.68rem; letter-spacing: 0.06em;
+  border: 1px solid var(--line); border-radius: 999px; padding: 4px 10px; color: var(--muted); }
+.toolkit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 14px 0; }
+@media (max-width: 640px) { .toolkit-grid { grid-template-columns: 1fr; } }
 footer.foot { display: flex; justify-content: center; gap: 14px; padding: 18px 20px;
   border-top: 1px solid var(--line); }
 footer.foot .label a { color: var(--faint); }

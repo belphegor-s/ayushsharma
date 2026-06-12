@@ -45,9 +45,11 @@ export function Docs() {
         <span class="label"><span class="slash">/</span>reference</span>
         <h1 class="title">API Docs</h1>
         <p class="lead">
-          Base URL <code>https://api.ayushsharma.me</code>. All <code>/v1</code> endpoints require an
-          API key. Get one from the <a href="/console">console</a>.
+          A small, fast, free API by Ayush Sharma. All <code>/v1</code> endpoints require an API key.
+          Get one from the <a href="/console">console</a>.
         </p>
+        <p class="muted" style="margin-bottom:6px;">Base URL</p>
+        <span class="codeblock"><span class="dot" />https://api.ayushsharma.me</span>
 
         <h2>Authentication</h2>
         <p class="muted">Send your key as a Bearer token on every request:</p>

@@ -8,6 +8,7 @@ import { design } from './routes/v1/design';
 import { text } from './routes/v1/text';
 import { console_ } from './routes/console';
 import { Docs } from './ui/docs';
+import { Home } from './ui/home';
 import { fail } from './lib/respond';
 
 const app = new Hono<Env>();
@@ -21,12 +22,16 @@ app.use('*', async (c, next) => {
     'Content-Security-Policy',
     [
       "default-src 'self'",
-      "script-src 'none'",
+      // Cloudflare auto-injects its Web Analytics beacon on the custom domain.
+      "script-src 'self' https://static.cloudflareinsights.com",
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src https://fonts.gstatic.com",
-      "img-src 'self' data: https://*.googleusercontent.com",
+      // Google avatars + the portfolio favicon.
+      "img-src 'self' data: https://*.googleusercontent.com https://ayushsharma.me",
+      "connect-src 'self' https://static.cloudflareinsights.com",
       "base-uri 'self'",
-      "form-action 'self'",
+      // Our sign-in form posts to self; Auth.js then redirects to Google.
+      "form-action 'self' https://accounts.google.com",
       "frame-ancestors 'none'",
     ].join('; '),
   );
@@ -45,11 +50,11 @@ app.route('/v1/text', text);
 // Console (auth-gated inside) + docs.
 app.route('/', console_);
 app.get('/docs', (c) => c.html(<Docs />));
-app.get('/', (c) => c.redirect('/docs'));
+app.get('/', (c) => c.html(<Home />));
 
 app.notFound((c) => {
   if (c.req.path.startsWith('/v1')) return fail(c, 'not_found', 'No such endpoint.', 404);
-  return c.redirect('/docs');
+  return c.redirect('/');
 });
 
 app.onError((err, c) => {

@@ -11,6 +11,7 @@ export function Layout(props: { title: string; active?: NavKey; children: Child 
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>{props.title}</title>
         <meta name="description" content="Developer API by Ayush Sharma. Design Toolkit and Text Intelligence endpoints. Sign in with Google to get an API key." />
+        <link rel="icon" href="https://ayushsharma.me/favicon.ico" sizes="any" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
         <link rel="stylesheet" href={FONTS_HREF} />
@@ -30,7 +31,7 @@ export function Layout(props: { title: string; active?: NavKey; children: Child 
                 <a href="/console" class={props.active === 'console' ? 'active' : ''}>console</a>
               </nav>
             </div>
-            {props.children}
+            <div class="content">{props.children}</div>
             <footer class="foot">
               <span class="label">
                 <a href="https://ayushsharma.me">ayushsharma.me</a>

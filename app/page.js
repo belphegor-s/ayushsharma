@@ -278,8 +278,9 @@ export default function Home() {
               transition={{ duration: 0.5, delay: 0.55 }}
             >
               Personal portfolio of Ayush Sharma. Browse my projects, view my resume, and reach me
-              through the contact form. It also hosts a free developer API you can use after signing
-              in with Google.
+              through the contact form. It also hosts the Ayush Sharma Developer API, a free API with
+              Design and Text toolkits. You sign in with Google so the API can verify your identity
+              and issue you a personal API key. It uses only your name, email, and avatar for that.
             </motion.p>
 
             <motion.a

@@ -2,12 +2,10 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "ayush-api",
   "main": "src/index.tsx",
-  "compatibility_date": "2025-06-01",
+  "compatibility_date": "2026-06-12",
   "compatibility_flags": ["nodejs_compat"],
   "observability": { "enabled": true },
   "vars": {
-    // Public, non-secret. Secrets (AUTH_SECRET, AUTH_GOOGLE_ID, AUTH_GOOGLE_SECRET)
-    // are set via `wrangler secret put` and never committed.
     "AUTH_URL": "https://api.ayushsharma.me",
   },
   "d1_databases": [
@@ -18,7 +16,5 @@
       "migrations_dir": "migrations",
     },
   ],
-  // Custom domain. Requires the ayushsharma.me zone on this Cloudflare account.
-  // Remove this block for the very first deploy if the zone is not set up yet.
   "routes": [{ "pattern": "api.ayushsharma.me", "custom_domain": true }],
 }
