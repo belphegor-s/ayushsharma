@@ -1,4 +1,4 @@
-import { Layout } from './layout';
+import { Layout, Rule, Corners, BaseUrl, CopyBtn } from './layout';
 import { highlight } from './shiki';
 import type { ApiKeyView } from '../lib/db';
 
@@ -39,17 +39,17 @@ export function ConsoleSignedOut(props: { csrfToken: string }) {
 
         <div class="toolkit-grid">
           <div class="card">
-            <span class="plus tl" />
+            <Corners />
             <h3 style="margin-top:0;">Design Toolkit</h3>
             <p class="muted" style="margin:0;">
-              WCAG contrast, color palettes, and hex / rgb / hsl / oklch conversion.
+              WCAG contrast, color palettes, harmonies, blending, and hex / rgb / hsl / oklch conversion.
             </p>
           </div>
           <div class="card">
-            <span class="plus tl" />
-            <h3 style="margin-top:0;">Text Intelligence</h3>
+            <Corners />
+            <h3 style="margin-top:0;">Text &amp; Dev Tools</h3>
             <p class="muted" style="margin:0;">
-              Readability stats, slugs, smart excerpts, and keyword extraction.
+              Readability, slugs, case conversion, keywords, JWT decode, hashing, UUIDs, and cron.
             </p>
           </div>
         </div>
@@ -65,11 +65,9 @@ export function ConsoleSignedOut(props: { csrfToken: string }) {
 /** Signed-in dashboard: profile, keys, usage, quick start. */
 export async function ConsoleSignedIn(props: { name: string; email: string; image?: string; keys: ApiKeyView[]; csrfToken: string }) {
   const { name, email, image, keys, csrfToken } = props;
-  const curlHtml = await highlight(
-    `curl -H "Authorization: Bearer ak_live_..." \\
-  "https://api.ayushsharma.me/v1/contrast?fg=%23ffffff&bg=%230c0d10"`,
-    'bash',
-  );
+  const curlCode = `curl -H "Authorization: Bearer ak_live_..." \\
+  "https://api.ayushsharma.me/v1/contrast?fg=%23ffffff&bg=%230c0d10"`;
+  const curlHtml = await highlight(curlCode, 'bash');
   return (
     <Layout title="Developer Console · Ayush Sharma API" active="console">
       <div class="section">
@@ -100,9 +98,7 @@ export async function ConsoleSignedIn(props: { name: string; email: string; imag
         </div>
       </div>
 
-      <div class="rule">
-        <span class="plus tl" />
-      </div>
+      <Rule />
 
       <div class="section">
         <h2 style="margin-top:0;">API keys</h2>
@@ -151,21 +147,19 @@ export async function ConsoleSignedIn(props: { name: string; email: string; imag
         </form>
       </div>
 
-      <div class="rule">
-        <span class="plus tl" />
-      </div>
+      <Rule />
 
       <div class="section">
         <h2 style="margin-top:0;">Quick start</h2>
         <p class="muted">Base URL</p>
-        <span class="codeblock">
-          <span class="dot" />
-          https://api.ayushsharma.me
-        </span>
+        <BaseUrl />
         <p class="muted" style="margin-top:16px;">
           Send your key as a Bearer token:
         </p>
-        <div dangerouslySetInnerHTML={{ __html: curlHtml }} />
+        <div class="codewrap">
+          <CopyBtn text={curlCode} />
+          <div dangerouslySetInnerHTML={{ __html: curlHtml }} />
+        </div>
         <p class="muted" style="margin-top:12px;">
           Full reference in the <a href="/docs">docs</a>.
         </p>
@@ -180,10 +174,7 @@ export function RevokeConfirm(props: { keyId: string; keyPrefix: string; csrfTok
     <Layout title="Revoke key · Ayush Sharma API" active="console">
       <div class="section" style="display:flex;align-items:center;justify-content:center;min-height:40vh;">
         <div class="card" style="max-width:420px;width:100%;position:relative;">
-          <span class="plus tl" />
-          <span class="plus tr" />
-          <span class="plus bl" />
-          <span class="plus br" />
+          <Corners />
           <span class="label">
             <span class="slash">/</span>confirm revoke
           </span>

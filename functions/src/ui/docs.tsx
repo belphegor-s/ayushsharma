@@ -1,10 +1,15 @@
-import { Layout } from './layout';
+import { Layout, Rule, Corners, BaseUrl, CopyBtn } from './layout';
 import { highlight } from './shiki';
 
-/** Async component: renders a Shiki-highlighted code block. */
+/** Async component: Shiki-highlighted code block with a copy button. */
 async function Code(props: { code: string; lang: 'bash' | 'json' }) {
   const html = await highlight(props.code, props.lang);
-  return <div dangerouslySetInnerHTML={{ __html: html }} />;
+  return (
+    <div class="codewrap">
+      <CopyBtn text={props.code} />
+      <div dangerouslySetInnerHTML={{ __html: html }} />
+    </div>
+  );
 }
 
 function Param(props: { name: string; req?: boolean; desc: string }) {
@@ -28,7 +33,7 @@ function ParamTable(props: { children: any }) {
 function Endpoint(props: { method: 'get' | 'post'; path: string; children: any }) {
   return (
     <div class="card endpoint">
-      <span class="plus tl" />
+      <Corners />
       <div style="display:flex; align-items:center; gap:10px; margin-bottom:6px;">
         <span class={`method ${props.method}`}>{props.method.toUpperCase()}</span>
         <code>{props.path}</code>
@@ -49,7 +54,7 @@ export function Docs() {
           Get one from the <a href="/console">console</a>.
         </p>
         <p class="muted" style="margin-bottom:6px;">Base URL</p>
-        <span class="codeblock"><span class="dot" />https://api.ayushsharma.me</span>
+        <BaseUrl />
 
         <h2>Authentication</h2>
         <p class="muted">Send your key as a Bearer token on every request:</p>
@@ -65,7 +70,7 @@ export function Docs() {
         </p>
       </div>
 
-      <div class="rule"><span class="plus tl" /></div>
+      <Rule />
 
       <div class="section">
         <h2>Design Toolkit</h2>
@@ -123,9 +128,38 @@ export function Docs() {
   }
 }`} />
         </Endpoint>
+
+        <Endpoint method="get" path="/v1/harmony">
+          <p class="muted">Color-wheel harmony schemes generated from a base hue.</p>
+          <ParamTable>
+            <Param name="base" req desc="Base color in any supported format" />
+            <Param name="type" desc="complementary (default), analogous, triadic, tetradic, split-complementary" />
+          </ParamTable>
+          <Code lang="bash" code={`curl -H "Authorization: Bearer ak_live_yourkey" \\
+  "https://api.ayushsharma.me/v1/harmony?base=%233b82f6&type=triadic"`} />
+          <Code lang="json" code={`{
+  "ok": true,
+  "data": {
+    "base": "#3b82f6", "type": "triadic",
+    "colors": ["#3c83f6", "#f63c83", "#83f63c"]
+  }
+}`} />
+        </Endpoint>
+
+        <Endpoint method="get" path="/v1/blend">
+          <p class="muted">Mix two colors in sRGB space at a given ratio.</p>
+          <ParamTable>
+            <Param name="a" req desc="First color" />
+            <Param name="b" req desc="Second color" />
+            <Param name="t" desc="Mix ratio 0–1 (default 0.5); 0 = a, 1 = b" />
+          </ParamTable>
+          <Code lang="bash" code={`curl -H "Authorization: Bearer ak_live_yourkey" \\
+  "https://api.ayushsharma.me/v1/blend?a=%23ff0000&b=%230000ff&t=0.5"`} />
+          <Code lang="json" code={`{ "ok": true, "data": { "a": "#ff0000", "b": "#0000ff", "t": 0.5, "result": "#800080" } }`} />
+        </Endpoint>
       </div>
 
-      <div class="rule"><span class="plus tl" /></div>
+      <Rule />
 
       <div class="section">
         <h2>Text Intelligence</h2>
@@ -155,6 +189,28 @@ export function Docs() {
 { "ok": true, "data": { "slug": "hello-world-cafe" } }`} />
         </Endpoint>
 
+        <Endpoint method="post" path="/v1/text/case">
+          <p class="muted">Convert any string into every common programming and display case.</p>
+          <Code lang="bash" code={`curl -X POST -H "Authorization: Bearer ak_live_yourkey" \\
+  -H "Content-Type: application/json" \\
+  -d '{"text":"user profile settings"}' \\
+  https://api.ayushsharma.me/v1/text/case`} />
+          <Code lang="json" code={`{
+  "ok": true,
+  "data": {
+    "camel": "userProfileSettings",
+    "pascal": "UserProfileSettings",
+    "snake": "user_profile_settings",
+    "kebab": "user-profile-settings",
+    "constant": "USER_PROFILE_SETTINGS",
+    "dot": "user.profile.settings",
+    "path": "user/profile/settings",
+    "title": "User Profile Settings",
+    "sentence": "User profile settings"
+  }
+}`} />
+        </Endpoint>
+
         <Endpoint method="post" path="/v1/text/excerpt">
           <p class="muted">Sentence-boundary-aware excerpt.</p>
           <ParamTable>
@@ -173,6 +229,101 @@ export function Docs() {
           <Code lang="json" code={`{
   "ok": true,
   "data": { "keywords": [ { "word": "design", "count": 4 }, { "word": "color", "count": 3 } ] }
+}`} />
+        </Endpoint>
+      </div>
+
+      <Rule />
+
+      <div class="section">
+        <h2>Developer Utilities</h2>
+        <p class="muted">Everyday building blocks: decode tokens, hash payloads, mint IDs, and reason about schedules.</p>
+
+        <Endpoint method="post" path="/v1/jwt/decode">
+          <p class="muted">
+            Decode a JWT's header and payload and surface its timing claims. The signature is
+            returned untouched and <strong>never verified</strong> — this is a debugging aid, not auth.
+          </p>
+          <Code lang="bash" code={`curl -X POST -H "Authorization: Bearer ak_live_yourkey" \\
+  -H "Content-Type: application/json" \\
+  -d '{"token":"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjMiLCJleHAiOjE3MzU2ODk2MDB9.sig"}' \\
+  https://api.ayushsharma.me/v1/jwt/decode`} />
+          <Code lang="json" code={`{
+  "ok": true,
+  "data": {
+    "header": { "alg": "HS256" },
+    "payload": { "sub": "123", "exp": 1735689600 },
+    "algorithm": "HS256",
+    "verified": false,
+    "expiresAt": "2025-01-01T00:00:00.000Z",
+    "isExpired": true,
+    "expiresIn": -12345
+  }
+}`} />
+        </Endpoint>
+
+        <Endpoint method="post" path="/v1/hash">
+          <p class="muted">SHA digest of any string, returned as hex and base64.</p>
+          <ParamTable>
+            <Param name="text" req desc="String to hash" />
+            <Param name="algo" desc="sha1, sha256 (default), sha384, sha512" />
+          </ParamTable>
+          <Code lang="bash" code={`curl -X POST -H "Authorization: Bearer ak_live_yourkey" \\
+  -H "Content-Type: application/json" \\
+  -d '{"text":"hello","algo":"sha256"}' \\
+  https://api.ayushsharma.me/v1/hash`} />
+          <Code lang="json" code={`{
+  "ok": true,
+  "data": {
+    "algorithm": "SHA-256",
+    "hex": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+    "base64": "LPJNul+wow4m6Dsqxbni... ",
+    "bits": 256
+  }
+}`} />
+        </Endpoint>
+
+        <Endpoint method="get" path="/v1/uuid">
+          <p class="muted">Generate one or more RFC 4122 v4 UUIDs.</p>
+          <ParamTable>
+            <Param name="n" desc="How many to generate, 1–100 (default 1)" />
+          </ParamTable>
+          <Code lang="bash" code={`curl -H "Authorization: Bearer ak_live_yourkey" \\
+  "https://api.ayushsharma.me/v1/uuid?n=3"`} />
+          <Code lang="json" code={`{
+  "ok": true,
+  "data": {
+    "version": 4, "count": 3,
+    "uuids": [
+      "3f0c4b1e-...","b91d2a77-...","7c5e8f02-..."
+    ]
+  }
+}`} />
+        </Endpoint>
+
+        <Endpoint method="get" path="/v1/cron">
+          <p class="muted">
+            Parse a 5-field cron expression (or an <code>@daily</code>-style alias), describe it in
+            plain English, and compute the next run times in UTC.
+          </p>
+          <ParamTable>
+            <Param name="expr" req desc="Cron expression, e.g. */15 9-17 * * 1-5" />
+            <Param name="n" desc="Number of upcoming runs to return, 1–20 (default 5)" />
+          </ParamTable>
+          <Code lang="bash" code={`curl -H "Authorization: Bearer ak_live_yourkey" \\
+  "https://api.ayushsharma.me/v1/cron?expr=0%209%20*%20*%201-5&n=3"`} />
+          <Code lang="json" code={`{
+  "ok": true,
+  "data": {
+    "expression": "0 9 * * 1-5",
+    "description": "At minute 0 of hour 9, on mon, tue, wed, thu, fri (UTC).",
+    "timezone": "UTC",
+    "next": [
+      "2026-06-12T09:00:00.000Z",
+      "2026-06-15T09:00:00.000Z",
+      "2026-06-16T09:00:00.000Z"
+    ]
+  }
 }`} />
         </Endpoint>
       </div>

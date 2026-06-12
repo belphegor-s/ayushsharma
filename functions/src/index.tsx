@@ -6,6 +6,7 @@ import { authConfig } from './auth';
 import { apiKeyGuard } from './middleware/apiKey';
 import { design } from './routes/v1/design';
 import { text } from './routes/v1/text';
+import { dev } from './routes/v1/dev';
 import { consoleApi } from './routes/console';
 import { Docs } from './ui/docs';
 import { Home } from './ui/home';
@@ -52,6 +53,7 @@ app.use('/v1/*', cors({ origin: '*', allowHeaders: ['Authorization', 'Content-Ty
 app.use('/v1/*', apiKeyGuard);
 app.route('/v1', design);
 app.route('/v1/text', text);
+app.route('/v1', dev);
 
 // Console JSON API (used by the React SPA served from Workers Assets).
 app.route('/console/api', consoleApi);

@@ -1,7 +1,63 @@
 import type { Child } from 'hono/jsx';
-import { CSS, FONTS_HREF } from './theme';
+import { CSS, COPY_JS, FONTS_HREF } from './theme';
 
 type NavKey = 'console' | 'docs';
+
+/** Four hairline corner markers — drop inside any `position:relative` box. */
+export function Corners() {
+  return (
+    <>
+      <span class="plus tl" />
+      <span class="plus tr" />
+      <span class="plus bl" />
+      <span class="plus br" />
+    </>
+  );
+}
+
+/** Section divider with a corner marker at each end of the line. */
+export function Rule() {
+  return (
+    <div class="rule">
+      <span class="plus tl" />
+      <span class="plus tr" />
+    </div>
+  );
+}
+
+/** Copy-to-clipboard button. `inblock` for the compact in-pill variant. */
+export function CopyBtn(props: { text: string; inblock?: boolean }) {
+  return (
+    <button
+      type="button"
+      class={`copy${props.inblock ? ' inblock' : ''}`}
+      data-copy={props.text}
+      aria-label="Copy to clipboard"
+      title="Copy"
+    >
+      <svg class="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+      </svg>
+      <svg class="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"
+        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M20 6 9 17l-5-5" />
+      </svg>
+    </button>
+  );
+}
+
+/** The base-URL pill with a live dot and an inline copy button. */
+export function BaseUrl() {
+  return (
+    <span class="codeblock">
+      <span class="dot" />
+      https://api.ayushsharma.me
+      <CopyBtn text="https://api.ayushsharma.me" inblock />
+    </span>
+  );
+}
 
 export function Layout(props: { title: string; active?: NavKey; children: Child }) {
   return (
@@ -22,6 +78,8 @@ export function Layout(props: { title: string; active?: NavKey; children: Child 
           <div class="frame">
             <span class="plus tl" />
             <span class="plus tr" />
+            <span class="plus bl" />
+            <span class="plus br" />
             <div class="bar">
               <span class="label">
                 <span class="slash">/</span>api.ayushsharma.me
@@ -39,6 +97,7 @@ export function Layout(props: { title: string; active?: NavKey; children: Child 
             </footer>
           </div>
         </div>
+        <script dangerouslySetInnerHTML={{ __html: COPY_JS }} />
       </body>
     </html>
   );

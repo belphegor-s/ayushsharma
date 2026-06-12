@@ -59,12 +59,14 @@ a:hover { color: #fff; }
 }
 .label .slash { color: var(--blue); font-weight: 700; margin-right: 6px; }
 .nav a { font-family: 'Geist Mono', monospace; font-size: 0.7rem; text-transform: uppercase;
-  letter-spacing: 0.18em; color: var(--faint); margin-left: 18px; }
+  letter-spacing: 0.18em; color: var(--faint); margin-left: 18px; transition: color .15s; }
+.nav a:hover { color: var(--text); }
 .nav a.active { color: var(--blue-300); }
-.section { padding: 28px 20px; }
+.section { padding: 28px 20px; animation: rise .55s cubic-bezier(.22,.61,.36,1) both; }
 .rule { border-top: 1px solid var(--line); position: relative; }
 h1.title { font-family: 'Dancing Script', cursive; font-weight: 700; font-size: 2.6rem;
-  margin: 0 0 6px; text-shadow: 0 0 15px rgba(99,102,241,0.3); }
+  margin: 0 0 6px; text-shadow: 0 0 15px rgba(99,102,241,0.3);
+  animation: glow 5s ease-in-out infinite; }
 h2 { font-size: 1.05rem; margin: 28px 0 10px; }
 h3 { font-size: 0.92rem; margin: 22px 0 8px; color: var(--text); }
 p.lead { color: var(--muted); margin: 0 0 18px; }
@@ -72,7 +74,10 @@ p.lead { color: var(--muted); margin: 0 0 18px; }
 .card {
   position: relative; border: 1px solid var(--line); background: rgba(255,255,255,0.02);
   padding: 18px 20px; margin: 14px 0;
+  transition: border-color .2s, background .2s;
 }
+.card:hover { border-color: rgba(255,255,255,0.18); background: rgba(255,255,255,0.03); }
+.endpoint:hover { border-color: rgba(59,130,246,0.28); }
 .btn {
   display: inline-flex; align-items: center; gap: 8px; cursor: pointer;
   border: 1px solid var(--line); background: rgba(255,255,255,0.03); color: var(--text);
@@ -112,9 +117,13 @@ th { font-family: 'Geist Mono', monospace; font-size: 0.68rem; text-transform: u
 /* Inline highlighted base URL, code-block style. */
 .codeblock { display: inline-flex; align-items: center; gap: 8px; font-family: 'Geist Mono', monospace;
   font-size: 0.82rem; background: linear-gradient(135deg, rgba(59,130,246,0.08), rgba(147,180,255,0.04));
-  border: 1px solid rgba(59,130,246,0.2); border-radius: 10px; padding: 8px 14px; color: #93b4ff;
-  box-shadow: 0 0 12px rgba(59,130,246,0.06), inset 0 1px 0 rgba(255,255,255,0.04); }
-.codeblock .dot { width: 7px; height: 7px; border-radius: 50%; background: #34d399; box-shadow: 0 0 8px #34d39988; }
+  border: 1px solid rgba(59,130,246,0.2); border-radius: 10px; padding: 8px 10px 8px 14px; color: #93b4ff;
+  box-shadow: 0 0 12px rgba(59,130,246,0.06), inset 0 1px 0 rgba(255,255,255,0.04);
+  transition: border-color .2s, box-shadow .2s; }
+.codeblock:hover { border-color: rgba(59,130,246,0.42);
+  box-shadow: 0 0 18px rgba(59,130,246,0.14), inset 0 1px 0 rgba(255,255,255,0.05); }
+.codeblock .dot { width: 7px; height: 7px; border-radius: 50%; background: #34d399; box-shadow: 0 0 8px #34d39988;
+  animation: pulse 2.6s ease-in-out infinite; }
 .scopes { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
 .chip { font-family: 'Geist Mono', monospace; font-size: 0.68rem; letter-spacing: 0.06em;
   border: 1px solid var(--line); border-radius: 999px; padding: 4px 10px; color: var(--muted); }
@@ -122,5 +131,71 @@ th { font-family: 'Geist Mono', monospace; font-size: 0.68rem; text-transform: u
 @media (max-width: 640px) { .toolkit-grid { grid-template-columns: 1fr; } }
 footer.foot { display: flex; justify-content: center; gap: 14px; padding: 18px 20px;
   border-top: 1px solid var(--line); }
-footer.foot .label a { color: var(--faint); }
+footer.foot .label a { color: var(--faint); transition: color .15s; }
+footer.foot .label a:hover { color: var(--text); }
+
+/* --- Copy button -------------------------------------------------------- */
+.codewrap { position: relative; }
+.copy {
+  position: absolute; top: 8px; right: 8px; z-index: 6;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 30px; height: 30px; padding: 0;
+  border: 1px solid var(--line); border-radius: 7px;
+  background: rgba(18,20,26,0.72); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+  color: var(--muted); cursor: pointer; opacity: 0; transform: translateY(-2px);
+  transition: opacity .18s, color .15s, border-color .15s, background .15s, transform .12s;
+}
+.codewrap:hover .copy { opacity: 1; transform: none; }
+@media (hover: none) { .copy { opacity: 1; transform: none; } }
+.copy:focus-visible { opacity: 1; outline: 2px solid var(--blue); outline-offset: 2px; }
+.copy:hover { color: var(--text); border-color: rgba(255,255,255,0.28); }
+.copy:active { transform: scale(0.9); }
+.copy svg { width: 15px; height: 15px; display: block; }
+.copy .i-check { display: none; }
+.copy.copied { color: #34d399; border-color: rgba(52,211,153,0.45); background: rgba(52,211,153,0.1); opacity: 1; }
+.copy.copied .i-copy { display: none; }
+.copy.copied .i-check { display: block; animation: pop .26s ease; }
+/* Inline variant: sits inside the base-URL pill, always visible. */
+.copy.inblock { position: static; opacity: 1; transform: none; width: 24px; height: 24px;
+  border: none; background: transparent; border-radius: 6px; color: rgba(147,180,255,0.7); }
+.copy.inblock:hover { background: rgba(147,180,255,0.12); color: #fff; }
+.copy.inblock.copied { background: rgba(52,211,153,0.14); color: #34d399; }
+
+/* --- Motion ------------------------------------------------------------- */
+@keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes glow { 0%,100% { text-shadow: 0 0 15px rgba(99,102,241,0.25); }
+  50% { text-shadow: 0 0 24px rgba(99,102,241,0.45); } }
+@keyframes pop { 0% { transform: scale(0.5); } 60% { transform: scale(1.18); } 100% { transform: scale(1); } }
+@keyframes pulse { 0%,100% { box-shadow: 0 0 6px #34d39966; } 50% { box-shadow: 0 0 11px #34d399cc; } }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; }
+}
+`;
+
+/** Inline client script: delegated copy-to-clipboard for [data-copy] buttons. */
+export const COPY_JS = `
+(function () {
+  function flash(btn) {
+    btn.classList.add('copied');
+    setTimeout(function () { btn.classList.remove('copied'); }, 1500);
+  }
+  function copy(text, btn) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () { flash(btn); }).catch(function () { fallback(text, btn); });
+    } else { fallback(text, btn); }
+  }
+  function fallback(text, btn) {
+    var ta = document.createElement('textarea');
+    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); flash(btn); } catch (e) {}
+    document.body.removeChild(ta);
+  }
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-copy]');
+    if (!btn) return;
+    e.preventDefault();
+    copy(btn.getAttribute('data-copy'), btn);
+  });
+})();
 `;

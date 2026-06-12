@@ -99,6 +99,47 @@ export function excerpt(text: string, maxChars = 160): string {
   return (lastSpace > 0 ? slice.slice(0, lastSpace) : slice).trim() + '…';
 }
 
+/** Split arbitrary text into lowercased word tokens, honoring camelCase. */
+function caseTokens(text: string): string[] {
+  return text
+    .replace(/([a-z0-9])([A-Z])/g, '$1 $2')
+    .replace(/([A-Z]+)([A-Z][a-z])/g, '$1 $2')
+    .replace(/[^A-Za-z0-9]+/g, ' ')
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((w) => w.toLowerCase());
+}
+
+export type CaseSet = {
+  camel: string;
+  pascal: string;
+  snake: string;
+  kebab: string;
+  constant: string;
+  dot: string;
+  path: string;
+  title: string;
+  sentence: string;
+};
+
+/** Convert a string into every common programming/display case. */
+export function cases(text: string): CaseSet {
+  const t = caseTokens(text);
+  const cap = (w: string) => w.charAt(0).toUpperCase() + w.slice(1);
+  return {
+    camel: t.map((w, i) => (i === 0 ? w : cap(w))).join(''),
+    pascal: t.map(cap).join(''),
+    snake: t.join('_'),
+    kebab: t.join('-'),
+    constant: t.join('_').toUpperCase(),
+    dot: t.join('.'),
+    path: t.join('/'),
+    title: t.map(cap).join(' '),
+    sentence: t.length ? cap(t.join(' ')) : '',
+  };
+}
+
 const STOPWORDS = new Set(
   ('a an and are as at be but by for from has have he her his i in is it its of on or that the their' +
     ' this to was were will with you your we they them our not no so if then than too very can just' +

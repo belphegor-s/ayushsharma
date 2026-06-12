@@ -160,6 +160,36 @@ export function contrast(fg: RGB, bg: RGB) {
 
 // --- Palette -------------------------------------------------------------------
 
+/** Linear mix of two colors in sRGB space. t=0 -> a, t=1 -> b. */
+export function blend(a: RGB, b: RGB, t: number): RGB {
+  const k = clamp(t, 0, 1);
+  return {
+    r: round(a.r + (b.r - a.r) * k),
+    g: round(a.g + (b.g - a.g) * k),
+    b: round(a.b + (b.b - a.b) * k),
+  };
+}
+
+// --- Harmony -------------------------------------------------------------------
+
+const HARMONIES: Record<string, number[]> = {
+  complementary: [0, 180],
+  analogous: [-30, 0, 30],
+  triadic: [0, 120, 240],
+  tetradic: [0, 90, 180, 270],
+  'split-complementary': [0, 150, 210],
+};
+
+export const HARMONY_TYPES = Object.keys(HARMONIES);
+
+/** Color-wheel harmony: returns hex colors rotated around the base hue. */
+export function harmony(base: RGB, type: string): string[] {
+  const offsets = HARMONIES[type];
+  if (!offsets) throw new ColorError(`Unknown harmony "${type}". Use one of: ${HARMONY_TYPES.join(', ')}.`);
+  const { h, s, l } = rgbToHsl(base);
+  return offsets.map((d) => rgbToHex(hslToRgb(h + d, s, l)));
+}
+
 /** Generate an n-step tint/shade scale around a base color (light -> dark). */
 export function palette(base: RGB, n: number): string[] {
   const steps = clamp(round(n), 2, 12);

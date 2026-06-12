@@ -1,7 +1,7 @@
 import { Hono } from 'hono';
 import type { Env } from '../../env';
 import { ok, fail } from '../../lib/respond';
-import { parseColor, contrast, palette, describe, ColorError } from '../../lib/color';
+import { parseColor, contrast, palette, describe, blend, harmony, rgbToHex, ColorError } from '../../lib/color';
 
 export const design = new Hono<Env>();
 
@@ -39,6 +39,35 @@ design.get('/convert', (c) => {
   if (!input) return fail(c, 'bad_request', 'Provide a color via "c".');
   try {
     return ok(c, describe(parseColor(input)));
+  } catch (e) {
+    if (e instanceof ColorError) return fail(c, 'bad_request', e.message);
+    throw e;
+  }
+});
+
+// GET /v1/harmony?base=<color>&type=<scheme>
+design.get('/harmony', (c) => {
+  const base = c.req.query('base');
+  const type = (c.req.query('type') ?? 'complementary').toLowerCase();
+  if (!base) return fail(c, 'bad_request', 'Provide a "base" color.');
+  try {
+    const colors = harmony(parseColor(base), type);
+    return ok(c, { base, type, colors });
+  } catch (e) {
+    if (e instanceof ColorError) return fail(c, 'bad_request', e.message);
+    throw e;
+  }
+});
+
+// GET /v1/blend?a=<color>&b=<color>&t=<0..1>
+design.get('/blend', (c) => {
+  const a = c.req.query('a');
+  const b = c.req.query('b');
+  const t = Number(c.req.query('t') ?? '0.5');
+  if (!a || !b) return fail(c, 'bad_request', 'Provide both "a" and "b" colors.');
+  try {
+    const mixed = blend(parseColor(a), parseColor(b), Number.isFinite(t) ? t : 0.5);
+    return ok(c, { a, b, t: Number.isFinite(t) ? t : 0.5, result: rgbToHex(mixed) });
   } catch (e) {
     if (e instanceof ColorError) return fail(c, 'bad_request', e.message);
     throw e;

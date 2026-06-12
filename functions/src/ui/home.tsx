@@ -1,4 +1,4 @@
-import { Layout } from './layout';
+import { Layout, Rule, BaseUrl } from './layout';
 
 /**
  * Public landing for api.ayushsharma.me. Written to satisfy Google OAuth
@@ -20,7 +20,7 @@ export function Home() {
         </p>
 
         <p class="muted" style="margin-bottom:6px;">Base URL</p>
-        <span class="codeblock"><span class="dot" />https://api.ayushsharma.me</span>
+        <BaseUrl />
 
         <div style="display:flex; gap:10px; margin-top:22px; flex-wrap:wrap;">
           <a class="btn primary" href="/console">Sign in with Google</a>
@@ -28,7 +28,7 @@ export function Home() {
         </div>
       </div>
 
-      <div class="rule"><span class="plus tl" /></div>
+      <Rule />
 
       <div class="section">
         <h2 style="margin-top:0;">Why sign in with Google</h2>
@@ -47,7 +47,7 @@ export function Home() {
         </div>
       </div>
 
-      <div class="rule"><span class="plus tl" /></div>
+      <Rule />
 
       <div class="section">
         <h2 style="margin-top:0;">Legal</h2>

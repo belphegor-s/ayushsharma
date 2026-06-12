@@ -2,7 +2,7 @@ import { Hono } from 'hono';
 import type { Context } from 'hono';
 import type { Env } from '../../env';
 import { ok, fail } from '../../lib/respond';
-import { stats, slugify, excerpt, keywords } from '../../lib/text';
+import { stats, slugify, excerpt, keywords, cases } from '../../lib/text';
 
 export const text = new Hono<Env>();
 
@@ -47,6 +47,13 @@ text.post('/excerpt', async (c) => {
   if (r instanceof Response) return r;
   const maxChars = Number(r.body.maxChars);
   return ok(c, { excerpt: excerpt(r.text, Number.isFinite(maxChars) ? maxChars : 160) });
+});
+
+// POST /v1/text/case  { text }
+text.post('/case', async (c) => {
+  const r = await readText(c);
+  if (r instanceof Response) return r;
+  return ok(c, cases(r.text));
 });
 
 // POST /v1/text/keywords  { text, top? }
