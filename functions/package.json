@@ -1,0 +1,27 @@
+{
+  "name": "ayush-api",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "typecheck": "tsc --noEmit",
+    "db:create": "wrangler d1 create ayush-api",
+    "db:local": "wrangler d1 migrations apply ayush-api --local",
+    "db:remote": "wrangler d1 migrations apply ayush-api --remote",
+    "cf-typegen": "wrangler types"
+  },
+  "dependencies": {
+    "@auth/core": "^0.40.0",
+    "@auth/d1-adapter": "^1.10.0",
+    "@hono/auth-js": "^1.1.0",
+    "hono": "^4.9.0",
+    "shiki": "^1.29.2"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250620.0",
+    "typescript": "^5.7.0",
+    "wrangler": "^4.20.0"
+  }
+}

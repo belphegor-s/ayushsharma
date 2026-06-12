@@ -19,6 +19,13 @@ export default function TermsPage() {
         <p>Browse, read, and get in touch. Don’t try to break, overload, or misuse the site, and don’t use it for anything unlawful.</p>
       </Section>
 
+      <Section heading="Developer API">
+        <p>
+          The optional developer API at api.ayushsharma.me requires signing in with Google and using a personal API key. Keep your key secret, stay within the published rate limits, and don’t use the
+          API to build anything unlawful, abusive, or that tries to overload the service. Keys are free and offered as-is; I may revoke a key or change limits at any time to protect the service.
+        </p>
+      </Section>
+
       <Section heading="Content & ownership">
         <p>
           The content, design, and code here are mine unless stated otherwise. You’re welcome to read and link to it. Reusing substantial parts - copy, design, or code - without credit or permission

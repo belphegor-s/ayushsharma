@@ -271,6 +271,29 @@ export default function Home() {
               Developer / Tinkerer / Stoic
             </motion.p>
 
+            <motion.p
+              className="mt-4 max-w-md text-sm leading-relaxed text-white/55"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.55 }}
+            >
+              Personal portfolio of Ayush Sharma. Browse my projects, view my resume, and reach me
+              through the contact form. It also hosts a free developer API you can use after signing
+              in with Google.
+            </motion.p>
+
+            <motion.a
+              className="mt-4 inline-flex items-center gap-1.5 rounded-md border border-white/10 bg-white/[0.02] px-3 py-1.5 font-mono text-[0.7rem] uppercase tracking-[0.18em] text-white/55 transition-colors hover:border-blue-400/60 hover:text-white"
+              href="https://api.ayushsharma.me/docs"
+              target="_blank"
+              rel="noreferrer noopener"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.58 }}
+            >
+              <span className="font-bold text-blue-400">/</span> Developer API
+            </motion.a>
+
             <motion.a
               className="mt-3 inline-flex items-center gap-1.5 text-xs font-medium text-white/50 transition-colors hover:text-white"
               href="https://storage.procd.cc/leo.jpg"

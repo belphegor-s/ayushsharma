@@ -14,8 +14,8 @@ export default function PrivacyPage() {
   return (
     <LegalPage slug="privacy" title="Privacy Policy" updated={UPDATED}>
       <p>
-        This is the personal site of {siteConfig.author.name}. It is a portfolio - there are no accounts, no logins, and nothing to sell. This page explains the little data the site does touch and
-        why.
+        This is the personal site of {siteConfig.author.name}. It is a portfolio, plus an optional developer API you can use after signing in with Google. There is nothing to sell. This page explains
+        the data the site touches and why.
       </p>
 
       <Section heading="What I collect">
@@ -24,10 +24,25 @@ export default function PrivacyPage() {
             <span className="text-white/85">Contact form.</span> When you message me, the name, email, and message you type are sent to my inbox so I can reply. Nothing else.
           </li>
           <li>
+            <span className="text-white/85">Google sign-in.</span> Only if you choose to use the developer API. Google shares your name, email address, and profile picture so I can create your account
+            and show who is signed in. I never receive your Google password.
+          </li>
+          <li>
+            <span className="text-white/85">API usage.</span> For accounts that create an API key, I store the key (hashed) and a monthly request count to enforce fair-use limits.
+          </li>
+          <li>
             <span className="text-white/85">Analytics.</span> Privacy-friendly, aggregate usage data (pages viewed, rough region, device type) via PostHog and Vercel Speed Insights. No invasive
             tracking, no ad networks.
           </li>
         </ul>
+      </Section>
+
+      <Section heading="Signing in with Google">
+        <p>
+          The developer API at <span className="text-white/85">api.ayushsharma.me</span> uses Google sign-in only to identify your account and issue API keys. I request the minimum scopes
+          (your basic profile and email). This data is not used for advertising, is never sold or shared, and is used solely to operate the API. Want your account and keys deleted? Email me and it is
+          done.
+        </p>
       </Section>
 
       <Section heading="What I don't do">
@@ -36,8 +51,8 @@ export default function PrivacyPage() {
 
       <Section heading="Third parties">
         <p>
-          A few trusted services process data on my behalf: Resend (delivers contact emails), PostHog (analytics), and Vercel (hosting and performance metrics). Each handles data under its own privacy
-          terms.
+          A few trusted services process data on my behalf: Resend (delivers contact emails), PostHog (analytics), Vercel (hosting and performance metrics), Google (sign-in for the developer API), and
+          Cloudflare (API hosting and database). Each handles data under its own privacy terms.
         </p>
       </Section>
 
