@@ -89,15 +89,15 @@ function SignIn({ csrf }: { csrf: string }) {
       </span>
       <h1 className="font-cursive font-bold text-[2rem] sm:text-[2.6rem] mb-1.5 mt-0 text-shadow-blue">Developer API</h1>
       <p className="text-white/45 mb-3 max-w-prose">
-        <span className="text-white/85">app.ayushsharma.me</span> is a free developer API and console by Ayush Sharma. It provides HTTP endpoints for design utilities (contrast, palettes, color
-        conversion) and text &amp; developer utilities (readability, slugs, JWT decode, hashing, UUIDs, cron).
+        This is my free developer API - a couple of small, fast HTTP toolkits I built and host myself. One for design work (contrast, palettes, color conversion) and one for text and everyday dev
+        tasks (readability, slugs, JWT decode, hashing, UUIDs, cron).
       </p>
-      <p className="text-white/45 mb-4 max-w-prose">Sign in with Google to create a personal API key and track your monthly usage.</p>
+      <p className="text-white/45 mb-4 max-w-prose">Sign in with Google and I&apos;ll set you up with a personal API key - you can keep an eye on your usage right here.</p>
 
       {csrf ? (
         <form method="post" action="/api/auth/signin/google" className="mb-4">
           <input type="hidden" name="csrfToken" value={csrf} />
-          <input type="hidden" name="callbackUrl" value="/console" />
+          <input type="hidden" name="callbackUrl" value="/" />
           <button type="submit" className="btn bg-white text-[#1f1f1f] border-white font-semibold">
             <GoogleIcon /> Sign in with Google
           </button>
@@ -129,11 +129,11 @@ function SignIn({ csrf }: { csrf: string }) {
       </div>
 
       <p className="text-white/45 text-xs mt-4">
-        New here? Read the{' '}
+        New here? I&apos;d start with the{' '}
         <a href="/docs" className="text-[#93b4ff] hover:text-white">
-          API docs
-        </a>{' '}
-        first.
+          docs
+        </a>
+        .
       </p>
     </Frame>
   );
@@ -181,7 +181,7 @@ function Dashboard({ session, csrf }: { session: { name: string; email: string; 
       ) : keysError ? (
         <div className="card flex items-center justify-between gap-4">
           <span className="plus" /> <span className="plus top-left" />
-          <p className="text-white/60 text-sm m-0">Couldn&apos;t load your keys.</p>
+          <p className="text-white/60 text-sm m-0">I couldn&apos;t load your keys. Mind trying again?</p>
           <button className="btn flex-shrink-0" onClick={() => refetch()}>
             Retry
           </button>
@@ -190,43 +190,43 @@ function Dashboard({ session, csrf }: { session: { name: string; email: string; 
         <EmptyKeys />
       ) : (
         <div className="-mx-1 overflow-x-auto">
-        <table className="w-full min-w-[460px] text-sm border-collapse">
-          <thead>
-            <tr>
-              <th className="text-left p-2 border-b border-white/[0.06] font-mono text-[0.68rem] uppercase tracking-[0.14em] text-white/25 font-medium">Key</th>
-              <th className="text-left p-2 border-b border-white/[0.06] font-mono text-[0.68rem] uppercase tracking-[0.14em] text-white/25 font-medium">Usage (this month)</th>
-              <th className="text-left p-2 border-b border-white/[0.06] font-mono text-[0.68rem] uppercase tracking-[0.14em] text-white/25 font-medium">Created</th>
-              <th />
-            </tr>
-          </thead>
-          <tbody>
-            {keys.map((k) => (
-              <tr key={k.id}>
-                <td className="p-2 border-b border-white/[0.06] font-mono text-sm">{k.prefix}…</td>
-                <td className="p-2 border-b border-white/[0.06]">
-                  <div className="text-xs">
-                    {k.used} / {k.monthly_quota}
-                  </div>
-                  <div className="meter mt-1.5">
-                    <span style={{ width: Math.min(100, (k.used / k.monthly_quota) * 100) + '%' }} />
-                  </div>
-                </td>
-                <td className="p-2 border-b border-white/[0.06] text-white/45 text-xs">{new Date(k.created_at).toISOString().slice(0, 10)}</td>
-                <td className="p-2 border-b border-white/[0.06]">
-                  <button className="btn danger" onClick={() => setRevokeId(k.id)} disabled={revokeKey.isPending && revokeId === k.id}>
-                    {revokeKey.isPending && revokeId === k.id ? (
-                      <>
-                        <span className="spinner" /> Revoking…
-                      </>
-                    ) : (
-                      'Revoke'
-                    )}
-                  </button>
-                </td>
+          <table className="w-full min-w-[460px] text-sm border-collapse">
+            <thead>
+              <tr>
+                <th className="text-left p-2 border-b border-white/[0.06] font-mono text-[0.68rem] uppercase tracking-[0.14em] text-white/25 font-medium">Key</th>
+                <th className="text-left p-2 border-b border-white/[0.06] font-mono text-[0.68rem] uppercase tracking-[0.14em] text-white/25 font-medium">Usage (this month)</th>
+                <th className="text-left p-2 border-b border-white/[0.06] font-mono text-[0.68rem] uppercase tracking-[0.14em] text-white/25 font-medium">Created</th>
+                <th />
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {keys.map((k) => (
+                <tr key={k.id}>
+                  <td className="p-2 border-b border-white/[0.06] font-mono text-sm">{k.prefix}…</td>
+                  <td className="p-2 border-b border-white/[0.06]">
+                    <div className="text-xs">
+                      {k.used} / {k.monthly_quota}
+                    </div>
+                    <div className="meter mt-1.5">
+                      <span style={{ width: Math.min(100, (k.used / k.monthly_quota) * 100) + '%' }} />
+                    </div>
+                  </td>
+                  <td className="p-2 border-b border-white/[0.06] text-white/45 text-xs">{new Date(k.created_at).toISOString().slice(0, 10)}</td>
+                  <td className="p-2 border-b border-white/[0.06]">
+                    <button className="btn danger" onClick={() => setRevokeId(k.id)} disabled={revokeKey.isPending && revokeId === k.id}>
+                      {revokeKey.isPending && revokeId === k.id ? (
+                        <>
+                          <span className="spinner" /> Revoking…
+                        </>
+                      ) : (
+                        'Revoke'
+                      )}
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       )}
       <button
@@ -235,7 +235,7 @@ function Dashboard({ session, csrf }: { session: { name: string; email: string; 
           createKey.mutate(undefined, {
             onSuccess: (data) => {
               setCreatedPlaintext(data.plaintext);
-              push('API key created', 'success');
+              push('Here is your new key', 'success');
             },
             onError: (e) => push((e as Error).message, 'error'),
           });
@@ -283,7 +283,7 @@ function Dashboard({ session, csrf }: { session: { name: string; email: string; 
               onSuccess: () => {
                 setRevokeId(null);
                 revokeKey.reset();
-                push('API key revoked', 'success');
+                push('Key revoked', 'success');
               },
               onError: (e) => push((e as Error).message, 'error'),
             });
@@ -349,8 +349,8 @@ function EmptyKeys() {
       <span className="plus top-right" />
       <span className="plus bottom-left" />
       <span className="plus bottom-right" />
-      <p className="text-white/60 text-sm m-0 mb-1">No API keys yet.</p>
-      <p className="text-white/35 text-xs m-0">Create your first key below to start calling the API.</p>
+      <p className="text-white/60 text-sm m-0 mb-1">You don&apos;t have any keys yet.</p>
+      <p className="text-white/35 text-xs m-0">Create your first one below and you&apos;re ready to go.</p>
     </div>
   );
 }
@@ -363,11 +363,7 @@ function RevokeModal({ onClose, onConfirm, pending, error }: { onClose: () => vo
   };
   return (
     <div className={`modal-overlay ${closing ? 'closing' : ''} fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4`} onClick={safeClose}>
-      <div
-        className={`modal-panel ${closing ? 'closing' : ''} card max-w-[420px] w-full`}
-        style={{ backgroundColor: '#0e0f13' }}
-        onClick={(e) => e.stopPropagation()}
-      >
+      <div className={`modal-panel ${closing ? 'closing' : ''} card max-w-[420px] w-full`} style={{ backgroundColor: '#0e0f13' }} onClick={(e) => e.stopPropagation()}>
         <span className="plus top-left" />
         <span className="plus top-right" />
         <span className="plus bottom-left" />
@@ -375,8 +371,8 @@ function RevokeModal({ onClose, onConfirm, pending, error }: { onClose: () => vo
         <span className="font-mono text-[0.7rem] uppercase tracking-[0.2em] text-white/45">
           <span className="text-[#3b82f6] font-bold mr-1.5">/</span>confirm revoke
         </span>
-        <p className="mt-4 mb-2">Permanently revoke this key?</p>
-        <p className="text-white/45 text-sm mb-4">All requests using this key will be rejected immediately. This cannot be undone.</p>
+        <p className="mt-4 mb-2">Revoke this key for good?</p>
+        <p className="text-white/45 text-sm mb-4">Anything still using it will start failing right away, and I can&apos;t undo this for you.</p>
         {error && <div className="banner mb-4 border-[rgba(239,68,68,0.4)] bg-[rgba(239,68,68,0.08)] text-[#ff9a9a]">{error}</div>}
         <div className="flex items-center gap-2.5">
           <button className="btn danger flex items-center" onClick={onConfirm} disabled={pending}>
@@ -401,11 +397,7 @@ function KeyModal({ plaintext, onClose }: { plaintext: string; onClose: () => vo
   const { closing, requestClose } = useModalClose(onClose);
   return (
     <div className={`modal-overlay ${closing ? 'closing' : ''} fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4`} onClick={requestClose}>
-      <div
-        className={`modal-panel ${closing ? 'closing' : ''} card max-w-[460px] w-full`}
-        style={{ backgroundColor: '#0e0f13' }}
-        onClick={(e) => e.stopPropagation()}
-      >
+      <div className={`modal-panel ${closing ? 'closing' : ''} card max-w-[460px] w-full`} style={{ backgroundColor: '#0e0f13' }} onClick={(e) => e.stopPropagation()}>
         <span className="plus top-left" />
         <span className="plus top-right" />
         <span className="plus bottom-left" />
@@ -413,7 +405,7 @@ function KeyModal({ plaintext, onClose }: { plaintext: string; onClose: () => vo
         <span className="font-mono text-[0.7rem] uppercase tracking-[0.2em] text-white/45">
           <span className="text-[#3b82f6] font-bold mr-1.5">/</span>new api key
         </span>
-        <div className="banner warn mt-4">This is the only time the full key is shown. Store it somewhere safe.</div>
+        <div className="banner warn mt-4">This is the only time I&apos;ll show you the full key - copy it somewhere safe now.</div>
         <div className="keywrap mt-3">
           <CopyButton text={plaintext} label="Copy key" />
           <div className="key whitespace-normal pr-12">{plaintext}</div>

@@ -19,13 +19,13 @@ const KEY_WINDOW_SECONDS = 10;
  * Guards /v1/* routes. Expects `Authorization: Bearer ak_live_...`.
  *
  * Layered limits, cheapest first:
- *   1. Per-IP sliding window  — blocks floods before any DB work.
+ *   1. Per-IP sliding window  - blocks floods before any DB work.
  *   2. API key validation.
- *   3. Per-key sliding window — short-term burst cap.
- *   4. Monthly quota          — long-term fair-use cap (refunded on 5xx).
+ *   3. Per-key sliding window - short-term burst cap.
+ *   4. Monthly quota          - long-term fair-use cap (refunded on 5xx).
  */
 export const apiKeyGuard: MiddlewareHandler<Env> = async (c, next) => {
-  // 1) Per-IP burst guard — runs before the DB lookup so bad keys can't flood it.
+  // 1) Per-IP burst guard - runs before the DB lookup so bad keys can't flood it.
   const ip = c.req.header('CF-Connecting-IP') ?? 'unknown';
   if (c.env.RL_IP) {
     const { success } = await c.env.RL_IP.limit({ key: ip });
@@ -39,20 +39,11 @@ export const apiKeyGuard: MiddlewareHandler<Env> = async (c, next) => {
   const token = auth.startsWith('Bearer ') ? auth.slice(7).trim() : '';
 
   if (!token || !token.startsWith(KEY_PREFIX)) {
-    return fail(
-      c,
-      'unauthorized',
-      'Missing or malformed API key. Send "Authorization: Bearer ak_live_...".',
-      401,
-    );
+    return fail(c, 'unauthorized', 'Missing or malformed API key. Send "Authorization: Bearer ak_live_...".', 401);
   }
 
   const hash = await hashKey(token);
-  const row = await c.env.DB.prepare(
-    `SELECT id, user_id, monthly_quota, revoked_at FROM api_keys WHERE key_hash = ?`,
-  )
-    .bind(hash)
-    .first<KeyRow>();
+  const row = await c.env.DB.prepare(`SELECT id, user_id, monthly_quota, revoked_at FROM api_keys WHERE key_hash = ?`).bind(hash).first<KeyRow>();
 
   if (!row || row.revoked_at) {
     return fail(c, 'unauthorized', 'Invalid or revoked API key.', 401);
@@ -63,16 +54,11 @@ export const apiKeyGuard: MiddlewareHandler<Env> = async (c, next) => {
     const { success } = await c.env.RL_KEY.limit({ key: row.id });
     if (!success) {
       c.header('Retry-After', String(KEY_WINDOW_SECONDS));
-      return fail(
-        c,
-        'rate_limited',
-        `Too many requests. This key is limited to short bursts; retry in ${KEY_WINDOW_SECONDS}s.`,
-        429,
-      );
+      return fail(c, 'rate_limited', `Too many requests. This key is limited to short bursts; retry in ${KEY_WINDOW_SECONDS}s.`, 429);
     }
   }
 
-  // 4) Monthly quota — atomic increment, then compare.
+  // 4) Monthly quota - atomic increment, then compare.
   const period = currentPeriod();
   const reset = periodResetEpochSec();
   const used = await incrementUsage(c.env.DB, row.id, period);
@@ -82,12 +68,7 @@ export const apiKeyGuard: MiddlewareHandler<Env> = async (c, next) => {
 
   if (used > row.monthly_quota) {
     c.header('Retry-After', String(reset - Math.floor(Date.now() / 1000)));
-    return fail(
-      c,
-      'rate_limited',
-      `Monthly quota of ${row.monthly_quota} requests exceeded. Resets ${period} rollover.`,
-      429,
-    );
+    return fail(c, 'rate_limited', `Monthly quota of ${row.monthly_quota} requests exceeded. Resets ${period} rollover.`, 429);
   }
 
   // Best-effort last-used timestamp; don't block the request on it.
