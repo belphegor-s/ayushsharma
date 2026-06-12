@@ -2,26 +2,45 @@ import { useSession, useKeys, useCreateKey, useRevokeKey } from './lib/useApi';
 import { useState, useEffect, useCallback } from 'react';
 import type { ReactNode } from 'react';
 
-/** Animate a modal out before unmounting, and close on Escape. */
-function useModalClose(onClose: () => void) {
+/** Animate a modal out before unmounting, and close on Escape (unless blocked). */
+function useModalClose(onClose: () => void, blocked = false) {
   const [closing, setClosing] = useState(false);
   const requestClose = useCallback(() => {
     setClosing(true);
     setTimeout(onClose, 200); // matches .closing animation duration
   }, [onClose]);
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && requestClose();
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && !blocked) requestClose();
+    };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [requestClose]);
+  }, [requestClose, blocked]);
   return { closing, requestClose };
 }
 
 export function App() {
   const { session, csrf, isLoading } = useSession();
-  if (isLoading) return <div className="flex items-center justify-center min-h-screen text-white/40">Loading…</div>;
+  if (isLoading) return <LoadingScreen />;
   if (!session) return <SignIn csrf={csrf} />;
   return <Dashboard session={session} csrf={csrf} />;
+}
+
+/** Full-page skeleton shown while the session resolves. */
+function LoadingScreen() {
+  return (
+    <Frame>
+      <div className="skeleton h-3 w-44 mb-5" />
+      <div className="skeleton h-11 w-60 mb-4" />
+      <div className="skeleton h-4 w-full max-w-prose mb-2.5" />
+      <div className="skeleton h-4 w-4/5 max-w-prose mb-7" />
+      <div className="skeleton h-10 w-52 rounded-md mb-6" />
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div className="skeleton h-24 rounded" />
+        <div className="skeleton h-24 rounded" />
+      </div>
+    </Frame>
+  );
 }
 
 function Frame({ children }: { children: ReactNode }) {
@@ -115,12 +134,12 @@ function SignIn({ csrf }: { csrf: string }) {
 }
 
 function Dashboard({ session, csrf }: { session: { name: string; email: string; image?: string }; csrf: string }) {
-  const { data: keys } = useKeys(session.email);
+  const { data: keys, isLoading: keysLoading, isError: keysError, refetch } = useKeys(session.email);
   const createKey = useCreateKey();
   const revokeKey = useRevokeKey();
-  const [keyModal, setKeyModal] = useState<string | null>(null);
   const [revokeId, setRevokeId] = useState<string | null>(null);
   const [createdPlaintext, setCreatedPlaintext] = useState<string | null>(null);
+  const { toasts, push } = useToasts();
 
   return (
     <Frame>
@@ -151,8 +170,18 @@ function Dashboard({ session, csrf }: { session: { name: string; email: string; 
       <div className="border-t border-white/10 mt-7" />
 
       <h2 className="text-[1.05rem] mt-7 mb-2.5">API keys</h2>
-      {!keys || keys.length === 0 ? (
-        <p className="text-white/45 text-sm">No keys yet. Create one to start calling the API.</p>
+      {keysLoading ? (
+        <KeysSkeleton />
+      ) : keysError ? (
+        <div className="card flex items-center justify-between gap-4">
+          <span className="plus" /> <span className="plus top-left" />
+          <p className="text-white/60 text-sm m-0">Couldn't load your keys.</p>
+          <button className="btn flex-shrink-0" onClick={() => refetch()}>
+            Retry
+          </button>
+        </div>
+      ) : !keys || keys.length === 0 ? (
+        <EmptyKeys />
       ) : (
         <table className="w-full text-sm border-collapse">
           <thead>
@@ -177,8 +206,18 @@ function Dashboard({ session, csrf }: { session: { name: string; email: string; 
                 </td>
                 <td className="p-2 border-b border-white/[0.06] text-white/45 text-xs">{new Date(k.created_at).toISOString().slice(0, 10)}</td>
                 <td className="p-2 border-b border-white/[0.06]">
-                  <button className="btn danger" onClick={() => setRevokeId(k.id)}>
-                    Revoke
+                  <button
+                    className="btn danger"
+                    onClick={() => setRevokeId(k.id)}
+                    disabled={revokeKey.isPending && revokeId === k.id}
+                  >
+                    {revokeKey.isPending && revokeId === k.id ? (
+                      <>
+                        <span className="spinner" /> Revoking…
+                      </>
+                    ) : (
+                      'Revoke'
+                    )}
                   </button>
                 </td>
               </tr>
@@ -190,12 +229,22 @@ function Dashboard({ session, csrf }: { session: { name: string; email: string; 
         className="btn primary mt-4"
         onClick={() => {
           createKey.mutate(undefined, {
-            onSuccess: (data) => setCreatedPlaintext(data.plaintext),
+            onSuccess: (data) => {
+              setCreatedPlaintext(data.plaintext);
+              push('API key created', 'success');
+            },
+            onError: (e) => push((e as Error).message, 'error'),
           });
         }}
         disabled={createKey.isPending}
       >
-        + Create API key
+        {createKey.isPending ? (
+          <>
+            <span className="spinner" /> Creating…
+          </>
+        ) : (
+          '+ Create API key'
+        )}
       </button>
 
       <div className="border-t border-white/10 mt-7" />
@@ -219,24 +268,107 @@ function Dashboard({ session, csrf }: { session: { name: string; email: string; 
 
       {revokeId && (
         <RevokeModal
-          onClose={() => setRevokeId(null)}
+          pending={revokeKey.isPending}
+          error={revokeKey.error ? (revokeKey.error as Error).message : undefined}
+          onClose={() => {
+            setRevokeId(null);
+            revokeKey.reset();
+          }}
           onConfirm={() => {
             revokeKey.mutate(revokeId, {
-              onSuccess: () => setRevokeId(null),
+              onSuccess: () => {
+                setRevokeId(null);
+                revokeKey.reset();
+                push('API key revoked', 'success');
+              },
+              onError: (e) => push((e as Error).message, 'error'),
             });
           }}
         />
       )}
 
       {createdPlaintext && <KeyModal plaintext={createdPlaintext} onClose={() => setCreatedPlaintext(null)} />}
+
+      <Toasts items={toasts} />
     </Frame>
   );
 }
 
-function RevokeModal({ onClose, onConfirm }: { onClose: () => void; onConfirm: () => void }) {
-  const { closing, requestClose } = useModalClose(onClose);
+type Toast = { id: number; msg: string; type: 'success' | 'error' };
+
+/** Transient toast notifications, auto-dismissed. */
+function useToasts() {
+  const [toasts, setToasts] = useState<Toast[]>([]);
+  const push = useCallback((msg: string, type: 'success' | 'error' = 'success') => {
+    const id = Date.now() + Math.random();
+    setToasts((t) => [...t, { id, msg, type }]);
+    setTimeout(() => setToasts((t) => t.filter((x) => x.id !== id)), 3400);
+  }, []);
+  return { toasts, push };
+}
+
+function Toasts({ items }: { items: Toast[] }) {
+  if (items.length === 0) return null;
   return (
-    <div className={`modal-overlay ${closing ? 'closing' : ''} fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4`} onClick={requestClose}>
+    <div className="toast-wrap">
+      {items.map((t) => (
+        <div key={t.id} className={`toast ${t.type}`} role="status">
+          <span className="ico" />
+          {t.msg}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/** Skeleton rows while the key list loads. */
+function KeysSkeleton() {
+  return (
+    <div className="mt-1">
+      {[0, 1, 2].map((i) => (
+        <div key={i} className="flex items-center gap-4 py-2.5 border-b border-white/[0.06]">
+          <div className="skeleton h-3.5 w-28" />
+          <div className="skeleton h-3.5 w-24" />
+          <div className="skeleton h-3.5 w-16 ml-auto" />
+          <div className="skeleton h-7 w-16 rounded-md" />
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/** Empty-state card with a clear next step. */
+function EmptyKeys() {
+  return (
+    <div className="card text-center py-7">
+      <span className="plus" /> <span className="plus top-left" />
+      <span className="plus top-right" />
+      <span className="plus bottom-left" />
+      <span className="plus bottom-right" />
+      <p className="text-white/60 text-sm m-0 mb-1">No API keys yet.</p>
+      <p className="text-white/35 text-xs m-0">Create your first key below to start calling the API.</p>
+    </div>
+  );
+}
+
+function RevokeModal({
+  onClose,
+  onConfirm,
+  pending,
+  error,
+}: {
+  onClose: () => void;
+  onConfirm: () => void;
+  pending?: boolean;
+  error?: string;
+}) {
+  const { closing, requestClose } = useModalClose(onClose, pending);
+  // Don't let the user dismiss mid-request.
+  const safeClose = () => {
+    if (!pending) requestClose();
+  };
+  return (
+    <div className={`modal-overlay ${closing ? 'closing' : ''} fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4`} onClick={safeClose}>
       <div className={`modal-panel ${closing ? 'closing' : ''} card max-w-[420px] w-full`} onClick={(e) => e.stopPropagation()}>
         <span className="plus" /> <span className="plus top-left" />
         <span className="plus top-right" />
@@ -247,11 +379,18 @@ function RevokeModal({ onClose, onConfirm }: { onClose: () => void; onConfirm: (
         </span>
         <p className="mt-4 mb-2">Permanently revoke this key?</p>
         <p className="text-white/45 text-sm mb-4">All requests using this key will be rejected immediately. This cannot be undone.</p>
+        {error && <div className="banner mb-4 border-[rgba(239,68,68,0.4)] bg-[rgba(239,68,68,0.08)] text-[#ff9a9a]">{error}</div>}
         <div className="flex items-center gap-2.5">
-          <button className="btn danger flex items-center" onClick={onConfirm}>
-            Yes, revoke
+          <button className="btn danger flex items-center" onClick={onConfirm} disabled={pending}>
+            {pending ? (
+              <>
+                <span className="spinner" /> Revoking…
+              </>
+            ) : (
+              'Yes, revoke'
+            )}
           </button>
-          <button className="btn" onClick={requestClose}>
+          <button className="btn" onClick={requestClose} disabled={pending}>
             Cancel
           </button>
         </div>

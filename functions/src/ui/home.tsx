@@ -27,7 +27,7 @@ export function Home() {
         </p>
 
         <div style="display:flex; gap:10px; margin-top:22px; flex-wrap:wrap;">
-          <a class="btn primary" href="/console">
+          <a class="btn google" href="/console">
             <GoogleMark /> Sign in with Google
           </a>
           <a class="btn" href="/docs">
