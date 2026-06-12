@@ -77,11 +77,11 @@ export function Layout(props: { title: string; active?: NavKey; children: Child 
                 <span class="slash">/</span>app.ayushsharma.me
               </span>
               <nav class="nav">
+                <a href="/" class={props.active === 'console' ? 'active' : ''}>
+                  console
+                </a>
                 <a href="/docs" class={props.active === 'docs' ? 'active' : ''}>
                   docs
-                </a>
-                <a href="/console" class={props.active === 'console' ? 'active' : ''}>
-                  console
                 </a>
               </nav>
             </div>

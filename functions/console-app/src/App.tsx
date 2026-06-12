@@ -57,7 +57,7 @@ function Frame({ children }: { children: ReactNode }) {
             <a href="/docs" className="ml-4 hover:text-white/45">
               docs
             </a>
-            <a href="/console" className="ml-4 text-[#93b4ff]">
+            <a href="/" className="ml-4 text-[#93b4ff]">
               console
             </a>
           </nav>
@@ -85,7 +85,7 @@ function SignIn({ csrf }: { csrf: string }) {
         conversion) and text &amp; developer utilities (readability, slugs, JWT decode, hashing, UUIDs, cron).
       </p>
       <p className="text-white/45 mb-4 max-w-prose">
-        Sign in with Google to create a personal API key and track your monthly usage. Google sign-in is used only to identify your account and issue your key - your password is never seen.
+        Sign in with Google to create a personal API key and track your monthly usage.
       </p>
 
       {csrf ? (
@@ -155,7 +155,7 @@ function Dashboard({ session, csrf }: { session: { name: string; email: string; 
         {csrf ? (
           <form method="post" action="/api/auth/signout" className="ml-auto inline m-0">
             <input type="hidden" name="csrfToken" value={csrf} />
-            <input type="hidden" name="callbackUrl" value="/console" />
+            <input type="hidden" name="callbackUrl" value="/" />
             <button type="submit" className="btn">
               Sign out
             </button>

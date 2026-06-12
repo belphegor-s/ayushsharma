@@ -9,9 +9,7 @@ import { text } from './routes/v1/text';
 import { dev } from './routes/v1/dev';
 import { consoleApi } from './routes/console';
 import { Docs } from './ui/docs';
-import { Home } from './ui/home';
 import { Privacy, Terms } from './ui/legal';
-import { getUser } from './lib/session';
 import { fail } from './lib/respond';
 
 const app = new Hono<Env>();
@@ -62,13 +60,11 @@ app.route('/console/api', consoleApi);
 app.get('/docs', (c) => c.html(<Docs />));
 app.get('/privacy', (c) => c.html(<Privacy />));
 app.get('/terms', (c) => c.html(<Terms />));
-// Root is the developer console home: explains the app + drives sign-in.
-// Already-authenticated visitors skip straight to the console dashboard.
-app.get('/', async (c) => {
-  const user = await getUser(c);
-  if (user) return c.redirect('/console');
-  return c.html(<Home />);
-});
+// The console SPA (index.html) is the app root. Serve it via the ASSETS binding;
+// its /assets/* files are served directly by the asset router.
+app.get('/', (c) => c.env.ASSETS.fetch(new Request(new URL('/index.html', c.req.url))));
+// Redirect the old console path to the root.
+app.get('/console', (c) => c.redirect('/'));
 
 app.notFound((c) => {
   if (c.req.path.startsWith('/v1')) return fail(c, 'not_found', 'No such endpoint.', 404);

@@ -3,6 +3,7 @@ import type { AuthUser } from '@hono/auth-js';
 /** Cloudflare bindings + secrets available on the Worker. */
 export type Bindings = {
   DB: D1Database;
+  ASSETS: Fetcher;
   AUTH_SECRET: string;
   AUTH_GOOGLE_ID: string;
   AUTH_GOOGLE_SECRET: string;

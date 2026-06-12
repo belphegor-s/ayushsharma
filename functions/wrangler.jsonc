@@ -8,6 +8,10 @@
   "assets": {
     "directory": "./console-app/dist",
     "binding": "ASSETS",
+    // Serve assets by exact path only; the Worker owns routing (it serves the
+    // SPA's index.html at "/" and renders /docs, /privacy, /terms itself).
+    "html_handling": "none",
+    "not_found_handling": "none",
   },
   "vars": {
     "AUTH_URL": "https://app.ayushsharma.me",

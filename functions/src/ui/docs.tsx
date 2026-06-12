@@ -60,7 +60,7 @@ export function Docs() {
         </span>
         <h1 class="title">API Docs</h1>
         <p class="lead">
-          A small, fast, free API by Ayush Sharma. All <code>/v1</code> endpoints require an API key. Get one from the <a href="/console">console</a>.
+          A small, fast, free API by Ayush Sharma. All <code>/v1</code> endpoints require an API key. Get one from the <a href="/">console</a>.
         </p>
         <p class="muted" style="margin-bottom:6px;">
           Base URL
