@@ -1,7 +1,7 @@
 import { Layout, Rule } from './layout';
 
 /**
- * Root landing for app.ayushsharma.me — the developer console home.
+ * Root landing for app.ayushsharma.me - the developer console home.
  *
  * Server-rendered on purpose: Google's OAuth verification review reads this page
  * to confirm the app clearly states what it does and why it uses Google sign-in.
@@ -11,28 +11,28 @@ export function Home() {
   return (
     <Layout title="Developer Console · Ayush Sharma API" active="console">
       <div class="section">
-        <span class="label"><span class="slash">/</span>developer console</span>
+        <span class="label">
+          <span class="slash">/</span>developer console
+        </span>
         <h1 class="title">Developer API</h1>
 
         <p class="lead">
-          <strong>app.ayushsharma.me</strong> is a free developer API and console built by Ayush
-          Sharma. It gives developers simple, fast HTTP endpoints for two toolkits — a
-          <strong> Design Toolkit</strong> and a <strong>Text &amp; Developer Toolkit</strong> — plus
-          a console to create and manage the API keys that authenticate your requests.
+          <strong>app.ayushsharma.me</strong> is a free developer API and console built by Ayush Sharma. It gives developers simple, fast HTTP endpoints for two toolkits - a
+          <strong> Design Toolkit</strong> and a <strong>Text &amp; Developer Toolkit</strong> - plus a console to create and manage the API keys that authenticate your requests.
         </p>
 
         <p class="muted" style="margin-top:-6px;">
-          <strong style="color:var(--text);">What you can do here:</strong> sign in with Google to
-          create a personal API key, see your monthly usage, and call any endpoint with that key.
-          Google sign-in is used <strong>only</strong> to identify your account and issue your
-          key — nothing is posted on your behalf and your Google password is never seen.
+          <strong style="color:var(--text);">What you can do here:</strong> sign in with Google to create a personal API key, see your monthly usage, and call any endpoint with that key. Google
+          sign-in is used <strong>only</strong> to identify your account and issue your key - nothing is posted on your behalf and your Google password is never seen.
         </p>
 
         <div style="display:flex; gap:10px; margin-top:22px; flex-wrap:wrap;">
           <a class="btn primary" href="/console">
             <GoogleMark /> Sign in with Google
           </a>
-          <a class="btn" href="/docs">Read the docs</a>
+          <a class="btn" href="/docs">
+            Read the docs
+          </a>
         </div>
 
         <div class="scopes">
@@ -49,25 +49,28 @@ export function Home() {
         <h2 style="margin-top:0;">What the API does</h2>
         <div class="toolkit-grid">
           <div class="card">
-            <span class="plus tl" /><span class="plus tr" /><span class="plus bl" /><span class="plus br" />
+            <span class="plus tl" />
+            <span class="plus tr" />
+            <span class="plus bl" />
+            <span class="plus br" />
             <h3 style="margin-top:0;">Design Toolkit</h3>
             <p class="muted" style="margin:0;">
-              WCAG contrast checking, tint/shade palettes, color-wheel harmonies, color blending,
-              and hex / rgb / hsl / oklch conversion.
+              WCAG contrast checking, tint/shade palettes, color-wheel harmonies, color blending, and hex / rgb / hsl / oklch conversion.
             </p>
           </div>
           <div class="card">
-            <span class="plus tl" /><span class="plus tr" /><span class="plus bl" /><span class="plus br" />
+            <span class="plus tl" />
+            <span class="plus tr" />
+            <span class="plus bl" />
+            <span class="plus br" />
             <h3 style="margin-top:0;">Text &amp; Developer Toolkit</h3>
             <p class="muted" style="margin:0;">
-              Readability stats, slugs, case conversion, keyword extraction, JWT decoding, SHA
-              hashing, UUID generation, and cron parsing.
+              Readability stats, slugs, case conversion, keyword extraction, JWT decoding, SHA hashing, UUID generation, and cron parsing.
             </p>
           </div>
         </div>
         <p class="muted" style="font-size:0.85rem;">
-          Every <code>/v1</code> endpoint needs an API key. New here? Read the{' '}
-          <a href="/docs">API docs</a> first.
+          Every <code>/v1</code> endpoint needs an API key. New here? Read the <a href="/docs">API docs</a> first.
         </p>
       </div>
 
@@ -76,16 +79,13 @@ export function Home() {
       <div class="section">
         <h2 style="margin-top:0;">Why sign in with Google</h2>
         <p class="muted">
-          To use the API you sign in with Google. We use your Google account for one purpose only: to
-          verify who you are and issue you a personal API key with a monthly request quota. During
-          sign-in we receive your basic profile (name and avatar) and email address. We never receive
-          your Google password. We do not use this data for advertising, and we never sell or share
-          it. You can delete your account and keys at any time by emailing
+          To use the API you sign in with Google. We use your Google account for one purpose only: to verify who you are and issue you a personal API key with a monthly request quota. During sign-in
+          we receive your basic profile (name and avatar) and email address. We never receive your Google password. We do not use this data for advertising, and we never sell or share it. You can
+          delete your account and keys at any time by emailing
           <a href="mailto:hello@ayushsharma.me"> hello@ayushsharma.me</a>.
         </p>
         <p class="muted">
-          Read how your data is handled in the <a href="/privacy">Privacy Policy</a> and{' '}
-          <a href="/terms">Terms of Use</a>. This API is operated by Ayush Sharma, author of{' '}
+          Read how your data is handled in the <a href="/privacy">Privacy Policy</a> and <a href="/terms">Terms of Use</a>. This API is operated by Ayush Sharma, author of{' '}
           <a href="https://ayushsharma.me">ayushsharma.me</a>.
         </p>
       </div>

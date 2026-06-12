@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   css: { postcss: { config: false } },
   // SPA is served under /console by the Worker, so emit assets at that path and
-  // nest the build under dist/console — the Worker points its ASSETS binding
+  // nest the build under dist/console - the Worker points its ASSETS binding
   // straight at console-app/dist, no post-build copy/rewrite step needed.
   base: '/console/',
   server: {

@@ -35,13 +35,19 @@ function Frame({ children }: { children: ReactNode }) {
             <span className="text-[#3b82f6] font-bold mr-1.5">/</span>app.ayushsharma.me
           </span>
           <nav className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-white/25">
-            <a href="/docs" className="ml-4 hover:text-white/45">docs</a>
-            <a href="/console" className="ml-4 text-[#93b4ff]">console</a>
+            <a href="/docs" className="ml-4 hover:text-white/45">
+              docs
+            </a>
+            <a href="/console" className="ml-4 text-[#93b4ff]">
+              console
+            </a>
           </nav>
         </header>
         <main className="flex-1 px-5 py-7">{children}</main>
         <footer className="flex justify-center gap-3.5 px-5 py-4 border-t border-white/10 font-mono text-[0.7rem] uppercase tracking-[0.2em]">
-          <a href="https://ayushsharma.me" className="text-white/25 hover:text-white/45">ayushsharma.me</a>
+          <a href="https://ayushsharma.me" className="text-white/25 hover:text-white/45">
+            ayushsharma.me
+          </a>
         </footer>
       </div>
     </div>
@@ -56,14 +62,11 @@ function SignIn({ csrf }: { csrf: string }) {
       </span>
       <h1 className="font-cursive font-bold text-[2.6rem] mb-1.5 mt-0 text-shadow-blue">Developer API</h1>
       <p className="text-white/45 mb-3 max-w-prose">
-        <span className="text-white/85">app.ayushsharma.me</span> is a free developer API and console
-        by Ayush Sharma. It provides HTTP endpoints for design utilities (contrast, palettes, color
-        conversion) and text &amp; developer utilities (readability, slugs, JWT decode, hashing,
-        UUIDs, cron).
+        <span className="text-white/85">app.ayushsharma.me</span> is a free developer API and console by Ayush Sharma. It provides HTTP endpoints for design utilities (contrast, palettes, color
+        conversion) and text &amp; developer utilities (readability, slugs, JWT decode, hashing, UUIDs, cron).
       </p>
       <p className="text-white/45 mb-4 max-w-prose">
-        Sign in with Google to create a personal API key and track your monthly usage. Google sign-in
-        is used only to identify your account and issue your key — your password is never seen.
+        Sign in with Google to create a personal API key and track your monthly usage. Google sign-in is used only to identify your account and issue your key - your password is never seen.
       </p>
 
       {csrf ? (
@@ -101,7 +104,11 @@ function SignIn({ csrf }: { csrf: string }) {
       </div>
 
       <p className="text-white/45 text-xs mt-4">
-        New here? Read the <a href="/docs" className="text-[#93b4ff] hover:text-white">API docs</a> first.
+        New here? Read the{' '}
+        <a href="/docs" className="text-[#93b4ff] hover:text-white">
+          API docs
+        </a>{' '}
+        first.
       </p>
     </Frame>
   );
@@ -121,9 +128,7 @@ function Dashboard({ session, csrf }: { session: { name: string; email: string; 
         <span className="text-[#3b82f6] font-bold mr-1.5">/</span>developer console
       </span>
       <div className="flex items-center gap-3 mt-3.5">
-        {session.image && (
-          <img src={session.image} alt="" className="w-[42px] h-[42px] rounded-full border border-white/10" referrerPolicy="no-referrer" />
-        )}
+        {session.image && <img src={session.image} alt="" className="w-[42px] h-[42px] rounded-full border border-white/10" referrerPolicy="no-referrer" />}
         <div>
           <div className="font-semibold">{session.name || 'Signed in'}</div>
           <div className="text-white/45 text-sm">{session.email}</div>
@@ -132,31 +137,29 @@ function Dashboard({ session, csrf }: { session: { name: string; email: string; 
           <form method="post" action="/api/auth/signout" className="ml-auto inline m-0">
             <input type="hidden" name="csrfToken" value={csrf} />
             <input type="hidden" name="callbackUrl" value="/console" />
-            <button type="submit" className="btn">Sign out</button>
+            <button type="submit" className="btn">
+              Sign out
+            </button>
           </form>
         ) : (
-          <a href="/api/auth/signout" className="btn ml-auto inline-flex">Sign out</a>
+          <a href="/api/auth/signout" className="btn ml-auto inline-flex">
+            Sign out
+          </a>
         )}
       </div>
 
       <div className="border-t border-white/10 mt-7" />
 
       <h2 className="text-[1.05rem] mt-7 mb-2.5">API keys</h2>
-      {(!keys || keys.length === 0) ? (
+      {!keys || keys.length === 0 ? (
         <p className="text-white/45 text-sm">No keys yet. Create one to start calling the API.</p>
       ) : (
         <table className="w-full text-sm border-collapse">
           <thead>
             <tr>
-              <th className="text-left p-2 border-b border-white/[0.06] font-mono text-[0.68rem] uppercase tracking-[0.14em] text-white/25 font-medium">
-                Key
-              </th>
-              <th className="text-left p-2 border-b border-white/[0.06] font-mono text-[0.68rem] uppercase tracking-[0.14em] text-white/25 font-medium">
-                Usage (this month)
-              </th>
-              <th className="text-left p-2 border-b border-white/[0.06] font-mono text-[0.68rem] uppercase tracking-[0.14em] text-white/25 font-medium">
-                Created
-              </th>
+              <th className="text-left p-2 border-b border-white/[0.06] font-mono text-[0.68rem] uppercase tracking-[0.14em] text-white/25 font-medium">Key</th>
+              <th className="text-left p-2 border-b border-white/[0.06] font-mono text-[0.68rem] uppercase tracking-[0.14em] text-white/25 font-medium">Usage (this month)</th>
+              <th className="text-left p-2 border-b border-white/[0.06] font-mono text-[0.68rem] uppercase tracking-[0.14em] text-white/25 font-medium">Created</th>
               <th />
             </tr>
           </thead>
@@ -165,14 +168,18 @@ function Dashboard({ session, csrf }: { session: { name: string; email: string; 
               <tr key={k.id}>
                 <td className="p-2 border-b border-white/[0.06] font-mono text-sm">{k.prefix}…</td>
                 <td className="p-2 border-b border-white/[0.06]">
-                  <div className="text-xs">{k.used} / {k.monthly_quota}</div>
+                  <div className="text-xs">
+                    {k.used} / {k.monthly_quota}
+                  </div>
                   <div className="meter mt-1.5">
                     <span style={{ width: Math.min(100, (k.used / k.monthly_quota) * 100) + '%' }} />
                   </div>
                 </td>
                 <td className="p-2 border-b border-white/[0.06] text-white/45 text-xs">{new Date(k.created_at).toISOString().slice(0, 10)}</td>
                 <td className="p-2 border-b border-white/[0.06]">
-                  <button className="btn danger" onClick={() => setRevokeId(k.id)}>Revoke</button>
+                  <button className="btn danger" onClick={() => setRevokeId(k.id)}>
+                    Revoke
+                  </button>
                 </td>
               </tr>
             ))}
@@ -203,7 +210,11 @@ function Dashboard({ session, csrf }: { session: { name: string; email: string; 
       <pre className="key">{`curl -H "Authorization: Bearer ak_live_..." \\
   "https://app.ayushsharma.me/v1/contrast?fg=%23ffffff&bg=%230c0d10"`}</pre>
       <p className="text-white/45 text-xs mt-3">
-        Full reference in the <a href="/docs" className="text-[#93b4ff] hover:text-white">docs</a>.
+        Full reference in the{' '}
+        <a href="/docs" className="text-[#93b4ff] hover:text-white">
+          docs
+        </a>
+        .
       </p>
 
       {revokeId && (
@@ -217,9 +228,7 @@ function Dashboard({ session, csrf }: { session: { name: string; email: string; 
         />
       )}
 
-      {createdPlaintext && (
-        <KeyModal plaintext={createdPlaintext} onClose={() => setCreatedPlaintext(null)} />
-      )}
+      {createdPlaintext && <KeyModal plaintext={createdPlaintext} onClose={() => setCreatedPlaintext(null)} />}
     </Frame>
   );
 }
@@ -236,15 +245,15 @@ function RevokeModal({ onClose, onConfirm }: { onClose: () => void; onConfirm: (
         <span className="font-mono text-[0.7rem] uppercase tracking-[0.2em] text-white/45">
           <span className="text-[#3b82f6] font-bold mr-1.5">/</span>confirm revoke
         </span>
-        <p className="mt-4 mb-2">
-          Permanently revoke this key?
-        </p>
-        <p className="text-white/45 text-sm mb-4">
-          All requests using this key will be rejected immediately. This cannot be undone.
-        </p>
+        <p className="mt-4 mb-2">Permanently revoke this key?</p>
+        <p className="text-white/45 text-sm mb-4">All requests using this key will be rejected immediately. This cannot be undone.</p>
         <div className="flex items-center gap-2.5">
-          <button className="btn danger flex items-center" onClick={onConfirm}>Yes, revoke</button>
-          <button className="btn" onClick={requestClose}>Cancel</button>
+          <button className="btn danger flex items-center" onClick={onConfirm}>
+            Yes, revoke
+          </button>
+          <button className="btn" onClick={requestClose}>
+            Cancel
+          </button>
         </div>
       </div>
     </div>
@@ -264,9 +273,7 @@ function KeyModal({ plaintext, onClose }: { plaintext: string; onClose: () => vo
         <span className="font-mono text-[0.7rem] uppercase tracking-[0.2em] text-white/45">
           <span className="text-[#3b82f6] font-bold mr-1.5">/</span>new api key
         </span>
-        <div className="banner warn mt-4">
-          This is the only time the full key is shown. Store it somewhere safe.
-        </div>
+        <div className="banner warn mt-4">This is the only time the full key is shown. Store it somewhere safe.</div>
         <div className="key whitespace-normal mt-3">{plaintext}</div>
         <div className="flex items-center gap-2.5 mt-4">
           <button
@@ -279,7 +286,9 @@ function KeyModal({ plaintext, onClose }: { plaintext: string; onClose: () => vo
           >
             {copied ? 'Copied!' : 'Copy key'}
           </button>
-          <button className="btn" onClick={requestClose}>Back to console</button>
+          <button className="btn" onClick={requestClose}>
+            Back to console
+          </button>
         </div>
       </div>
     </div>
@@ -287,11 +296,7 @@ function KeyModal({ plaintext, onClose }: { plaintext: string; onClose: () => vo
 }
 
 function Chip({ children }: { children: ReactNode }) {
-  return (
-    <span className="font-mono text-[0.68rem] tracking-[0.06em] border border-white/10 rounded-full px-2.5 py-1 text-white/45">
-      {children}
-    </span>
-  );
+  return <span className="font-mono text-[0.68rem] tracking-[0.06em] border border-white/10 rounded-full px-2.5 py-1 text-white/45">{children}</span>;
 }
 
 function GoogleIcon() {

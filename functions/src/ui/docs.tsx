@@ -15,7 +15,10 @@ async function Code(props: { code: string; lang: 'bash' | 'json' }) {
 function Param(props: { name: string; req?: boolean; desc: string }) {
   return (
     <tr>
-      <td><code>{props.name}</code>{props.req ? <span style="color:#ef8a8a"> *</span> : null}</td>
+      <td>
+        <code>{props.name}</code>
+        {props.req ? <span style="color:#ef8a8a"> *</span> : null}
+      </td>
       <td class="muted">{props.desc}</td>
     </tr>
   );
@@ -24,7 +27,12 @@ function Param(props: { name: string; req?: boolean; desc: string }) {
 function ParamTable(props: { children: any }) {
   return (
     <table>
-      <thead><tr><th>Param</th><th>Description</th></tr></thead>
+      <thead>
+        <tr>
+          <th>Param</th>
+          <th>Description</th>
+        </tr>
+      </thead>
       <tbody>{props.children}</tbody>
     </table>
   );
@@ -47,26 +55,34 @@ export function Docs() {
   return (
     <Layout title="API Docs · Ayush Sharma API" active="docs">
       <div class="section">
-        <span class="label"><span class="slash">/</span>reference</span>
+        <span class="label">
+          <span class="slash">/</span>reference
+        </span>
         <h1 class="title">API Docs</h1>
         <p class="lead">
-          A small, fast, free API by Ayush Sharma. All <code>/v1</code> endpoints require an API key.
-          Get one from the <a href="/console">console</a>.
+          A small, fast, free API by Ayush Sharma. All <code>/v1</code> endpoints require an API key. Get one from the <a href="/console">console</a>.
         </p>
-        <p class="muted" style="margin-bottom:6px;">Base URL</p>
+        <p class="muted" style="margin-bottom:6px;">
+          Base URL
+        </p>
         <BaseUrl />
 
         <h2>Authentication</h2>
         <p class="muted">Send your key as a Bearer token on every request:</p>
-        <Code lang="bash" code={`curl -H "Authorization: Bearer ak_live_yourkey" \\
-  "https://app.ayushsharma.me/v1/convert?c=%233b82f6"`} />
+        <Code
+          lang="bash"
+          code={`curl -H "Authorization: Bearer ak_live_yourkey" \\
+  "https://app.ayushsharma.me/v1/convert?c=%233b82f6"`}
+        />
         <p class="muted">Responses use a uniform envelope:</p>
-        <Code lang="json" code={`{ "ok": true, "data": { /* ... */ } }
-{ "ok": false, "error": { "code": "bad_request", "message": "..." } }`} />
+        <Code
+          lang="json"
+          code={`{ "ok": true, "data": { /* ... */ } }
+{ "ok": false, "error": { "code": "bad_request", "message": "..." } }`}
+        />
         <p class="muted">
-          Rate limit headers (<code>X-RateLimit-Limit</code>, <code>-Remaining</code>,
-          <code>-Reset</code>) are returned on every call. Default quota is 1000 requests/month;
-          exceeding it returns <code>429</code>.
+          Rate limit headers (<code>X-RateLimit-Limit</code>, <code>-Remaining</code>,<code>-Reset</code>) are returned on every call. Default quota is 1000 requests/month; exceeding it returns{' '}
+          <code>429</code>.
         </p>
       </div>
 
@@ -81,9 +97,14 @@ export function Docs() {
             <Param name="fg" req desc="Foreground color (hex, rgb(), hsl() or oklch())" />
             <Param name="bg" req desc="Background color" />
           </ParamTable>
-          <Code lang="bash" code={`curl -H "Authorization: Bearer ak_live_yourkey" \\
-  "https://app.ayushsharma.me/v1/contrast?fg=%23ffffff&bg=%230c0d10"`} />
-          <Code lang="json" code={`{
+          <Code
+            lang="bash"
+            code={`curl -H "Authorization: Bearer ak_live_yourkey" \\
+  "https://app.ayushsharma.me/v1/contrast?fg=%23ffffff&bg=%230c0d10"`}
+          />
+          <Code
+            lang="json"
+            code={`{
   "ok": true,
   "data": {
     "fg": "#ffffff", "bg": "#0c0d10",
@@ -91,7 +112,8 @@ export function Docs() {
     "normal": { "AA": true, "AAA": true },
     "large":  { "AA": true, "AAA": true }
   }
-}`} />
+}`}
+          />
         </Endpoint>
 
         <Endpoint method="get" path="/v1/palette">
@@ -100,15 +122,21 @@ export function Docs() {
             <Param name="base" req desc="Base color in any supported format" />
             <Param name="n" desc="Number of steps, 2–12 (default 9)" />
           </ParamTable>
-          <Code lang="bash" code={`curl -H "Authorization: Bearer ak_live_yourkey" \\
-  "https://app.ayushsharma.me/v1/palette?base=%233b82f6&n=5"`} />
-          <Code lang="json" code={`{
+          <Code
+            lang="bash"
+            code={`curl -H "Authorization: Bearer ak_live_yourkey" \\
+  "https://app.ayushsharma.me/v1/palette?base=%233b82f6&n=5"`}
+          />
+          <Code
+            lang="json"
+            code={`{
   "ok": true,
   "data": {
     "base": "#3b82f6", "count": 5,
     "colors": ["#b1ccfb", "#75a4f8", "#3b82f6", "#27569f", "#132b4f"]
   }
-}`} />
+}`}
+          />
         </Endpoint>
 
         <Endpoint method="get" path="/v1/convert">
@@ -116,9 +144,14 @@ export function Docs() {
           <ParamTable>
             <Param name="c" req desc="Color in hex, rgb(), hsl() or oklch()" />
           </ParamTable>
-          <Code lang="bash" code={`curl -H "Authorization: Bearer ak_live_yourkey" \\
-  "https://app.ayushsharma.me/v1/convert?c=%233b82f6"`} />
-          <Code lang="json" code={`{
+          <Code
+            lang="bash"
+            code={`curl -H "Authorization: Bearer ak_live_yourkey" \\
+  "https://app.ayushsharma.me/v1/convert?c=%233b82f6"`}
+          />
+          <Code
+            lang="json"
+            code={`{
   "ok": true,
   "data": {
     "hex": "#3b82f6",
@@ -126,7 +159,8 @@ export function Docs() {
     "hsl": "hsl(217, 91%, 60%)",
     "oklch": "oklch(0.6231 0.188 259.81)"
   }
-}`} />
+}`}
+          />
         </Endpoint>
 
         <Endpoint method="get" path="/v1/harmony">
@@ -135,15 +169,21 @@ export function Docs() {
             <Param name="base" req desc="Base color in any supported format" />
             <Param name="type" desc="complementary (default), analogous, triadic, tetradic, split-complementary" />
           </ParamTable>
-          <Code lang="bash" code={`curl -H "Authorization: Bearer ak_live_yourkey" \\
-  "https://app.ayushsharma.me/v1/harmony?base=%233b82f6&type=triadic"`} />
-          <Code lang="json" code={`{
+          <Code
+            lang="bash"
+            code={`curl -H "Authorization: Bearer ak_live_yourkey" \\
+  "https://app.ayushsharma.me/v1/harmony?base=%233b82f6&type=triadic"`}
+          />
+          <Code
+            lang="json"
+            code={`{
   "ok": true,
   "data": {
     "base": "#3b82f6", "type": "triadic",
     "colors": ["#3c83f6", "#f63c83", "#83f63c"]
   }
-}`} />
+}`}
+          />
         </Endpoint>
 
         <Endpoint method="get" path="/v1/blend">
@@ -153,8 +193,11 @@ export function Docs() {
             <Param name="b" req desc="Second color" />
             <Param name="t" desc="Mix ratio 0–1 (default 0.5); 0 = a, 1 = b" />
           </ParamTable>
-          <Code lang="bash" code={`curl -H "Authorization: Bearer ak_live_yourkey" \\
-  "https://app.ayushsharma.me/v1/blend?a=%23ff0000&b=%230000ff&t=0.5"`} />
+          <Code
+            lang="bash"
+            code={`curl -H "Authorization: Bearer ak_live_yourkey" \\
+  "https://app.ayushsharma.me/v1/blend?a=%23ff0000&b=%230000ff&t=0.5"`}
+          />
           <Code lang="json" code={`{ "ok": true, "data": { "a": "#ff0000", "b": "#0000ff", "t": 0.5, "result": "#800080" } }`} />
         </Endpoint>
       </div>
@@ -163,15 +206,22 @@ export function Docs() {
 
       <div class="section">
         <h2>Text Intelligence</h2>
-        <p class="muted">All endpoints take a JSON body with a <code>text</code> string (max 100 KB).</p>
+        <p class="muted">
+          All endpoints take a JSON body with a <code>text</code> string (max 100 KB).
+        </p>
 
         <Endpoint method="post" path="/v1/text/stats">
           <p class="muted">Word/character counts, reading time, and Flesch readability.</p>
-          <Code lang="bash" code={`curl -X POST -H "Authorization: Bearer ak_live_yourkey" \\
+          <Code
+            lang="bash"
+            code={`curl -X POST -H "Authorization: Bearer ak_live_yourkey" \\
   -H "Content-Type: application/json" \\
   -d '{"text":"The quick brown fox jumps over the lazy dog."}' \\
-  https://app.ayushsharma.me/v1/text/stats`} />
-          <Code lang="json" code={`{
+  https://app.ayushsharma.me/v1/text/stats`}
+          />
+          <Code
+            lang="json"
+            code={`{
   "ok": true,
   "data": {
     "characters": 44, "words": 9, "sentences": 1,
@@ -180,22 +230,31 @@ export function Docs() {
     "fleschKincaidGrade": 1.3,
     "gradeLabel": "Very easy (5th grade)"
   }
-}`} />
+}`}
+          />
         </Endpoint>
 
         <Endpoint method="post" path="/v1/text/slug">
           <p class="muted">URL-safe slug from any string.</p>
-          <Code lang="json" code={`// request:  { "text": "Hello, World! Café" }
-{ "ok": true, "data": { "slug": "hello-world-cafe" } }`} />
+          <Code
+            lang="json"
+            code={`// request:  { "text": "Hello, World! Café" }
+{ "ok": true, "data": { "slug": "hello-world-cafe" } }`}
+          />
         </Endpoint>
 
         <Endpoint method="post" path="/v1/text/case">
           <p class="muted">Convert any string into every common programming and display case.</p>
-          <Code lang="bash" code={`curl -X POST -H "Authorization: Bearer ak_live_yourkey" \\
+          <Code
+            lang="bash"
+            code={`curl -X POST -H "Authorization: Bearer ak_live_yourkey" \\
   -H "Content-Type: application/json" \\
   -d '{"text":"user profile settings"}' \\
-  https://app.ayushsharma.me/v1/text/case`} />
-          <Code lang="json" code={`{
+  https://app.ayushsharma.me/v1/text/case`}
+          />
+          <Code
+            lang="json"
+            code={`{
   "ok": true,
   "data": {
     "camel": "userProfileSettings",
@@ -208,7 +267,8 @@ export function Docs() {
     "title": "User Profile Settings",
     "sentence": "User profile settings"
   }
-}`} />
+}`}
+          />
         </Endpoint>
 
         <Endpoint method="post" path="/v1/text/excerpt">
@@ -226,10 +286,13 @@ export function Docs() {
             <Param name="text" req desc="Source text" />
             <Param name="top" desc="How many keywords to return (default 10)" />
           </ParamTable>
-          <Code lang="json" code={`{
+          <Code
+            lang="json"
+            code={`{
   "ok": true,
   "data": { "keywords": [ { "word": "design", "count": 4 }, { "word": "color", "count": 3 } ] }
-}`} />
+}`}
+          />
         </Endpoint>
       </div>
 
@@ -241,14 +304,18 @@ export function Docs() {
 
         <Endpoint method="post" path="/v1/jwt/decode">
           <p class="muted">
-            Decode a JWT's header and payload and surface its timing claims. The signature is
-            returned untouched and <strong>never verified</strong> — this is a debugging aid, not auth.
+            Decode a JWT's header and payload and surface its timing claims. The signature is returned untouched and <strong>never verified</strong> - this is a debugging aid, not auth.
           </p>
-          <Code lang="bash" code={`curl -X POST -H "Authorization: Bearer ak_live_yourkey" \\
+          <Code
+            lang="bash"
+            code={`curl -X POST -H "Authorization: Bearer ak_live_yourkey" \\
   -H "Content-Type: application/json" \\
   -d '{"token":"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjMiLCJleHAiOjE3MzU2ODk2MDB9.sig"}' \\
-  https://app.ayushsharma.me/v1/jwt/decode`} />
-          <Code lang="json" code={`{
+  https://app.ayushsharma.me/v1/jwt/decode`}
+          />
+          <Code
+            lang="json"
+            code={`{
   "ok": true,
   "data": {
     "header": { "alg": "HS256" },
@@ -259,7 +326,8 @@ export function Docs() {
     "isExpired": true,
     "expiresIn": -12345
   }
-}`} />
+}`}
+          />
         </Endpoint>
 
         <Endpoint method="post" path="/v1/hash">
@@ -268,11 +336,16 @@ export function Docs() {
             <Param name="text" req desc="String to hash" />
             <Param name="algo" desc="sha1, sha256 (default), sha384, sha512" />
           </ParamTable>
-          <Code lang="bash" code={`curl -X POST -H "Authorization: Bearer ak_live_yourkey" \\
+          <Code
+            lang="bash"
+            code={`curl -X POST -H "Authorization: Bearer ak_live_yourkey" \\
   -H "Content-Type: application/json" \\
   -d '{"text":"hello","algo":"sha256"}' \\
-  https://app.ayushsharma.me/v1/hash`} />
-          <Code lang="json" code={`{
+  https://app.ayushsharma.me/v1/hash`}
+          />
+          <Code
+            lang="json"
+            code={`{
   "ok": true,
   "data": {
     "algorithm": "SHA-256",
@@ -280,7 +353,8 @@ export function Docs() {
     "base64": "LPJNul+wow4m6Dsqxbni... ",
     "bits": 256
   }
-}`} />
+}`}
+          />
         </Endpoint>
 
         <Endpoint method="get" path="/v1/uuid">
@@ -288,9 +362,14 @@ export function Docs() {
           <ParamTable>
             <Param name="n" desc="How many to generate, 1–100 (default 1)" />
           </ParamTable>
-          <Code lang="bash" code={`curl -H "Authorization: Bearer ak_live_yourkey" \\
-  "https://app.ayushsharma.me/v1/uuid?n=3"`} />
-          <Code lang="json" code={`{
+          <Code
+            lang="bash"
+            code={`curl -H "Authorization: Bearer ak_live_yourkey" \\
+  "https://app.ayushsharma.me/v1/uuid?n=3"`}
+          />
+          <Code
+            lang="json"
+            code={`{
   "ok": true,
   "data": {
     "version": 4, "count": 3,
@@ -298,21 +377,26 @@ export function Docs() {
       "3f0c4b1e-...","b91d2a77-...","7c5e8f02-..."
     ]
   }
-}`} />
+}`}
+          />
         </Endpoint>
 
         <Endpoint method="get" path="/v1/cron">
           <p class="muted">
-            Parse a 5-field cron expression (or an <code>@daily</code>-style alias), describe it in
-            plain English, and compute the next run times in UTC.
+            Parse a 5-field cron expression (or an <code>@daily</code>-style alias), describe it in plain English, and compute the next run times in UTC.
           </p>
           <ParamTable>
             <Param name="expr" req desc="Cron expression, e.g. */15 9-17 * * 1-5" />
             <Param name="n" desc="Number of upcoming runs to return, 1–20 (default 5)" />
           </ParamTable>
-          <Code lang="bash" code={`curl -H "Authorization: Bearer ak_live_yourkey" \\
-  "https://app.ayushsharma.me/v1/cron?expr=0%209%20*%20*%201-5&n=3"`} />
-          <Code lang="json" code={`{
+          <Code
+            lang="bash"
+            code={`curl -H "Authorization: Bearer ak_live_yourkey" \\
+  "https://app.ayushsharma.me/v1/cron?expr=0%209%20*%20*%201-5&n=3"`}
+          />
+          <Code
+            lang="json"
+            code={`{
   "ok": true,
   "data": {
     "expression": "0 9 * * 1-5",
@@ -324,7 +408,8 @@ export function Docs() {
       "2026-06-16T09:00:00.000Z"
     ]
   }
-}`} />
+}`}
+          />
         </Endpoint>
       </div>
     </Layout>

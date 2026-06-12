@@ -22,12 +22,11 @@ function b64urlToString(seg: string): string {
 
 // --- JWT -----------------------------------------------------------------------
 
-const iso = (sec: unknown) =>
-  typeof sec === 'number' && Number.isFinite(sec) ? new Date(sec * 1000).toISOString() : null;
+const iso = (sec: unknown) => (typeof sec === 'number' && Number.isFinite(sec) ? new Date(sec * 1000).toISOString() : null);
 
 /**
  * Decode (NOT verify) a JWT. The signature is returned untouched and never
- * checked — this is a debugging aid, not an auth primitive.
+ * checked - this is a debugging aid, not an auth primitive.
  */
 export function decodeJwt(token: string) {
   const parts = token.trim().split('.');
@@ -192,8 +191,7 @@ export function nextRuns(c: Cron, n: number, from = new Date()): string[] {
   return out;
 }
 
-const listField = (f: Field, full: number): string =>
-  f.values.size === full ? 'every' : [...f.values].sort((a, b) => a - b).join(', ');
+const listField = (f: Field, full: number): string => (f.values.size === full ? 'every' : [...f.values].sort((a, b) => a - b).join(', '));
 
 /** Best-effort human description of a cron expression. */
 export function describeCron(c: Cron): string {
@@ -202,10 +200,20 @@ export function describeCron(c: Cron): string {
   const parts = [`At ${min} of ${hour}`];
   if (c.domRestricted) parts.push(`on day-of-month ${listField(c.dom, 31)}`);
   if (c.month.values.size !== 12) {
-    parts.push(`in month ${[...c.month.values].sort((a, b) => a - b).map((m) => MONTHS[m - 1]).join(', ')}`);
+    parts.push(
+      `in month ${[...c.month.values]
+        .sort((a, b) => a - b)
+        .map((m) => MONTHS[m - 1])
+        .join(', ')}`,
+    );
   }
   if (c.dowRestricted) {
-    parts.push(`on ${[...c.dow.values].sort((a, b) => a - b).map((d) => DOW[d]).join(', ')}`);
+    parts.push(
+      `on ${[...c.dow.values]
+        .sort((a, b) => a - b)
+        .map((d) => DOW[d])
+        .join(', ')}`,
+    );
   }
   return parts.join(', ') + ' (UTC).';
 }

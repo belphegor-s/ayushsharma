@@ -3,7 +3,7 @@ import { CSS, COPY_JS, FONTS_HREF } from './theme';
 
 type NavKey = 'console' | 'docs';
 
-/** Four hairline corner markers — drop inside any `position:relative` box. */
+/** Four hairline corner markers - drop inside any `position:relative` box. */
 export function Corners() {
   return (
     <>
@@ -28,20 +28,12 @@ export function Rule() {
 /** Copy-to-clipboard button. `inblock` for the compact in-pill variant. */
 export function CopyBtn(props: { text: string; inblock?: boolean }) {
   return (
-    <button
-      type="button"
-      class={`copy${props.inblock ? ' inblock' : ''}`}
-      data-copy={props.text}
-      aria-label="Copy to clipboard"
-      title="Copy"
-    >
-      <svg class="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <button type="button" class={`copy${props.inblock ? ' inblock' : ''}`} data-copy={props.text} aria-label="Copy to clipboard" title="Copy">
+      <svg class="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
         <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
       </svg>
-      <svg class="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"
-        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <svg class="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <path d="M20 6 9 17l-5-5" />
       </svg>
     </button>
@@ -85,17 +77,27 @@ export function Layout(props: { title: string; active?: NavKey; children: Child 
                 <span class="slash">/</span>app.ayushsharma.me
               </span>
               <nav class="nav">
-                <a href="/docs" class={props.active === 'docs' ? 'active' : ''}>docs</a>
-                <a href="/console" class={props.active === 'console' ? 'active' : ''}>console</a>
+                <a href="/docs" class={props.active === 'docs' ? 'active' : ''}>
+                  docs
+                </a>
+                <a href="/console" class={props.active === 'console' ? 'active' : ''}>
+                  console
+                </a>
               </nav>
             </div>
             <div class="content">{props.children}</div>
             <footer class="foot">
-              <span class="label"><a href="/privacy">privacy</a></span>
+              <span class="label">
+                <a href="/privacy">privacy</a>
+              </span>
               <span class="foot-sep">·</span>
-              <span class="label"><a href="/terms">terms</a></span>
+              <span class="label">
+                <a href="/terms">terms</a>
+              </span>
               <span class="foot-sep">·</span>
-              <span class="label"><a href="https://ayushsharma.me">ayushsharma.me</a></span>
+              <span class="label">
+                <a href="https://ayushsharma.me">ayushsharma.me</a>
+              </span>
             </footer>
           </div>
         </div>
