@@ -27,9 +27,9 @@ const Label = ({ children, accent }) => (
 
 export default function LegalPage({ slug, title, updated, children }) {
   return (
-    <div className="bg-container relative flex min-h-screen w-full flex-col text-white">
-      <div className="relative z-10 mx-auto flex w-full max-w-3xl flex-1 flex-col px-4 sm:px-0">
-        <div className="content-frame relative flex flex-1 flex-col border-x border-white/10">
+    <div className="bg-container relative min-h-screen w-full text-white">
+      <div className="relative z-10 mx-auto w-full max-w-3xl px-4 sm:px-0">
+        <div className="content-frame relative border-x border-white/10">
           <Plus at="tl" />
           <Plus at="tr" />
 
@@ -42,7 +42,7 @@ export default function LegalPage({ slug, title, updated, children }) {
           </div>
 
           {/* Content */}
-          <article className="flex-1 px-6 py-12 sm:px-8 sm:py-16">
+          <article className="px-6 py-12 sm:px-8 sm:py-16">
             <header className="mb-10">
               <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">{title}</h1>
               <p className="mt-3 font-mono text-[0.7rem] uppercase tracking-[0.18em] text-white/30">Last updated · {updated}</p>
@@ -50,6 +50,14 @@ export default function LegalPage({ slug, title, updated, children }) {
 
             <div className="legal-prose space-y-8 text-sm leading-relaxed text-white/65">{children}</div>
           </article>
+
+          {/* Closing bar */}
+          <div className="flex items-center justify-between border-t border-white/10 px-5 py-3">
+            <Label>ayushsharma.me</Label>
+            <Link href="/" className="font-mono text-[0.7rem] uppercase tracking-[0.2em] text-white/30 transition-colors hover:text-blue-400">
+              © {new Date().getFullYear()}
+            </Link>
+          </div>
 
           <Plus at="bl" />
           <Plus at="br" />

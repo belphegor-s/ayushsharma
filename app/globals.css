@@ -49,16 +49,12 @@
   inset: 0;
   pointer-events: none;
   z-index: 0;
-  background: radial-gradient(70% 45% at 50% -5%, rgba(59, 130, 246, 0.09), transparent 60%),
-    radial-gradient(ellipse at center, transparent 40%, rgba(12, 13, 16, 0.85) 100%);
+  background: radial-gradient(70% 45% at 50% -5%, rgba(59, 130, 246, 0.09), transparent 60%), radial-gradient(ellipse at center, transparent 40%, rgba(12, 13, 16, 0.85) 100%);
 }
 
 /* Blog shell: solid bg, no dotted pattern bleed-through, soft blue glow */
 .blog-shell {
-  background:
-    radial-gradient(60% 50% at 80% -10%, rgba(59, 130, 246, 0.10), transparent 60%),
-    radial-gradient(50% 40% at 0% 100%, rgba(99, 102, 241, 0.06), transparent 60%),
-    #0c0d10;
+  background: radial-gradient(60% 50% at 80% -10%, rgba(59, 130, 246, 0.1), transparent 60%), radial-gradient(50% 40% at 0% 100%, rgba(99, 102, 241, 0.06), transparent 60%), #0c0d10;
   min-height: 100vh;
 }
 .blog-shell::before {
@@ -66,8 +62,7 @@
   position: fixed;
   inset: 0;
   pointer-events: none;
-  background-image: linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  background-image: linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
   background-size: 56px 56px;
   mask-image: radial-gradient(ellipse at top, rgba(0, 0, 0, 0.6), transparent 70%);
   -webkit-mask-image: radial-gradient(ellipse at top, rgba(0, 0, 0, 0.6), transparent 70%);
@@ -101,7 +96,10 @@
     height: 170px;
     display: block;
     object-fit: cover;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.06), inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+    box-shadow:
+      0 8px 30px rgba(0, 0, 0, 0.5),
+      0 0 0 1px rgba(255, 255, 255, 0.06),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.04);
   }
 }
 
@@ -168,7 +166,9 @@
   text-decoration: underline;
   text-decoration-color: rgba(96, 165, 250, 0.35);
   text-underline-offset: 3px;
-  transition: text-decoration-color 0.15s ease, color 0.15s ease;
+  transition:
+    text-decoration-color 0.15s ease,
+    color 0.15s ease;
 }
 .prose-ayush a:hover {
   color: #93c5fd;
@@ -293,7 +293,7 @@
 }
 
 /* iOS Safari zooms the viewport when focusing a control whose font-size
-   is below 16px. Force 16px on touch devices only — desktop sizing (text-sm)
+   is below 16px. Force 16px on touch devices only - desktop sizing (text-sm)
    stays intact. !important is needed to beat Tailwind utility specificity. */
 @media (pointer: coarse) {
   input:not([type='checkbox']):not([type='radio']):not([type='range']),

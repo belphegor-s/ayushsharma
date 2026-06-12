@@ -13,10 +13,7 @@ const UPDATED = 'June 12, 2026';
 export default function TermsPage() {
   return (
     <LegalPage slug="terms" title="Terms of Use" updated={UPDATED}>
-      <p>
-        Welcome to {siteConfig.url.replace('https://', '')}. By using this site you agree to the terms below. They’re short and reasonable — it’s a personal portfolio, not a
-        product.
-      </p>
+      <p>Welcome to {siteConfig.url.replace('https://', '')}. By using this site you agree to the terms below. They’re short and reasonable - it’s a personal portfolio, not a product.</p>
 
       <Section heading="Use of the site">
         <p>Browse, read, and get in touch. Don’t try to break, overload, or misuse the site, and don’t use it for anything unlawful.</p>
@@ -24,8 +21,8 @@ export default function TermsPage() {
 
       <Section heading="Content & ownership">
         <p>
-          The content, design, and code here are mine unless stated otherwise. You’re welcome to read and link to it. Reusing substantial parts — copy, design, or code — without
-          credit or permission isn’t allowed.
+          The content, design, and code here are mine unless stated otherwise. You’re welcome to read and link to it. Reusing substantial parts - copy, design, or code - without credit or permission
+          isn’t allowed.
         </p>
       </Section>
 

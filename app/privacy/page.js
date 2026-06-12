@@ -14,8 +14,8 @@ export default function PrivacyPage() {
   return (
     <LegalPage slug="privacy" title="Privacy Policy" updated={UPDATED}>
       <p>
-        This is the personal site of {siteConfig.author.name}. It is a portfolio — there are no accounts, no logins, and nothing to sell. This page explains the little
-        data the site does touch and why.
+        This is the personal site of {siteConfig.author.name}. It is a portfolio - there are no accounts, no logins, and nothing to sell. This page explains the little data the site does touch and
+        why.
       </p>
 
       <Section heading="What I collect">
@@ -24,8 +24,8 @@ export default function PrivacyPage() {
             <span className="text-white/85">Contact form.</span> When you message me, the name, email, and message you type are sent to my inbox so I can reply. Nothing else.
           </li>
           <li>
-            <span className="text-white/85">Analytics.</span> Privacy-friendly, aggregate usage data (pages viewed, rough region, device type) via PostHog and Vercel Speed Insights. No
-            invasive tracking, no ad networks.
+            <span className="text-white/85">Analytics.</span> Privacy-friendly, aggregate usage data (pages viewed, rough region, device type) via PostHog and Vercel Speed Insights. No invasive
+            tracking, no ad networks.
           </li>
         </ul>
       </Section>
@@ -36,8 +36,8 @@ export default function PrivacyPage() {
 
       <Section heading="Third parties">
         <p>
-          A few trusted services process data on my behalf: Resend (delivers contact emails), PostHog (analytics), and Vercel (hosting and performance metrics). Each handles data
-          under its own privacy terms.
+          A few trusted services process data on my behalf: Resend (delivers contact emails), PostHog (analytics), and Vercel (hosting and performance metrics). Each handles data under its own privacy
+          terms.
         </p>
       </Section>
 
