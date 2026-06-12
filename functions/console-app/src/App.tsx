@@ -115,16 +115,21 @@ function SignIn({ csrf }: { csrf: string }) {
         <Chip>no password access</Chip>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         <div className="card">
           <span className="plus" /> <span className="plus top-left" />
           <h3 className="mt-0 text-base font-semibold">Design Toolkit</h3>
-          <p className="text-white/45 m-0 text-sm">WCAG contrast, color palettes, and hex/rgb/hsl/oklch conversion.</p>
+          <p className="text-white/45 m-0 text-sm">WCAG contrast, palettes, color harmonies, blending, and hex/rgb/hsl/oklch conversion.</p>
         </div>
         <div className="card">
           <span className="plus" /> <span className="plus top-left" />
           <h3 className="mt-0 text-base font-semibold">Text Intelligence</h3>
-          <p className="text-white/45 m-0 text-sm">Readability stats, slugs, smart excerpts, and keyword extraction.</p>
+          <p className="text-white/45 m-0 text-sm">Readability stats, slugs, case conversion, excerpts, and keyword extraction.</p>
+        </div>
+        <div className="card">
+          <span className="plus" /> <span className="plus top-left" />
+          <h3 className="mt-0 text-base font-semibold">Developer Utilities</h3>
+          <p className="text-white/45 m-0 text-sm">JWT decode, SHA hashing, UUID generation, and cron parsing with next-run times.</p>
         </div>
       </div>
 
