@@ -159,7 +159,7 @@ function Dashboard({ session, csrf }: { session: { name: string; email: string; 
           <div className="text-white/45 text-sm truncate">{session.email}</div>
         </div>
         {csrf ? (
-          <form method="post" action="/api/auth/signout" className="ml-auto inline m-0">
+          <form method="post" action="/api/auth/signout" className="ml-auto inline m-0 shrink-0">
             <input type="hidden" name="csrfToken" value={csrf} />
             <input type="hidden" name="callbackUrl" value="/" />
             <button type="submit" className="btn">
@@ -167,7 +167,7 @@ function Dashboard({ session, csrf }: { session: { name: string; email: string; 
             </button>
           </form>
         ) : (
-          <a href="/api/auth/signout" className="btn ml-auto inline-flex">
+          <a href="/api/auth/signout" className="btn ml-auto inline-flex shrink-0">
             Sign out
           </a>
         )}
