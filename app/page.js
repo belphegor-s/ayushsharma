@@ -363,6 +363,16 @@ export default function Home() {
             </a>
           </footer>
 
+          <div className="flex items-center justify-center gap-4 border-t border-white/10 px-5 py-3">
+            <Link href="/privacy" className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-white/25 transition-colors hover:text-blue-400">
+              Privacy
+            </Link>
+            <span className="text-white/15">·</span>
+            <Link href="/terms" className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-white/25 transition-colors hover:text-blue-400">
+              Terms
+            </Link>
+          </div>
+
           <Plus at="bl" />
           <Plus at="br" />
         </div>
