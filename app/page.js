@@ -17,7 +17,7 @@ const dancing = Dancing_Script({
   weight: ['400', '700'],
 });
 
-const RESUME_URL = 'https://storage.pixly.sh/ayush_resume.pdf';
+const RESUME_URL = 'https://storage.procd.cc/ayush_resume.pdf';
 
 const socials = [
   { href: 'https://short.pixly.sh/github', icon: FiGithub, label: 'GitHub Profile' },
@@ -273,7 +273,7 @@ export default function Home() {
 
             <motion.a
               className="mt-3 inline-flex items-center gap-1.5 text-xs font-medium text-white/50 transition-colors hover:text-white"
-              href="https://storage.pixly.sh/leo.jpg"
+              href="https://storage.procd.cc/leo.jpg"
               target="_blank"
               rel="noreferrer noopener"
               initial={{ opacity: 0 }}
