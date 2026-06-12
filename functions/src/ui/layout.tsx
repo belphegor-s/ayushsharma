@@ -91,9 +91,11 @@ export function Layout(props: { title: string; active?: NavKey; children: Child 
             </div>
             <div class="content">{props.children}</div>
             <footer class="foot">
-              <span class="label">
-                <a href="https://ayushsharma.me">ayushsharma.me</a>
-              </span>
+              <span class="label"><a href="/privacy">privacy</a></span>
+              <span class="foot-sep">·</span>
+              <span class="label"><a href="/terms">terms</a></span>
+              <span class="foot-sep">·</span>
+              <span class="label"><a href="https://ayushsharma.me">ayushsharma.me</a></span>
             </footer>
           </div>
         </div>

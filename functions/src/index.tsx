@@ -10,6 +10,7 @@ import { dev } from './routes/v1/dev';
 import { consoleApi } from './routes/console';
 import { Docs } from './ui/docs';
 import { Home } from './ui/home';
+import { Privacy, Terms } from './ui/legal';
 import { fail } from './lib/respond';
 
 const app = new Hono<Env>();
@@ -58,6 +59,8 @@ app.route('/v1', dev);
 // Console JSON API (used by the React SPA served from Workers Assets).
 app.route('/console/api', consoleApi);
 app.get('/docs', (c) => c.html(<Docs />));
+app.get('/privacy', (c) => c.html(<Privacy />));
+app.get('/terms', (c) => c.html(<Terms />));
 app.get('/', (c) => c.html(<Home />));
 
 app.notFound((c) => {

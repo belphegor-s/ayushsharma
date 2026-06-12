@@ -53,8 +53,8 @@ export function Home() {
         <h2 style="margin-top:0;">Legal</h2>
         <p class="muted">
           Read how your data is handled in the{' '}
-          <a href="https://ayushsharma.me/privacy">Privacy Policy</a> and{' '}
-          <a href="https://ayushsharma.me/terms">Terms of Use</a>. This API is operated by Ayush
+          <a href="/privacy">Privacy Policy</a> and{' '}
+          <a href="/terms">Terms of Use</a>. This API is operated by Ayush
           Sharma, the author of <a href="https://ayushsharma.me">ayushsharma.me</a>.
         </p>
       </div>

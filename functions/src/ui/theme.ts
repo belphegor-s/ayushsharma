@@ -129,10 +129,17 @@ th { font-family: 'Geist Mono', monospace; font-size: 0.68rem; text-transform: u
   border: 1px solid var(--line); border-radius: 999px; padding: 4px 10px; color: var(--muted); }
 .toolkit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 14px 0; }
 @media (max-width: 640px) { .toolkit-grid { grid-template-columns: 1fr; } }
-footer.foot { display: flex; justify-content: center; gap: 14px; padding: 18px 20px;
+footer.foot { display: flex; justify-content: center; align-items: center; gap: 10px; padding: 18px 20px;
   border-top: 1px solid var(--line); }
 footer.foot .label a { color: var(--faint); transition: color .15s; }
 footer.foot .label a:hover { color: var(--text); }
+footer.foot .foot-sep { color: var(--faint); font-size: 0.7rem; }
+.legal-section { padding-top: 8px; padding-bottom: 8px; }
+.legal-section:first-of-type { padding-top: 22px; }
+.legal-list { margin: 0; padding-left: 18px; color: var(--muted); }
+.legal-list li { margin: 8px 0; }
+.legal-list li::marker { color: var(--faint); }
+.legal-list strong, .legal-section p strong { color: var(--text); font-weight: 600; }
 
 /* --- Copy button -------------------------------------------------------- */
 .codewrap { position: relative; }

@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "wrangler dev",
     "dev:console": "npm -C console-app run dev",
-    "build": "npm -C console-app run build && node scripts/sync-console.js",
+    "build": "npm -C console-app run build",
     "deploy": "wrangler deploy",
     "ship": "npm run build && npm run deploy",
     "typecheck": "tsc --noEmit",
