@@ -66,7 +66,7 @@ export function ConsoleSignedOut(props: { csrfToken: string }) {
 export async function ConsoleSignedIn(props: { name: string; email: string; image?: string; keys: ApiKeyView[]; csrfToken: string }) {
   const { name, email, image, keys, csrfToken } = props;
   const curlCode = `curl -H "Authorization: Bearer ak_live_..." \\
-  "https://api.ayushsharma.me/v1/contrast?fg=%23ffffff&bg=%230c0d10"`;
+  "https://app.ayushsharma.me/v1/contrast?fg=%23ffffff&bg=%230c0d10"`;
   const curlHtml = await highlight(curlCode, 'bash');
   return (
     <Layout title="Developer Console · Ayush Sharma API" active="console">

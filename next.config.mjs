@@ -30,7 +30,7 @@ const securityHeaders = [
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' https://fonts.gstatic.com",
       "img-src 'self' data: https://storage.procd.cc",
-      "connect-src 'self' https://us.i.posthog.com https://vitals.vercel-insights.com https://api.ayushsharma.me",
+      "connect-src 'self' https://us.i.posthog.com https://vitals.vercel-insights.com https://app.ayushsharma.me",
       "frame-src 'self' https://storage.procd.cc",
       "object-src 'none'",
       "base-uri 'self'",

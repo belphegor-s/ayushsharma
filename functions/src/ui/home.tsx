@@ -1,7 +1,7 @@
 import { Layout, Rule, BaseUrl } from './layout';
 
 /**
- * Public landing for api.ayushsharma.me. Written to satisfy Google OAuth
+ * Public landing for app.ayushsharma.me. Written to satisfy Google OAuth
  * branding review: it names the app, states exactly what it does, explains how
  * it uses Google user data, and links to the privacy policy and terms.
  */
@@ -12,7 +12,7 @@ export function Home() {
         <span class="label"><span class="slash">/</span>ayush sharma developer api</span>
         <h1 class="title">Developer API</h1>
         <p class="lead">
-          <strong>api.ayushsharma.me</strong> is a free developer API built by Ayush Sharma. It gives
+          <strong>app.ayushsharma.me</strong> is a free developer API built by Ayush Sharma. It gives
           developers two HTTP toolkits: a <strong>Design Toolkit</strong> (WCAG contrast checking,
           color palette generation, and hex / rgb / hsl / oklch conversion) and a
           <strong> Text Intelligence</strong> toolkit (readability scoring, slug generation, smart

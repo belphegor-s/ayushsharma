@@ -21,7 +21,7 @@ export default function TermsPage() {
 
       <Section heading="Developer API">
         <p>
-          The optional developer API at api.ayushsharma.me requires signing in with Google and using a personal API key. Keep your key secret, stay within the published rate limits, and don’t use the
+          The optional developer API at app.ayushsharma.me requires signing in with Google and using a personal API key. Keep your key secret, stay within the published rate limits, and don’t use the
           API to build anything unlawful, abusive, or that tries to overload the service. Keys are free and offered as-is; I may revoke a key or change limits at any time to protect the service.
         </p>
       </Section>

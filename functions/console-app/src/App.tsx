@@ -17,7 +17,7 @@ function Frame({ children }: { children: ReactNode }) {
         <span className="plus top-right" />
         <header className="flex items-center justify-between border-b border-white/10 px-5 py-3">
           <span className="font-mono text-[0.7rem] uppercase tracking-[0.2em] text-white/45">
-            <span className="text-[#3b82f6] font-bold mr-1.5">/</span>api.ayushsharma.me
+            <span className="text-[#3b82f6] font-bold mr-1.5">/</span>app.ayushsharma.me
           </span>
           <nav className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-white/25">
             <a href="/docs" className="ml-4 hover:text-white/45">docs</a>
@@ -175,11 +175,11 @@ function Dashboard({ session, csrf }: { session: { name: string; email: string; 
       <p className="text-white/45 text-sm">Base URL</p>
       <span className="codeblock">
         <span className="dot" />
-        https://api.ayushsharma.me
+        https://app.ayushsharma.me
       </span>
       <p className="text-white/45 text-sm mt-4">Send your key as a Bearer token:</p>
       <pre className="key">{`curl -H "Authorization: Bearer ak_live_..." \\
-  "https://api.ayushsharma.me/v1/contrast?fg=%23ffffff&bg=%230c0d10"`}</pre>
+  "https://app.ayushsharma.me/v1/contrast?fg=%23ffffff&bg=%230c0d10"`}</pre>
       <p className="text-white/45 text-xs mt-3">
         Full reference in the <a href="/docs" className="text-[#93b4ff] hover:text-white">docs</a>.
       </p>

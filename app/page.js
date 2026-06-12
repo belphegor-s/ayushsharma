@@ -285,7 +285,7 @@ export default function Home() {
 
             <motion.a
               className="mt-4 inline-flex items-center gap-1.5 rounded-md border border-white/10 bg-white/[0.02] px-3 py-1.5 font-mono text-[0.7rem] uppercase tracking-[0.18em] text-white/55 transition-colors hover:border-blue-400/60 hover:text-white"
-              href="https://api.ayushsharma.me/docs"
+              href="https://app.ayushsharma.me/docs"
               target="_blank"
               rel="noreferrer noopener"
               initial={{ opacity: 0 }}

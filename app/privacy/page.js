@@ -39,7 +39,7 @@ export default function PrivacyPage() {
 
       <Section heading="Signing in with Google">
         <p>
-          The developer API at <span className="text-white/85">api.ayushsharma.me</span> uses Google sign-in only to identify your account and issue API keys. I request the minimum scopes
+          The developer API at <span className="text-white/85">app.ayushsharma.me</span> uses Google sign-in only to identify your account and issue API keys. I request the minimum scopes
           (your basic profile and email). This data is not used for advertising, is never sold or shared, and is used solely to operate the API. Want your account and keys deleted? Email me and it is
           done.
         </p>

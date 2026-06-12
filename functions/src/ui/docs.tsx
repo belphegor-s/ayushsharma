@@ -59,7 +59,7 @@ export function Docs() {
         <h2>Authentication</h2>
         <p class="muted">Send your key as a Bearer token on every request:</p>
         <Code lang="bash" code={`curl -H "Authorization: Bearer ak_live_yourkey" \\
-  "https://api.ayushsharma.me/v1/convert?c=%233b82f6"`} />
+  "https://app.ayushsharma.me/v1/convert?c=%233b82f6"`} />
         <p class="muted">Responses use a uniform envelope:</p>
         <Code lang="json" code={`{ "ok": true, "data": { /* ... */ } }
 { "ok": false, "error": { "code": "bad_request", "message": "..." } }`} />
@@ -82,7 +82,7 @@ export function Docs() {
             <Param name="bg" req desc="Background color" />
           </ParamTable>
           <Code lang="bash" code={`curl -H "Authorization: Bearer ak_live_yourkey" \\
-  "https://api.ayushsharma.me/v1/contrast?fg=%23ffffff&bg=%230c0d10"`} />
+  "https://app.ayushsharma.me/v1/contrast?fg=%23ffffff&bg=%230c0d10"`} />
           <Code lang="json" code={`{
   "ok": true,
   "data": {
@@ -101,7 +101,7 @@ export function Docs() {
             <Param name="n" desc="Number of steps, 2–12 (default 9)" />
           </ParamTable>
           <Code lang="bash" code={`curl -H "Authorization: Bearer ak_live_yourkey" \\
-  "https://api.ayushsharma.me/v1/palette?base=%233b82f6&n=5"`} />
+  "https://app.ayushsharma.me/v1/palette?base=%233b82f6&n=5"`} />
           <Code lang="json" code={`{
   "ok": true,
   "data": {
@@ -117,7 +117,7 @@ export function Docs() {
             <Param name="c" req desc="Color in hex, rgb(), hsl() or oklch()" />
           </ParamTable>
           <Code lang="bash" code={`curl -H "Authorization: Bearer ak_live_yourkey" \\
-  "https://api.ayushsharma.me/v1/convert?c=%233b82f6"`} />
+  "https://app.ayushsharma.me/v1/convert?c=%233b82f6"`} />
           <Code lang="json" code={`{
   "ok": true,
   "data": {
@@ -136,7 +136,7 @@ export function Docs() {
             <Param name="type" desc="complementary (default), analogous, triadic, tetradic, split-complementary" />
           </ParamTable>
           <Code lang="bash" code={`curl -H "Authorization: Bearer ak_live_yourkey" \\
-  "https://api.ayushsharma.me/v1/harmony?base=%233b82f6&type=triadic"`} />
+  "https://app.ayushsharma.me/v1/harmony?base=%233b82f6&type=triadic"`} />
           <Code lang="json" code={`{
   "ok": true,
   "data": {
@@ -154,7 +154,7 @@ export function Docs() {
             <Param name="t" desc="Mix ratio 0–1 (default 0.5); 0 = a, 1 = b" />
           </ParamTable>
           <Code lang="bash" code={`curl -H "Authorization: Bearer ak_live_yourkey" \\
-  "https://api.ayushsharma.me/v1/blend?a=%23ff0000&b=%230000ff&t=0.5"`} />
+  "https://app.ayushsharma.me/v1/blend?a=%23ff0000&b=%230000ff&t=0.5"`} />
           <Code lang="json" code={`{ "ok": true, "data": { "a": "#ff0000", "b": "#0000ff", "t": 0.5, "result": "#800080" } }`} />
         </Endpoint>
       </div>
@@ -170,7 +170,7 @@ export function Docs() {
           <Code lang="bash" code={`curl -X POST -H "Authorization: Bearer ak_live_yourkey" \\
   -H "Content-Type: application/json" \\
   -d '{"text":"The quick brown fox jumps over the lazy dog."}' \\
-  https://api.ayushsharma.me/v1/text/stats`} />
+  https://app.ayushsharma.me/v1/text/stats`} />
           <Code lang="json" code={`{
   "ok": true,
   "data": {
@@ -194,7 +194,7 @@ export function Docs() {
           <Code lang="bash" code={`curl -X POST -H "Authorization: Bearer ak_live_yourkey" \\
   -H "Content-Type: application/json" \\
   -d '{"text":"user profile settings"}' \\
-  https://api.ayushsharma.me/v1/text/case`} />
+  https://app.ayushsharma.me/v1/text/case`} />
           <Code lang="json" code={`{
   "ok": true,
   "data": {
@@ -247,7 +247,7 @@ export function Docs() {
           <Code lang="bash" code={`curl -X POST -H "Authorization: Bearer ak_live_yourkey" \\
   -H "Content-Type: application/json" \\
   -d '{"token":"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjMiLCJleHAiOjE3MzU2ODk2MDB9.sig"}' \\
-  https://api.ayushsharma.me/v1/jwt/decode`} />
+  https://app.ayushsharma.me/v1/jwt/decode`} />
           <Code lang="json" code={`{
   "ok": true,
   "data": {
@@ -271,7 +271,7 @@ export function Docs() {
           <Code lang="bash" code={`curl -X POST -H "Authorization: Bearer ak_live_yourkey" \\
   -H "Content-Type: application/json" \\
   -d '{"text":"hello","algo":"sha256"}' \\
-  https://api.ayushsharma.me/v1/hash`} />
+  https://app.ayushsharma.me/v1/hash`} />
           <Code lang="json" code={`{
   "ok": true,
   "data": {
@@ -289,7 +289,7 @@ export function Docs() {
             <Param name="n" desc="How many to generate, 1–100 (default 1)" />
           </ParamTable>
           <Code lang="bash" code={`curl -H "Authorization: Bearer ak_live_yourkey" \\
-  "https://api.ayushsharma.me/v1/uuid?n=3"`} />
+  "https://app.ayushsharma.me/v1/uuid?n=3"`} />
           <Code lang="json" code={`{
   "ok": true,
   "data": {
@@ -311,7 +311,7 @@ export function Docs() {
             <Param name="n" desc="Number of upcoming runs to return, 1–20 (default 5)" />
           </ParamTable>
           <Code lang="bash" code={`curl -H "Authorization: Bearer ak_live_yourkey" \\
-  "https://api.ayushsharma.me/v1/cron?expr=0%209%20*%20*%201-5&n=3"`} />
+  "https://app.ayushsharma.me/v1/cron?expr=0%209%20*%20*%201-5&n=3"`} />
           <Code lang="json" code={`{
   "ok": true,
   "data": {

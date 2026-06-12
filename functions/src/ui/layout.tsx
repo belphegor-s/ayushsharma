@@ -53,8 +53,8 @@ export function BaseUrl() {
   return (
     <span class="codeblock">
       <span class="dot" />
-      https://api.ayushsharma.me
-      <CopyBtn text="https://api.ayushsharma.me" inblock />
+      https://app.ayushsharma.me
+      <CopyBtn text="https://app.ayushsharma.me" inblock />
     </span>
   );
 }
@@ -82,7 +82,7 @@ export function Layout(props: { title: string; active?: NavKey; children: Child 
             <span class="plus br" />
             <div class="bar">
               <span class="label">
-                <span class="slash">/</span>api.ayushsharma.me
+                <span class="slash">/</span>app.ayushsharma.me
               </span>
               <nav class="nav">
                 <a href="/docs" class={props.active === 'docs' ? 'active' : ''}>docs</a>
