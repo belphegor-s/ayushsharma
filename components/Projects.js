@@ -8,8 +8,8 @@ const projects = [
   {
     index: '01',
     name: 'Transcoder',
-    domain: 'transcode.pixly.sh',
-    url: 'https://transcode.pixly.sh/',
+    domain: 'transcode.procd.cc',
+    url: 'https://transcode.procd.cc/',
     meta: 'Video infra',
     blurb: 'Upload a video, get back adaptive HLS from 144p to 4K with AI captions in two languages. No ffmpeg, no infra to babysit, scalable to infinity (∞).',
     stack: ['HLS', 'AI captions', 'Serverless', 'CDN'],
@@ -59,16 +59,9 @@ const ProjectRow = ({ project, i }) => {
         <div className="sm:col-span-7">
           <div className="flex items-baseline gap-3">
             <span className="font-mono text-xs text-white/30 sm:hidden">{project.index}</span>
-            <h3
-              className="text-2xl font-semibold tracking-tight transition-colors duration-300 sm:text-[1.8rem]"
-              style={{ color: accent }}
-            >
+            <h3 className="text-2xl font-semibold tracking-tight transition-colors duration-300 sm:text-[1.8rem]" style={{ color: accent }}>
               {project.name}
-              <ExternalLink
-                size={16}
-                strokeWidth={2.25}
-                className="ml-1.5 inline align-baseline opacity-70 transition-all duration-300 group-hover:translate-x-1 group-hover:opacity-100"
-              />
+              <ExternalLink size={16} strokeWidth={2.25} className="ml-1.5 inline align-baseline opacity-70 transition-all duration-300 group-hover:translate-x-1 group-hover:opacity-100" />
             </h3>
           </div>
           <p className="mt-3 max-w-md text-sm leading-relaxed text-white/55">{project.blurb}</p>

@@ -20,9 +20,9 @@ const dancing = Dancing_Script({
 const RESUME_URL = 'https://storage.procd.cc/ayush_resume.pdf';
 
 const socials = [
-  { href: 'https://short.pixly.sh/github', icon: FiGithub, label: 'GitHub Profile' },
-  { href: 'https://short.pixly.sh/linkedin', icon: FiLinkedin, label: 'LinkedIn Profile' },
-  { href: 'https://short.pixly.sh/x', icon: FaXTwitter, label: 'Twitter Profile' },
+  { href: 'https://short.procd.cc/github', icon: FiGithub, label: 'GitHub Profile' },
+  { href: 'https://short.procd.cc/linkedin', icon: FiLinkedin, label: 'LinkedIn Profile' },
+  { href: 'https://short.procd.cc/x', icon: FaXTwitter, label: 'Twitter Profile' },
 ];
 
 /* Crisp plus marker built from two 1px lines so it centers exactly on a point.
