@@ -15,13 +15,19 @@ export function ConsoleSignedOut(props: { csrfToken: string }) {
           issue your key.
         </p>
 
-        <form method="post" action="/api/auth/signin/google">
-          <input type="hidden" name="csrfToken" value={props.csrfToken} />
-          <input type="hidden" name="callbackUrl" value="/console" />
-          <button class="btn google" type="submit">
+        {props.csrfToken ? (
+          <form method="post" action="/api/auth/signin/google">
+            <input type="hidden" name="csrfToken" value={props.csrfToken} />
+            <input type="hidden" name="callbackUrl" value="/console" />
+            <button class="btn google" type="submit">
+              <GoogleMark /> Sign in with Google
+            </button>
+          </form>
+        ) : (
+          <a class="btn google" href="/api/auth/signin/google">
             <GoogleMark /> Sign in with Google
-          </button>
-        </form>
+          </a>
+        )}
 
         <div class="scopes">
           <span class="chip">openid</span>

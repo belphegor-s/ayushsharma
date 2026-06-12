@@ -32,7 +32,7 @@ app.use('*', async (c, next) => {
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src https://fonts.gstatic.com",
       // Google avatars + the portfolio favicon.
-      "img-src 'self' data: https://*.googleusercontent.com https://ayushsharma.me",
+      "img-src 'self' data: https://*.googleusercontent.com https://ayushsharma.me https://authjs.dev",
       // 'self' for our APIs; cloudflareinsights.com for the beacon's data POST.
       "connect-src 'self' https://cloudflareinsights.com https://static.cloudflareinsights.com",
       "base-uri 'self'",

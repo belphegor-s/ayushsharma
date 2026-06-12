@@ -13,13 +13,18 @@ export const console_ = new Hono<Env>();
  * forms that POST straight to Auth.js (no default sign-in page).
  */
 async function getCsrf(c: Context<Env>): Promise<string> {
-  const res = await fetch(new URL('/api/auth/csrf', c.req.url), {
-    headers: { cookie: c.req.header('cookie') ?? '' },
-  });
-  const setCookie = res.headers.get('set-cookie');
-  if (setCookie) c.header('set-cookie', setCookie, { append: true });
-  const data = (await res.json()) as { csrfToken: string };
-  return data.csrfToken;
+  try {
+    const res = await fetch(new URL('/api/auth/csrf', c.req.url), {
+      headers: { cookie: c.req.header('cookie') ?? '' },
+    });
+    if (!res.ok) return '';
+    const setCookie = res.headers.get('set-cookie');
+    if (setCookie) c.header('set-cookie', setCookie, { append: true });
+    const data = await res.json() as { csrfToken: string };
+    return data.csrfToken ?? '';
+  } catch {
+    return '';
+  }
 }
 
 // Dashboard.
