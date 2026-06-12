@@ -254,10 +254,10 @@ function Dashboard({ session, csrf }: { session: { name: string; email: string; 
       <span className="codeblock">
         <span className="dot" />
         https://app.ayushsharma.me
+        <CopyButton text="https://app.ayushsharma.me" label="Copy base URL" inblock />
       </span>
       <p className="text-white/45 text-sm mt-4">Send your key as a Bearer token:</p>
-      <pre className="key">{`curl -H "Authorization: Bearer ak_live_..." \\
-  "https://app.ayushsharma.me/v1/contrast?fg=%23ffffff&bg=%230c0d10"`}</pre>
+      <CurlBlock />
       <p className="text-white/45 text-xs mt-3">
         Full reference in the{' '}
         <a href="/docs" className="text-[#93b4ff] hover:text-white">
@@ -400,7 +400,6 @@ function RevokeModal({
 }
 
 function KeyModal({ plaintext, onClose }: { plaintext: string; onClose: () => void }) {
-  const [copied, setCopied] = useState(false);
   const { closing, requestClose } = useModalClose(onClose);
   return (
     <div className={`modal-overlay ${closing ? 'closing' : ''} fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4`} onClick={requestClose}>
@@ -413,19 +412,12 @@ function KeyModal({ plaintext, onClose }: { plaintext: string; onClose: () => vo
           <span className="text-[#3b82f6] font-bold mr-1.5">/</span>new api key
         </span>
         <div className="banner warn mt-4">This is the only time the full key is shown. Store it somewhere safe.</div>
-        <div className="key whitespace-normal mt-3">{plaintext}</div>
+        <div className="keywrap mt-3">
+          <CopyButton text={plaintext} label="Copy key" />
+          <div className="key whitespace-normal pr-12">{plaintext}</div>
+        </div>
         <div className="flex items-center gap-2.5 mt-4">
-          <button
-            className="btn primary flex items-center"
-            onClick={() => {
-              navigator.clipboard.writeText(plaintext);
-              setCopied(true);
-              setTimeout(() => setCopied(false), 2000);
-            }}
-          >
-            {copied ? 'Copied!' : 'Copy key'}
-          </button>
-          <button className="btn" onClick={requestClose}>
+          <button className="btn primary" onClick={requestClose}>
             Back to console
           </button>
         </div>
@@ -436,6 +428,60 @@ function KeyModal({ plaintext, onClose }: { plaintext: string; onClose: () => vo
 
 function Chip({ children }: { children: ReactNode }) {
   return <span className="font-mono text-[0.68rem] tracking-[0.06em] border border-white/10 rounded-full px-2.5 py-1 text-white/45">{children}</span>;
+}
+
+/** Reusable copy-to-clipboard button: copy icon swaps to a green check. */
+function CopyButton({ text, label = 'Copy', inblock = false }: { text: string; label?: string; inblock?: boolean }) {
+  const [copied, setCopied] = useState(false);
+  return (
+    <button
+      type="button"
+      className={`copy-btn ${inblock ? 'inblock' : ''} ${copied ? 'copied' : ''}`}
+      aria-label={label}
+      title={label}
+      onClick={() => {
+        navigator.clipboard.writeText(text);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 1500);
+      }}
+    >
+      {copied ? <CheckIcon /> : <CopyIcon />}
+    </button>
+  );
+}
+
+/** Syntax-highlighted, copyable curl example for the Quick start section. */
+function CurlBlock() {
+  const code = `curl -H "Authorization: Bearer ak_live_..." \\
+  "https://app.ayushsharma.me/v1/contrast?fg=%23ffffff&bg=%230c0d10"`;
+  return (
+    <div className="keywrap">
+      <CopyButton text={code} label="Copy command" />
+      <pre className="codeblock-pre">
+        <span className="tok-cmd">curl</span> <span className="tok-flag">-H</span>{' '}
+        <span className="tok-str">"Authorization: Bearer ak_live_..."</span> <span className="tok-punc">\</span>
+        {'\n  '}
+        <span className="tok-str">"https://app.ayushsharma.me/v1/contrast?fg=%23ffffff&amp;bg=%230c0d10"</span>
+      </pre>
+    </div>
+  );
+}
+
+function CopyIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+    </svg>
+  );
+}
+
+function CheckIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M20 6 9 17l-5-5" />
+    </svg>
+  );
 }
 
 function GoogleIcon() {
