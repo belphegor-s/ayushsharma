@@ -110,8 +110,9 @@ th { font-family: 'Geist Mono', monospace; font-size: 0.68rem; text-transform: u
 .shiki code { font-family: 'Geist Mono', ui-monospace, monospace; }
 /* Inline highlighted base URL, code-block style. */
 .codeblock { display: inline-flex; align-items: center; gap: 8px; font-family: 'Geist Mono', monospace;
-  font-size: 0.82rem; background: #06070a; border: 1px solid var(--line); border-radius: 8px;
-  padding: 8px 12px; color: #93b4ff; }
+  font-size: 0.82rem; background: linear-gradient(135deg, rgba(59,130,246,0.08), rgba(147,180,255,0.04));
+  border: 1px solid rgba(59,130,246,0.2); border-radius: 10px; padding: 8px 14px; color: #93b4ff;
+  box-shadow: 0 0 12px rgba(59,130,246,0.06), inset 0 1px 0 rgba(255,255,255,0.04); }
 .codeblock .dot { width: 7px; height: 7px; border-radius: 50%; background: #34d399; box-shadow: 0 0 8px #34d39988; }
 .scopes { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
 .chip { font-family: 'Geist Mono', monospace; font-size: 0.68rem; letter-spacing: 0.06em;

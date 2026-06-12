@@ -22,13 +22,19 @@ app.use('*', async (c, next) => {
     'Content-Security-Policy',
     [
       "default-src 'self'",
-      // Cloudflare auto-injects its Web Analytics beacon on the custom domain.
-      "script-src 'self' https://static.cloudflareinsights.com",
+      // Cloudflare's zone auto-injects its Web Analytics beacon (an inline loader
+      // + an external script) into HTML on this subdomain. These pages ship no
+      // first-party JS and all dynamic data is escaped text, so allowing inline
+      // script here has no practical XSS surface. To drop 'unsafe-inline'
+      // instead, disable Web Analytics automatic injection in the Cloudflare
+      // dashboard for the ayushsharma.me zone.
+      "script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com",
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src https://fonts.gstatic.com",
       // Google avatars + the portfolio favicon.
       "img-src 'self' data: https://*.googleusercontent.com https://ayushsharma.me",
-      "connect-src 'self' https://static.cloudflareinsights.com",
+      // 'self' for our APIs; cloudflareinsights.com for the beacon's data POST.
+      "connect-src 'self' https://cloudflareinsights.com https://static.cloudflareinsights.com",
       "base-uri 'self'",
       // Our sign-in form posts to self; Auth.js then redirects to Google.
       "form-action 'self' https://accounts.google.com",
