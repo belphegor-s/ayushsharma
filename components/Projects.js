@@ -17,13 +17,13 @@ const projects = [
   },
   {
     index: '02',
-    name: 'Kudoso',
-    domain: 'kudoso.io',
-    url: 'https://kudoso.io/',
-    meta: 'SaaS',
-    blurb: 'One link collects text and video testimonials. Approve the good ones, drop them on any site with a single snippet.',
-    stack: ['Testimonials', 'Video', 'Embed', 'Analytics'],
-    accent: '#a78bfa',
+    name: 'huddle',
+    domain: 'huddle.procd.cc',
+    url: 'https://huddle.procd.cc/',
+    meta: 'Open source',
+    blurb: 'Team chat you run yourself. Channels, threads, files, voice notes, search and calls, in one container and a Postgres. Direct messages are end to end encrypted, so the server keeps what it cannot read.',
+    stack: ['E2EE', 'WebRTC', 'Postgres', 'Self hosted'],
+    accent: '#6b9bff',
   },
 ];
 
