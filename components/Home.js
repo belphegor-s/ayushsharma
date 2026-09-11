@@ -123,8 +123,9 @@ function Hero({ onContact, onResume, onBoss }) {
           <h1 className={`${signature.className} sign mt-3 text-[2.6rem] font-bold leading-[1.15] text-fg sm:text-6xl lg:text-[4.25rem]`}>
             Ayush Sharma
             {/* Dot caps the exit stroke of the final "a" (Dancing Script Bold: tip ≈ 0.034em past the advance,
-                0.164em above baseline, rising up-right), nudged along the stroke so it just overlaps the tip. */}
-            <a href="/matrix" aria-hidden tabIndex={-1} className="relative bottom-[0.148em] ml-[0.005em] inline-block size-[0.085em] rounded-full bg-red-500 transition-transform duration-300 hover:scale-150" />
+                0.164em above baseline, rising up-right), nudged along the stroke with a small gap from the tip,
+                like an "i" dot sits off its stem. */}
+            <a href="/matrix" aria-hidden tabIndex={-1} className="relative bottom-[0.21em] ml-[0.03em] inline-block size-[0.085em] rounded-full bg-red-500 transition-transform duration-300 hover:scale-150" />
           </h1>
           <span aria-hidden className="draw-line dash-line mt-2 block h-px w-full max-w-xs" />
           <p className="reveal mt-5 max-w-md text-[15px] leading-relaxed text-muted sm:text-base" style={{ '--delay': '120ms' }}>
