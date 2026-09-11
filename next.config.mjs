@@ -26,11 +26,11 @@ const securityHeaders = [
     value: [
       "default-src 'self'",
       // unsafe-inline needed for Next.js hydration scripts and the no-flash theme script
-      "script-src 'self' 'unsafe-inline' https://va.vercel-scripts.com",
+      "script-src 'self' 'unsafe-inline' https://va.vercel-scripts.com https://us-assets.i.posthog.com https://static.cloudflareinsights.com",
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' https://fonts.gstatic.com",
       "img-src 'self' data: https://storage.procd.cc",
-      "connect-src 'self' https://us.i.posthog.com https://vitals.vercel-insights.com",
+      "connect-src 'self' https://us.i.posthog.com https://us-assets.i.posthog.com https://vitals.vercel-insights.com https://cloudflareinsights.com",
       "frame-src 'self' https://storage.procd.cc",
       "object-src 'none'",
       "base-uri 'self'",
