@@ -42,7 +42,7 @@
     "tailwindcss": "4.1.4"
   },
   "overrides": {
-    "brace-expansion": "2.1.0",
-    "postcss": "8.5.13"
+    "brace-expansion": "2.1.4",
+    "postcss": "8.5.28"
   }
 }
