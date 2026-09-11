@@ -25,12 +25,12 @@ const securityHeaders = [
     key: 'Content-Security-Policy',
     value: [
       "default-src 'self'",
-      // unsafe-inline needed for Next.js hydration scripts
+      // unsafe-inline needed for Next.js hydration scripts and the no-flash theme script
       "script-src 'self' 'unsafe-inline' https://va.vercel-scripts.com",
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' https://fonts.gstatic.com",
       "img-src 'self' data: https://storage.procd.cc",
-      "connect-src 'self' https://us.i.posthog.com https://vitals.vercel-insights.com https://app.ayushsharma.me",
+      "connect-src 'self' https://us.i.posthog.com https://vitals.vercel-insights.com",
       "frame-src 'self' https://storage.procd.cc",
       "object-src 'none'",
       "base-uri 'self'",
@@ -42,6 +42,9 @@ const securityHeaders = [
 ];
 
 const nextConfig = {
+  images: {
+    remotePatterns: [{ protocol: 'https', hostname: 'storage.procd.cc', pathname: '/**' }],
+  },
   async headers() {
     return [
       {

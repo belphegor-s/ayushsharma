@@ -1,58 +1,189 @@
 @import 'tailwindcss';
 
-@theme {
-  --font-dancing: 'Dancing Script', cursive;
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
+/* Design tokens. Light is the default; dark applies through [data-theme] (set by
+   the head script before paint) or, without JS, through the system preference. */
+:root {
+  --bg: #ffffff;
+  --fg: #0a0a0a;
+  --muted: #5c5c5c;
+  --subtle: #737373;
+  --line: #ebebeb;
+  --line-strong: #dadada;
+  --surface: #fafafa;
+  --surface-2: #f2f2f2;
+  --cross: #a3a3a3;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --bg: #0a0a0a;
+    --fg: #ededed;
+    --muted: #a1a1a1;
+    --subtle: #8a8a8a;
+    --line: #1f1f1f;
+    --line-strong: #2e2e2e;
+    --surface: #111111;
+    --surface-2: #191919;
+    --cross: #525252;
+    color-scheme: dark;
+  }
+}
+
+[data-theme='dark'] {
+  --bg: #0a0a0a;
+  --fg: #ededed;
+  --muted: #a1a1a1;
+  --subtle: #8a8a8a;
+  --line: #1f1f1f;
+  --line-strong: #2e2e2e;
+  --surface: #111111;
+  --surface-2: #191919;
+  --cross: #525252;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-subtle: var(--subtle);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-cross: var(--cross);
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
 @layer base {
-  html,
-  body {
-    background-color: #0c0d10;
-    min-height: 100%;
-  }
   html {
-    scroll-padding-top: 4.5rem;
+    background-color: var(--bg);
     scroll-behavior: smooth;
-    overscroll-behavior-y: contain;
+    /* Keeps anchored sections clear of the sticky header. */
+    scroll-padding-top: 3.5rem;
+    scrollbar-gutter: stable;
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    background-color: var(--bg);
+    color: var(--fg);
+    text-rendering: optimizeLegibility;
+  }
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--line-strong) transparent;
+  }
+  ::selection {
+    background-color: var(--fg);
+    color: var(--bg);
+  }
+  :focus-visible {
+    outline: 2px solid var(--fg);
+    outline-offset: 2px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
   }
 }
 
-.bg-container {
-  background-color: #0c0d10;
-  background-image: radial-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1.2px);
-  background-size: 14px 14px;
-  background-position: 0 0;
+/* Kills transitions for the single frame a theme swap happens in. */
+.theme-switching,
+.theme-switching *,
+.theme-switching *::before,
+.theme-switching *::after {
+  transition: none !important;
 }
-@media (min-width: 768px) {
-  .bg-container {
-    background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1.1px, transparent 1.3px);
-    background-size: 18px 18px;
+
+/* Diagonal hatch for the empty spacer bands between sections. */
+.hatch {
+  background-image: repeating-linear-gradient(-45deg, var(--line) 0 1px, transparent 1px 7px);
+}
+
+/* Faint square grid, faded out with a mask so it never competes with type. */
+.grid-texture {
+  background-image: linear-gradient(to right, var(--line) 1px, transparent 1px), linear-gradient(to bottom, var(--line) 1px, transparent 1px);
+  background-size: 32px 32px;
+  background-position: -1px -1px;
+  mask-image: radial-gradient(ellipse 70% 90% at 100% 0%, #000 0%, transparent 70%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 90% at 100% 0%, #000 0%, transparent 70%);
+}
+
+/* CSS-only entrance so the hero paints on first byte, no JS needed. */
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
   }
 }
-@media (min-width: 1280px) {
-  .bg-container {
-    background-image: radial-gradient(rgba(255, 255, 255, 0.09) 1.2px, transparent 1.4px);
-    background-size: 22px 22px;
+.reveal {
+  animation: reveal 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: var(--delay, 0ms);
+}
+/* Signature name "writes" itself in left to right. Negative insets leave room
+   for the script's ascenders, descenders and final swash. */
+@keyframes sign {
+  from {
+    clip-path: inset(-25% 100% -25% -5%);
+  }
+  to {
+    clip-path: inset(-25% -10% -25% -5%);
+  }
+}
+.sign {
+  animation: sign 1.3s cubic-bezier(0.65, 0, 0.35, 1) 0.1s both;
+}
+
+/* Dashed hairline that fades out to the right, matching the dashed link underlines. */
+.dash-line {
+  background-image: repeating-linear-gradient(to right, var(--fg) 0 5px, transparent 5px 9px);
+  opacity: 0.55;
+  mask-image: linear-gradient(to right, #000 0%, rgba(0, 0, 0, 0.35) 55%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, #000 0%, rgba(0, 0, 0, 0.35) 55%, transparent 100%);
+}
+
+@keyframes draw-line {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+.draw-line {
+  transform-origin: left;
+  animation: draw-line 1s cubic-bezier(0.22, 1, 0.36, 1) 0.9s both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .sign,
+  .draw-line {
+    animation: none;
   }
 }
 
-/* Reading column lifts off the dot grid: faint tint + soft blur mutes dots
-   directly behind content while margins keep crisp full-strength texture. */
-.content-frame {
-  background-color: rgba(11, 12, 15, 0.4);
-  backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(2px);
-}
-.bg-container::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  background: radial-gradient(70% 45% at 50% -5%, rgba(59, 130, 246, 0.09), transparent 60%), radial-gradient(ellipse at center, transparent 40%, rgba(12, 13, 16, 0.85) 100%);
+/* iOS Safari zooms the viewport when focusing a control whose font-size
+   is below 16px. Force 16px on touch devices only, desktop sizing (text-sm)
+   stays intact. !important is needed to beat Tailwind utility specificity. */
+@media (pointer: coarse) {
+  input:not([type='checkbox']):not([type='radio']):not([type='range']),
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
 }
 
-/* Blog shell: solid bg, no dotted pattern bleed-through, soft blue glow */
+/* Blog (currently unrouted): styles kept as-is for components/blog. */
 .blog-shell {
   background: radial-gradient(60% 50% at 80% -10%, rgba(59, 130, 246, 0.1), transparent 60%), radial-gradient(50% 40% at 0% 100%, rgba(99, 102, 241, 0.06), transparent 60%), #0c0d10;
   min-height: 100vh;
@@ -68,62 +199,6 @@
   -webkit-mask-image: radial-gradient(ellipse at top, rgba(0, 0, 0, 0.6), transparent 70%);
   z-index: -1;
 }
-
-.profile-image {
-  position: relative;
-  width: 170px;
-  height: 170px;
-  margin: 0.5em 0;
-
-  /* Soft blue glow pooled behind the avatar. */
-  &::before {
-    content: '';
-    position: absolute;
-    inset: -22px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 50% 45%, rgba(59, 130, 246, 0.35), transparent 70%);
-    filter: blur(6px);
-    z-index: 0;
-  }
-
-  & > img {
-    position: relative;
-    z-index: 1;
-    border-radius: 50%;
-    user-select: none;
-    -webkit-user-drag: none;
-    width: 170px;
-    height: 170px;
-    display: block;
-    object-fit: cover;
-    box-shadow:
-      0 8px 30px rgba(0, 0, 0, 0.5),
-      0 0 0 1px rgba(255, 255, 255, 0.06),
-      inset 0 0 0 1px rgba(255, 255, 255, 0.04);
-  }
-}
-
-.shimmer-text {
-  position: relative;
-  /* background: linear-gradient(120deg, #818cf8 0%, #a5b4fc 40%, #ffffff 50%, #a5b4fc 60%, #818cf8 100%); */
-  background: linear-gradient(120deg, #60a5fa 0%, #93c5fd 40%, #ffffff 50%, #93c5fd 60%, #60a5fa 100%);
-  background-size: 200% auto;
-  color: transparent;
-  background-clip: text;
-  -webkit-background-clip: text;
-  animation: shimmer 2s infinite linear;
-}
-
-@keyframes shimmer {
-  0% {
-    background-position: 200% center;
-  }
-  100% {
-    background-position: -200% center;
-  }
-}
-
-/* Blog prose: dark theme typography tuned to portfolio palette */
 .prose-ayush {
   color: rgb(229 231 235);
   font-size: 1.0625rem;
@@ -291,18 +366,6 @@
   font-size: 0.85em;
   color: #fff;
 }
-
-/* iOS Safari zooms the viewport when focusing a control whose font-size
-   is below 16px. Force 16px on touch devices only - desktop sizing (text-sm)
-   stays intact. !important is needed to beat Tailwind utility specificity. */
-@media (pointer: coarse) {
-  input:not([type='checkbox']):not([type='radio']):not([type='range']),
-  textarea,
-  select {
-    font-size: 16px !important;
-  }
-}
-
 .heading-anchor {
   margin-left: 0.5em;
   color: rgba(96, 165, 250, 0);

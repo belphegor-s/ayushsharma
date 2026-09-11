@@ -1,200 +1,204 @@
+import { readFile } from 'node:fs/promises';
+import path from 'node:path';
 import { ImageResponse } from 'next/og';
+import { LOGO_PATH } from '@/components/Logo';
 import { siteConfig } from '@/lib/site';
 
-export const alt = `${siteConfig.name} · Developer / Tinkerer / Stoic`;
+export const alt = `${siteConfig.name} · ${siteConfig.tagline}`;
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
 /* Pull a static TTF straight from the Google Fonts CSS endpoint so satori
-   (next/og) can embed the same faces the site uses: Dancing Script for the
-   wordmark, Geist Mono for the rails. `text` trims the font to used glyphs. */
+   (next/og) can embed the same faces the site uses. `text` trims the font to
+   the glyphs actually drawn. Returns null on failure so the image still renders. */
 async function loadGoogleFont(family, weight, text) {
-  const url = `https://fonts.googleapis.com/css2?family=${family.replace(/ /g, '+')}:wght@${weight}&text=${encodeURIComponent(text)}`;
-  const css = await (await fetch(url)).text();
-  const src = css.match(/src: url\((.+?)\) format\('(?:opentype|truetype)'\)/);
-  if (!src) throw new Error(`font load failed: ${family}`);
-  return (await fetch(src[1])).arrayBuffer();
+  try {
+    const url = `https://fonts.googleapis.com/css2?family=${family.replace(/ /g, '+')}:wght@${weight}&text=${encodeURIComponent(text)}`;
+    const css = await (await fetch(url)).text();
+    const src = css.match(/src: url\((.+?)\) format\('(?:opentype|truetype)'\)/);
+    if (!src) return null;
+    return (await fetch(src[1])).arrayBuffer();
+  } catch {
+    return null;
+  }
 }
 
-export default async function OgImage() {
-  const NAME = 'Ayush Sharma';
-  const MONO = 'AYUSHRMEI/206 ©· DevloprTinkStoic';
+async function loadPhoto() {
+  try {
+    const file = await readFile(path.join(process.cwd(), 'public', 'assets', 'ayush.png'));
+    return `data:image/png;base64,${file.toString('base64')}`;
+  } catch {
+    return null;
+  }
+}
 
-  const [dancing, mono, monoBold] = await Promise.all([
+// Frame geometry: rails and band lines, mirroring the site hero.
+const W = 1200;
+const H = 630;
+const RAIL_L = 72;
+const RAIL_R = 1128;
+const LINE_T = 96;
+const LINE_B = 534;
+const GRID_X = 640;
+const GRID = '#171717';
+
+const BG = '#0a0a0a';
+const FG = '#ededed';
+const MUTED = '#a1a1a1';
+const SUBTLE = '#7a7a7a';
+const LINE = '#262626';
+const CROSS = '#5c5c5c';
+const RED = '#ef4444';
+
+const NAME = 'Ayush Sharma';
+const LEAD = siteConfig.bio;
+const EYEBROW = 'DEVELOPER · TINKERER · STOIC';
+const DOMAIN = 'AYUSHSHARMA.ME';
+const FOOT_L = 'TRANSCODER / HUDDLE';
+const FOOT_R = 'PROJECTS · RESUME · CONTACT';
+
+const hLine = (top) => <div style={{ position: 'absolute', left: 0, top, width: W, height: 1, background: LINE }} />;
+const vLine = (left, top = 0, height = H) => <div style={{ position: 'absolute', left, top, width: 1, height, background: LINE }} />;
+
+const plus = (x, y) => (
+  <div style={{ position: 'absolute', left: x - 7, top: y - 7, width: 15, height: 15, display: 'flex' }}>
+    <div style={{ position: 'absolute', left: 7, top: 0, width: 1, height: 15, background: CROSS }} />
+    <div style={{ position: 'absolute', left: 0, top: 7, width: 15, height: 1, background: CROSS }} />
+  </div>
+);
+
+const mono = { fontFamily: 'Geist Mono', fontSize: 17, letterSpacing: 2.4 };
+
+export default async function OgImage() {
+  const [regular, medium, script, monoFont, photo] = await Promise.all([
+    loadGoogleFont('Geist', 400, LEAD),
+    loadGoogleFont('Geist', 500, NAME),
     loadGoogleFont('Dancing Script', 700, NAME),
-    loadGoogleFont('Geist Mono', 400, MONO),
-    loadGoogleFont('Geist Mono', 600, MONO),
-  ]).catch(() => [null, null, null]);
+    loadGoogleFont('Geist Mono', 400, EYEBROW + DOMAIN + FOOT_L + FOOT_R),
+    loadPhoto(),
+  ]);
 
   const fonts = [];
-  if (dancing) fonts.push({ name: 'Dancing Script', data: dancing, weight: 700, style: 'normal' });
-  if (mono) fonts.push({ name: 'Geist Mono', data: mono, weight: 400, style: 'normal' });
-  if (monoBold) fonts.push({ name: 'Geist Mono', data: monoBold, weight: 600, style: 'normal' });
-
-  const mark = '#3b82f6';
-  const border = 'rgba(255,255,255,0.10)';
-  const muted = 'rgba(255,255,255,0.30)';
-
-  // Crisp plus marker pinned to a frame corner, mirroring the site's <Plus />.
-  const Plus = (pos) => (
-    <div style={{ position: 'absolute', width: 14, height: 14, display: 'flex', ...pos }}>
-      <div style={{ position: 'absolute', left: 6, top: 0, width: 2, height: 14, background: 'rgba(255,255,255,0.25)' }} />
-      <div style={{ position: 'absolute', left: 0, top: 6, width: 14, height: 2, background: 'rgba(255,255,255,0.25)' }} />
-    </div>
-  );
+  if (regular) fonts.push({ name: 'Geist', data: regular, weight: 400, style: 'normal' });
+  if (medium) fonts.push({ name: 'Geist', data: medium, weight: 500, style: 'normal' });
+  if (script) fonts.push({ name: 'Dancing Script', data: script, weight: 700, style: 'normal' });
+  if (monoFont) fonts.push({ name: 'Geist Mono', data: monoFont, weight: 400, style: 'normal' });
 
   return new ImageResponse(
     (
-      <div
-        style={{
-          width: '100%',
-          height: '100%',
-          display: 'flex',
-          justifyContent: 'center',
-          backgroundColor: '#0c0d10',
-          backgroundImage:
-            'radial-gradient(60% 60% at 80% 0%, rgba(59,130,246,0.16), transparent 60%), radial-gradient(50% 50% at 0% 100%, rgba(99,102,241,0.10), transparent 60%)',
-          fontFamily: 'Geist Mono',
-        }}
-      >
-        {/* Faint grid, matching the site's textured backdrop */}
+      <div style={{ width: W, height: H, display: 'flex', position: 'relative', background: BG, color: FG, fontFamily: 'Geist' }}>
+        {/* Faint grid in the empty right half, faded toward the text like the site hero */}
         <div
           style={{
             position: 'absolute',
-            inset: 0,
+            left: GRID_X,
+            top: LINE_T + 1,
+            width: RAIL_R - GRID_X,
+            height: LINE_B - LINE_T - 1,
             display: 'flex',
-            backgroundImage:
-              'linear-gradient(rgba(255,255,255,0.022) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.022) 1px, transparent 1px)',
-            backgroundSize: '56px 56px',
+            backgroundImage: `linear-gradient(to right, ${GRID} 1px, transparent 1px), linear-gradient(to bottom, ${GRID} 1px, transparent 1px)`,
+            backgroundSize: '32px 32px',
+          }}
+        />
+        <div
+          style={{
+            position: 'absolute',
+            left: GRID_X,
+            top: LINE_T + 1,
+            width: RAIL_R - GRID_X,
+            height: LINE_B - LINE_T - 1,
+            display: 'flex',
+            backgroundImage: `linear-gradient(to right, ${BG} 0%, rgba(10,10,10,0) 55%), linear-gradient(to top, ${BG} 0%, rgba(10,10,10,0) 60%)`,
           }}
         />
 
-        {/* Framed central column with side rails + plus corners (the hero frame) */}
+        {vLine(RAIL_L)}
+        {vLine(RAIL_R)}
+        {hLine(LINE_T)}
+        {hLine(LINE_B)}
+        {plus(RAIL_L, LINE_T)}
+        {plus(RAIL_R, LINE_T)}
+        {plus(RAIL_L, LINE_B)}
+        {plus(RAIL_R, LINE_B)}
+
+        {/* Framed round portrait, centered in the right half like the site hero */}
+        {photo && (
+          <div style={{ position: 'absolute', left: 812, top: 203, width: 224, height: 224, display: 'flex', padding: 7, borderRadius: 112, border: `1px solid ${LINE}`, background: BG }}>
+            {/* eslint-disable-next-line @next/next/no-img-element -- satori renders raw <img>, next/image does not apply here */}
+            <img src={photo} alt="" width={208} height={208} style={{ width: 208, height: 208, borderRadius: 104, objectFit: 'cover' }} />
+          </div>
+        )}
+
+        {/* Top band: mark and domain */}
         <div
           style={{
-            position: 'relative',
+            position: 'absolute',
+            left: RAIL_L + 1,
+            top: 0,
+            width: RAIL_R - RAIL_L - 1,
+            height: LINE_T,
             display: 'flex',
-            flexDirection: 'column',
-            width: 760,
-            height: '100%',
-            borderLeft: `1px solid ${border}`,
-            borderRight: `1px solid ${border}`,
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            padding: '0 40px',
           }}
         >
-          {Plus({ left: -7, top: -7 })}
-          {Plus({ right: -7, top: -7 })}
-          {Plus({ left: -7, bottom: -7 })}
-          {Plus({ right: -7, bottom: -7 })}
-
-          {/* Top meta bar */}
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              padding: '22px 28px',
-              borderBottom: `1px solid ${border}`,
-              fontSize: 17,
-              letterSpacing: '0.2em',
-              textTransform: 'uppercase',
-              color: 'rgba(255,255,255,0.45)',
-            }}
-          >
-            <span style={{ display: 'flex' }}>ayushsharma.me</span>
-            <span style={{ display: 'flex', color: muted }}>{'// 2026'}</span>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <svg width="36" height="36" viewBox="0 0 32 32">
+              <rect width="32" height="32" rx="7" fill={FG} />
+              <path d={LOGO_PATH} fill={BG} />
+            </svg>
+            <div style={{ display: 'flex', marginLeft: 16, fontSize: 24, fontWeight: 500, letterSpacing: -0.3 }}>{NAME}</div>
           </div>
+          <div style={{ display: 'flex', ...mono, color: SUBTLE }}>{DOMAIN}</div>
+        </div>
 
-          {/* Hero */}
-          <div
-            style={{
-              flex: 1,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              padding: '0 40px',
-            }}
-          >
-            <div
-              style={{
-                display: 'flex',
-                width: 168,
-                height: 168,
-                borderRadius: '50%',
-                padding: 4,
-                background: `linear-gradient(135deg, ${mark} 0%, #6366f1 50%, #0f172a 100%)`,
-                boxShadow: '0 0 50px rgba(59,130,246,0.30)',
-              }}
-            >
-              <img
-                src={`${siteConfig.url}/assets/ayush.png`}
-                alt=""
-                width={160}
-                height={160}
-                style={{ width: 160, height: 160, borderRadius: '50%', objectFit: 'cover' }}
-              />
-            </div>
-
-            <div
-              style={{
-                display: 'flex',
-                marginTop: 30,
-                fontFamily: 'Dancing Script',
-                fontWeight: 700,
-                fontSize: 96,
-                color: '#ffffff',
-                letterSpacing: '0.01em',
-                textShadow: '0 0 24px rgba(99,102,241,0.35)',
-              }}
-            >
-              {NAME}
-            </div>
-
-            {/* Blue hairline divider, like the hero underline */}
-            <div
-              style={{
-                display: 'flex',
-                width: 340,
-                height: 1,
-                marginTop: 18,
-                background: `linear-gradient(90deg, transparent, ${mark}, transparent)`,
-              }}
-            />
-
-            <div
-              style={{
-                display: 'flex',
-                marginTop: 22,
-                fontSize: 24,
-                fontWeight: 600,
-                letterSpacing: '0.06em',
-                color: '#93c5fd',
-              }}
-            >
-              Developer / Tinkerer / Stoic
-            </div>
+        {/* Main cell */}
+        <div
+          style={{
+            position: 'absolute',
+            left: RAIL_L + 1,
+            top: LINE_T + 1,
+            width: RAIL_R - RAIL_L - 1,
+            height: LINE_B - LINE_T - 1,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            padding: '0 56px',
+          }}
+        >
+          <div style={{ display: 'flex', ...mono, fontSize: 18, color: SUBTLE }}>{EYEBROW}</div>
+          <div style={{ display: 'flex', alignItems: 'flex-end', marginTop: 14, fontFamily: 'Dancing Script', fontSize: 104, fontWeight: 700, lineHeight: 1.15 }}>
+            {NAME}
+            <div style={{ display: 'flex', width: 10, height: 10, borderRadius: 5, background: RED, marginLeft: 6, marginBottom: 30 }} />
           </div>
-
-          {/* Footer rail */}
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              padding: '20px 28px',
-              borderTop: `1px solid ${border}`,
-              fontSize: 15,
-              letterSpacing: '0.18em',
-              textTransform: 'uppercase',
-              color: muted,
-            }}
-          >
-            <span style={{ display: 'flex' }}>© 2026</span>
-            <span style={{ display: 'flex', alignItems: 'center', gap: 8, color: '#94a3b8' }}>
-              <span style={{ display: 'flex', color: mark, fontWeight: 600 }}>·</span>
-              say hi
-            </span>
+          {/* Dashed hairline fading right, drawn as discrete dashes (satori has no repeating gradients). */}
+          <div style={{ display: 'flex', marginTop: 12 }}>
+            {Array.from({ length: 36 }, (_, i) => (
+              <div key={i} style={{ display: 'flex', width: 6, height: 1, marginRight: 4, background: `rgba(237,237,237,${(0.55 * (1 - i / 36)).toFixed(3)})` }} />
+            ))}
           </div>
+          <div style={{ display: 'flex', marginTop: 26, maxWidth: 620, fontSize: 29, lineHeight: 1.4, color: MUTED }}>{LEAD}</div>
+        </div>
+
+        {/* Bottom band */}
+        <div
+          style={{
+            position: 'absolute',
+            left: RAIL_L + 1,
+            top: LINE_B + 1,
+            width: RAIL_R - RAIL_L - 1,
+            height: H - LINE_B - 1,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            padding: '0 40px',
+            ...mono,
+            color: SUBTLE,
+          }}
+        >
+          <div style={{ display: 'flex' }}>{FOOT_L}</div>
+          <div style={{ display: 'flex' }}>{FOOT_R}</div>
         </div>
       </div>
     ),
