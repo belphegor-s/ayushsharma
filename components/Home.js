@@ -122,7 +122,9 @@ function Hero({ onContact, onResume, onBoss }) {
           </Label>
           <h1 className={`${signature.className} sign mt-3 text-[2.6rem] font-bold leading-[1.15] text-fg sm:text-6xl lg:text-[4.25rem]`}>
             Ayush Sharma
-            <a href="/matrix" aria-hidden tabIndex={-1} className="ml-[0.05em] inline-block size-[0.085em] rounded-full bg-red-500 transition-transform duration-300 hover:scale-150" />
+            {/* Dot caps the exit stroke of the final "a" (Dancing Script Bold: tip ≈ 0.034em past the advance,
+                0.164em above baseline, rising up-right), nudged along the stroke so it just overlaps the tip. */}
+            <a href="/matrix" aria-hidden tabIndex={-1} className="relative bottom-[0.148em] ml-[0.005em] inline-block size-[0.085em] rounded-full bg-red-500 transition-transform duration-300 hover:scale-150" />
           </h1>
           <span aria-hidden className="draw-line dash-line mt-2 block h-px w-full max-w-xs" />
           <p className="reveal mt-5 max-w-md text-[15px] leading-relaxed text-muted sm:text-base" style={{ '--delay': '120ms' }}>
@@ -137,25 +139,34 @@ function Hero({ onContact, onResume, onBoss }) {
               <FileText size={15} strokeWidth={1.75} aria-hidden />
               Resume
             </button>
-            {/* Playful pill, deliberately unlike the two buttons: Leo's face, a label, and a chevron (it opens in place). */}
+            {/* Playful pill, deliberately unlike the two buttons: at rest just Leo's face in a circle.
+                On hover/focus the face rolls a full turn while the label unrolls beside it (it opens in place).
+                The label animates 0fr -> 1fr grid columns so it can expand to its natural width; its padding
+                lives on an inner span because padding on the collapsing item would stop the track reaching 0. */}
             <button
               type="button"
               onClick={onBoss}
               aria-haspopup="dialog"
-              className="group inline-flex h-8 cursor-pointer items-center gap-2 rounded-full border border-line bg-surface pl-1 pr-2.5 text-[13px] text-muted transition-colors hover:border-line-strong hover:text-fg sm:ml-1"
+              className="group inline-flex h-8 cursor-pointer items-center rounded-full border border-line-strong bg-surface p-[3px] text-[13px] text-muted shadow-[0_0_14px_-1px_color-mix(in_oklab,var(--fg)_30%,transparent)] transition-[color,border-color,box-shadow] duration-300 hover:text-fg hover:shadow-[0_0_20px_0_color-mix(in_oklab,var(--fg)_42%,transparent)] focus-visible:shadow-[0_0_20px_0_color-mix(in_oklab,var(--fg)_42%,transparent)] sm:ml-1"
             >
-              <span className="relative size-6 shrink-0 overflow-hidden rounded-full bg-surface-2">
+              <span className="relative size-6 shrink-0 overflow-hidden rounded-full bg-surface-2 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:rotate-360 group-focus-visible:rotate-360 motion-reduce:transition-none">
                 <Image
                   src={BOSS_URL}
                   alt=""
                   fill
                   sizes="48px"
-                  className="origin-[45%_25%] scale-[1.9] object-cover object-[50%_30%] transition-transform duration-300 group-hover:scale-[2.1]"
+                  className="origin-[45%_25%] scale-[1.9] object-cover object-[50%_30%]"
                   draggable={false}
                 />
               </span>
-              Meet the boss
-              <ChevronRight size={14} strokeWidth={1.75} className="-ml-0.5 text-subtle transition group-hover:translate-x-0.5 group-hover:text-fg" aria-hidden />
+              <span className="grid grid-cols-[0fr] transition-[grid-template-columns] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:grid-cols-[1fr] group-focus-visible:grid-cols-[1fr] motion-reduce:transition-none">
+                <span className="min-w-0 overflow-hidden opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100">
+                  <span className="flex items-center gap-1.5 whitespace-nowrap pl-2 pr-1.5">
+                    Meet the boss
+                    <ChevronRight size={14} strokeWidth={1.75} className="shrink-0 text-subtle transition group-hover:translate-x-0.5 group-hover:text-fg" aria-hidden />
+                  </span>
+                </span>
+              </span>
             </button>
           </div>
         </div>
