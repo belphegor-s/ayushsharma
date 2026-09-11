@@ -40,15 +40,23 @@ const RAIL_R = 1128;
 const LINE_T = 96;
 const LINE_B = 534;
 const GRID_X = 640;
-const GRID = '#171717';
 
-const BG = '#0a0a0a';
-const FG = '#ededed';
-const MUTED = '#a1a1a1';
-const SUBTLE = '#7a7a7a';
-const LINE = '#262626';
-const CROSS = '#5c5c5c';
+/* Light palette, the site's default theme. Values mirror the :root tokens in
+   app/globals.css; keep the two in sync (dark tokens live there too). */
+const BG = '#ffffff';
+const FG = '#0a0a0a';
+const MUTED = '#5c5c5c';
+const SUBTLE = '#737373';
+const LINE = '#ebebeb';
+const CROSS = '#a3a3a3';
+const GRID = LINE;
 const RED = '#ef4444';
+
+// #rrggbb -> rgba() so fades and dashes follow the palette above.
+const rgba = (hex, a) => {
+  const n = parseInt(hex.slice(1), 16);
+  return `rgba(${n >> 16},${(n >> 8) & 255},${n & 255},${a})`;
+};
 
 const NAME = 'Ayush Sharma';
 const LEAD = siteConfig.bio;
@@ -108,7 +116,7 @@ export default async function OgImage() {
             width: RAIL_R - GRID_X,
             height: LINE_B - LINE_T - 1,
             display: 'flex',
-            backgroundImage: `linear-gradient(to right, ${BG} 0%, rgba(10,10,10,0) 55%), linear-gradient(to top, ${BG} 0%, rgba(10,10,10,0) 60%)`,
+            backgroundImage: `linear-gradient(to right, ${BG} 0%, ${rgba(BG, 0)} 55%), linear-gradient(to top, ${BG} 0%, ${rgba(BG, 0)} 60%)`,
           }}
         />
 
@@ -175,7 +183,7 @@ export default async function OgImage() {
           {/* Dashed hairline fading right, drawn as discrete dashes (satori has no repeating gradients). */}
           <div style={{ display: 'flex', marginTop: 12 }}>
             {Array.from({ length: 36 }, (_, i) => (
-              <div key={i} style={{ display: 'flex', width: 6, height: 1, marginRight: 4, background: `rgba(237,237,237,${(0.55 * (1 - i / 36)).toFixed(3)})` }} />
+              <div key={i} style={{ display: 'flex', width: 6, height: 1, marginRight: 4, background: rgba(FG, (0.55 * (1 - i / 36)).toFixed(3)) }} />
             ))}
           </div>
           <div style={{ display: 'flex', marginTop: 26, maxWidth: 620, fontSize: 29, lineHeight: 1.4, color: MUTED }}>{LEAD}</div>
