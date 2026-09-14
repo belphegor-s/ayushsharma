@@ -1,12 +1,12 @@
 'use client';
 import { useState } from 'react';
-import { ArrowRight, ArrowUpRight, Box, Check, Clapperboard, MessagesSquare } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, Box, Check, Clapperboard, Code2, MessagesSquare } from 'lucide-react';
 import { RiGithubFill } from 'react-icons/ri';
 import posthog from '@/lib/posthog';
 import Modal, { ModalHeader } from '@/components/ui/Modal';
 import { Label, buttonClass, textLinkClass } from '@/components/ui/frame';
 
-const ICONS = { transcoder: Clapperboard, huddle: MessagesSquare };
+const ICONS = { transcoder: Clapperboard, huddle: MessagesSquare, knox: Code2 };
 
 const chipClass = 'rounded-md border border-line px-2 py-0.5 font-mono text-[11px] text-muted';
 
