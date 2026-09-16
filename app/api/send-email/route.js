@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 const fromEmail = 'Ayush Sharma <hello@ayushsharma.me>';
+const notifyEmail = 'ayush2162002@gmail.com';
 
 const isValidEmail = (email) => {
   const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -35,6 +36,7 @@ export async function POST(request) {
     }
 
     const safeName = escapeHtml(name.trim());
+    const safeEmail = escapeHtml(email.trim());
     const safeMessage = escapeHtml(message.trim()).replace(/\n/g, '<br>');
 
     const html = `
@@ -45,16 +47,17 @@ export async function POST(request) {
               <tr>
                 <td style="padding: 40px 40px 32px;">
                   <p style="margin: 0 0 18px; font-size: 15px; line-height: 1.6; color: #e5e7eb;">
-                    Hi ${safeName},
-                  </p>
-                  <p style="margin: 0 0 28px; font-size: 15px; line-height: 1.6; color: #9ca3af;">
-                    Thanks for writing in. I got your message and I'll reply soon.
+                    New contact form submission
                   </p>
                   <div style="padding: 18px 20px; background-color: #0c0d10; border: 1px solid rgba(255,255,255,0.07); border-radius: 8px; font-size: 14px; line-height: 1.65; color: #cbd5e1;">
-                    ${safeMessage}
+                    <p style="margin: 0 0 10px;">
+                      <span style="color: #9ca3af;">Name:</span> ${safeName}<br>
+                      <span style="color: #9ca3af;">Email:</span> <a href="mailto:${safeEmail}" style="color: #93c5fd; text-decoration: none;">${safeEmail}</a>
+                    </p>
+                    <p style="margin: 0;">${safeMessage}</p>
                   </div>
                   <p style="margin: 32px 0 0; font-size: 15px; line-height: 1.6; color: #9ca3af;">
-                    Ayush
+                    Reply directly to this email to reach ${safeName}.
                   </p>
                 </td>
               </tr>
@@ -66,8 +69,9 @@ export async function POST(request) {
 
     const { data, error } = await resend.emails.send({
       from: fromEmail,
-      to: [email],
-      subject: `Thanks for your message, ${name}`,
+      to: [notifyEmail],
+      replyTo: email.trim(),
+      subject: `New message from ${name} (${email})`,
       html,
     });
 
