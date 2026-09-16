@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import toast from 'react-hot-toast';
+import { toast } from 'sonner';
 import { ArrowRight } from 'lucide-react';
 import posthog from '@/lib/posthog';
 import { siteConfig } from '@/lib/site';

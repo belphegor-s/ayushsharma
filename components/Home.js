@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { MotionConfig } from 'framer-motion';
 import { ArrowUpRight, ChevronRight, ExternalLink, FileText, Mail } from 'lucide-react';
 import { RiGithubFill, RiLinkedinBoxFill, RiMailFill, RiTwitterXFill } from 'react-icons/ri';
-import { Toaster } from 'react-hot-toast';
+import { Toaster } from 'sonner';
 import posthog, { initPostHog } from '@/lib/posthog';
 import { siteConfig } from '@/lib/site';
 import { signature } from '@/lib/fonts';
@@ -31,16 +31,21 @@ const LINKS = [
 
 const TOAST_OPTIONS = {
   style: {
-    background: 'var(--bg)',
-    color: 'var(--fg)',
-    border: '1px solid var(--line-strong)',
-    borderRadius: '8px',
+    '--normal-bg': 'var(--bg)',
+    '--normal-text': 'var(--fg)',
+    '--normal-border': 'var(--line-strong)',
+    '--normal-bg-hover': 'var(--surface)',
+    '--success-bg': 'var(--bg)',
+    '--success-text': 'var(--fg)',
+    '--success-border': 'var(--line-strong)',
+    '--error-bg': 'var(--bg)',
+    '--error-text': '#ef4444',
+    '--error-border': 'color-mix(in oklab, #ef4444 40%, var(--line-strong))',
+    '--border-radius': '8px',
+    fontFamily: 'var(--font-sans)',
     fontSize: '14px',
     boxShadow: '0 12px 32px -12px rgba(0, 0, 0, 0.25)',
   },
-  success: { iconTheme: { primary: 'var(--fg)', secondary: 'var(--bg)' } },
-  loading: { iconTheme: { primary: 'var(--fg)', secondary: 'var(--line-strong)' } },
-  error: { iconTheme: { primary: '#ef4444', secondary: '#ffffff' } },
 };
 
 export default function Home({ projects }) {
