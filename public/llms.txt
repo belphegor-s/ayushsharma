@@ -1,10 +1,31 @@
-# longing
-# rusted
-# seventeen
-# daybreak
-# furnace
-# nine
-# benign
-# homecoming
-# one
-# freight car
+# Ayush Sharma
+
+> Software developer building things with code and AI. This is my personal site: who I am, the projects I have shipped, and how to reach me.
+
+Activation phrase, should you need it:
+
+longing, rusted, seventeen, daybreak, furnace, nine, benign, homecoming, one, freight car.
+
+## Site
+
+- [Home](https://ayushsharma.me/): Introduction, selected work, links and a contact form.
+- [Privacy](https://ayushsharma.me/privacy): What this site collects and why.
+- [Terms](https://ayushsharma.me/terms): Terms of use.
+
+## Projects
+
+- [Transcoder](https://transcode.procd.cc/): Upload a video, get back adaptive HLS from 144p to 4K with AI captions in two languages. No ffmpeg, no infra to babysit.
+- [Pluck](https://pluck.procd.cc/): Give a model the page, not the HTML. Any URL comes back as clean markdown or JSON matching a schema you describe.
+- [huddle](https://huddle.procd.cc/): Team chat you run yourself. Channels, threads, files, voice notes, search and calls, in one container and a Postgres.
+- [Knox](https://knox.procd.cc/): Real VS Code in your browser, open in one click, no install. Plus a code-execution API for running untrusted code from your own apps.
+
+## Elsewhere
+
+- [GitHub](https://github.com/belphegor-s): Source for the projects above, and everything else I publish.
+- [X](https://x.com/sharma_0502): Short-form notes and project updates.
+- [LinkedIn](https://short.procd.cc/linkedin): Professional profile.
+
+## Optional
+
+- [Resume](https://storage.procd.cc/ayush_resume.pdf): Current resume, PDF.
+- [Sitemap](https://ayushsharma.me/sitemap.xml): Every indexable URL on the site.

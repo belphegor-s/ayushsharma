@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { toast } from 'sonner';
+import { Toaster, toast } from 'sonner';
 import { ArrowRight } from 'lucide-react';
 import posthog from '@/lib/posthog';
 import { siteConfig } from '@/lib/site';
@@ -8,17 +8,41 @@ import Modal, { ModalHeader } from '@/components/ui/Modal';
 import { Label, buttonClass, textLinkClass } from '@/components/ui/frame';
 
 const EMPTY = { name: '', email: '', message: '' };
+
+/* The toaster travels with this dialog: the contact form is the only thing on the site
+   that raises a toast, so sonner loads with it rather than with the page. */
+const TOAST_OPTIONS = {
+  style: {
+    '--normal-bg': 'var(--bg)',
+    '--normal-text': 'var(--fg)',
+    '--normal-border': 'var(--line-strong)',
+    '--normal-bg-hover': 'var(--surface)',
+    '--success-bg': 'var(--bg)',
+    '--success-text': 'var(--fg)',
+    '--success-border': 'var(--line-strong)',
+    '--error-bg': 'var(--bg)',
+    '--error-text': '#ef4444',
+    '--error-border': 'color-mix(in oklab, #ef4444 40%, var(--line-strong))',
+    '--border-radius': '8px',
+    fontFamily: 'var(--font-sans)',
+    fontSize: '14px',
+    boxShadow: '0 12px 32px -12px rgba(0, 0, 0, 0.25)',
+  },
+};
 const fieldClass =
   'w-full rounded-md border border-line-strong bg-bg px-3 text-sm text-fg placeholder:text-subtle transition-[border-color,box-shadow] hover:border-subtle/60 focus:border-fg focus:ring-4 focus:ring-fg/10 focus:outline-none focus-visible:outline-none';
 
 export default function ContactDialog({ open, onClose }) {
   return (
-    <Modal open={open} onClose={onClose} labelledBy="contact-title" className="max-w-md">
-      <ModalHeader onClose={onClose}>
-        <Label>Contact</Label>
-      </ModalHeader>
-      <ContactForm onSent={onClose} />
-    </Modal>
+    <>
+      <Toaster position="top-center" toastOptions={TOAST_OPTIONS} />
+      <Modal open={open} onClose={onClose} labelledBy="contact-title" className="max-w-md">
+        <ModalHeader onClose={onClose}>
+          <Label>Contact</Label>
+        </ModalHeader>
+        <ContactForm onSent={onClose} />
+      </Modal>
+    </>
   );
 }
 

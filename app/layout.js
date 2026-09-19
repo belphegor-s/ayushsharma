@@ -9,9 +9,12 @@ const geistSans = Geist({
   subsets: ['latin'],
 });
 
+/* Only the small mono labels use this face, so it stays out of the initial
+   preload burst and lets the body font and the signature have the bandwidth. */
 const geistMono = Geist_Mono({
   variable: '--font-geist-mono',
   subsets: ['latin'],
+  preload: false,
 });
 
 /* Resolves the theme before first paint (stored choice, else the system) so

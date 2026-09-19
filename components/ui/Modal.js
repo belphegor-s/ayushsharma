@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, MotionConfig, motion } from 'framer-motion';
 import { X } from 'lucide-react';
 import { Plus, iconButtonClass } from '@/components/ui/frame';
 
@@ -16,13 +16,17 @@ export default function Modal({ open, onClose, labelledBy, className = '', child
   if (!mounted) return null;
 
   return createPortal(
-    <AnimatePresence>
-      {open && (
-        <Dialog key="dialog" onClose={onClose} labelledBy={labelledBy} className={className}>
-          {children}
-        </Dialog>
-      )}
-    </AnimatePresence>,
+    /* Honours "reduce motion" for every dialog animation. This used to wrap the whole
+       page; it lives here now so framer-motion loads with the dialogs, not with the page. */
+    <MotionConfig reducedMotion="user">
+      <AnimatePresence>
+        {open && (
+          <Dialog key="dialog" onClose={onClose} labelledBy={labelledBy} className={className}>
+            {children}
+          </Dialog>
+        )}
+      </AnimatePresence>
+    </MotionConfig>,
     document.body
   );
 }

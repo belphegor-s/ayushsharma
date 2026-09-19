@@ -44,5 +44,12 @@
   "overrides": {
     "brace-expansion": "2.1.4",
     "postcss": "8.5.28"
-  }
+  },
+  "browserslist": [
+    "chrome >= 111",
+    "edge >= 111",
+    "firefox >= 128",
+    "safari >= 16.4",
+    "opera >= 97"
+  ]
 }
