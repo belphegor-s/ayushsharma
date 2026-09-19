@@ -95,7 +95,7 @@ export default function Home({ projects }) {
           <div className="flex items-end justify-between gap-6 px-5 py-8 sm:px-6 sm:py-10">
             <div>
               <Label as="p">Selected work</Label>
-              <h2 className="mt-2.5 text-xl font-semibold tracking-tight text-fg sm:text-2xl">A couple of things I have shipped.</h2>
+              <h2 className="mt-2.5 text-xl font-semibold tracking-tight text-fg sm:text-2xl">A few things I have shipped.</h2>
             </div>
             <Label className="tabular-nums">{String(projects.length).padStart(2, '0')}</Label>
           </div>
