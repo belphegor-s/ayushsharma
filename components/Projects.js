@@ -1,10 +1,10 @@
-import { ArrowRight, Box, Clapperboard, Code2, Globe, MessagesSquare } from 'lucide-react';
+import { ArrowRight, Box, Clapperboard, Code2, Globe, Link2, MessagesSquare } from 'lucide-react';
 import { Label } from '@/components/ui/frame';
 import ProjectsHost from '@/components/projects/ProjectsHost';
 import ProjectTrigger from '@/components/projects/ProjectTrigger';
 import { chipClass } from '@/components/projects/styles';
 
-const ICONS = { transcoder: Clapperboard, pluck: Globe, huddle: MessagesSquare, knox: Code2 };
+const ICONS = { transcoder: Clapperboard, pluck: Globe, huddle: MessagesSquare, knox: Code2, shrt: Link2 };
 
 /* The grid is server-rendered; the host around it is the only client code, and the
    detail dialog it owns is fetched on demand. */

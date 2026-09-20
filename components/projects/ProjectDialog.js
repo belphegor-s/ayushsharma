@@ -1,12 +1,12 @@
 'use client';
-import { ArrowUpRight, Box, Check, Clapperboard, Code2, Globe, MessagesSquare } from 'lucide-react';
+import { ArrowUpRight, Box, Check, Clapperboard, Code2, Globe, Link2, MessagesSquare } from 'lucide-react';
 import { RiGithubFill } from 'react-icons/ri';
 import posthog from '@/lib/posthog';
 import Modal, { ModalHeader } from '@/components/ui/Modal';
 import { Label, buttonClass, textLinkClass } from '@/components/ui/frame';
 import { chipClass } from '@/components/projects/styles';
 
-const ICONS = { transcoder: Clapperboard, pluck: Globe, huddle: MessagesSquare, knox: Code2 };
+const ICONS = { transcoder: Clapperboard, pluck: Globe, huddle: MessagesSquare, knox: Code2, shrt: Link2 };
 
 export default function ProjectDialog({ project, open, onClose }) {
   return (

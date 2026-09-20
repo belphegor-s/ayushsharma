@@ -18,6 +18,7 @@ longing, rusted, seventeen, daybreak, furnace, nine, benign, homecoming, one, fr
 - [Pluck](https://pluck.procd.cc/): Give a model the page, not the HTML. Any URL comes back as clean markdown or JSON matching a schema you describe.
 - [huddle](https://huddle.procd.cc/): Team chat you run yourself. Channels, threads, files, voice notes, search and calls, in one container and a Postgres.
 - [Knox](https://knox.procd.cc/): Real VS Code in your browser, open in one click, no install. Plus a code-execution API for running untrusted code from your own apps.
+- [SHRT](https://short.procd.cc/): Short links that resolve at the edge, with per-click analytics that do not follow anyone around.
 
 ## Elsewhere
 
