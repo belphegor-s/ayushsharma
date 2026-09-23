@@ -6,7 +6,7 @@ import { siteConfig } from '@/lib/site';
 
 const linkClass = `rounded-sm text-[13px] text-muted ${textLinkClass}`;
 
-export default function SiteFooter() {
+export default function SiteFooter({ credit = false }) {
   return (
     <footer>
       <Row>
@@ -18,6 +18,14 @@ export default function SiteFooter() {
             </p>
             <Label as="p">
               © {new Date().getFullYear()} {siteConfig.author.name}
+              {credit && (
+                <>
+                  {' · '}
+                  <a href="https://github.com/ashima/webgl-noise" target="_blank" rel="noopener noreferrer" className={`rounded-sm ${textLinkClass}`}>
+                    Noise by Ashima Arts
+                  </a>
+                </>
+              )}
             </Label>
           </div>
           <ThemeToggle className="self-start sm:self-auto" />
