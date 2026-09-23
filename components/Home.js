@@ -163,11 +163,11 @@ function Portrait() {
 function Links() {
   return (
     <Row>
-      <ul className="grid grid-cols-2 gap-px bg-line sm:grid-cols-4">
+      <ul className="grid grid-cols-2 sm:grid-cols-4">
         {LINKS.map(({ label, value, href, icon: Icon }) => {
           const external = !href.startsWith('mailto:');
           return (
-            <li key={label} className="bg-bg">
+            <li key={label} className="border-line even:border-l max-sm:[&:nth-child(n+3)]:border-t sm:[&:not(:first-child)]:border-l">
               <a
                 href={href}
                 {...(external && { target: '_blank', rel: 'noopener noreferrer' })}

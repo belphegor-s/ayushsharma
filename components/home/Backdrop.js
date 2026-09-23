@@ -1,16 +1,18 @@
 'use client';
 import { useEffect, useRef } from 'react';
 
-/* Ordered-dither noise field behind the top of the page. A slow, domain-warped simplex
-   flow is thresholded against a Bayer matrix, so it reads as a drift of single pixels in
-   the foreground colour rather than a gradient, and fades out towards the text.
+/* A barely-there wash of light behind the whole page: large, slow, domain-warped simplex
+   blobs in the foreground colour at a few percent, with a static grain so the gradient
+   never bands. It has no edges or dots of its own, so the frame's hairlines and markers
+   stay the only lines on the page.
 
    Nothing here touches the load: the canvas is empty markup until the page has fully
    loaded and the browser is idle, it renders at a quarter of the pixels (one texel per
-   2px cell, scaled up with pixelated sampling), is capped at 30fps, and stops whenever it
+   2px cell, smoothed back up by the browser), is capped at 30fps, and stops whenever it
    is off screen or the tab is hidden. Reduced motion gets a single still frame. */
 
 const CELL = 2;
+
 const FRAME_MS = 1000 / 30;
 
 const VERT = `attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}`;
@@ -50,27 +52,21 @@ float snoise(vec3 v){
   return 42.*dot(m*m,vec4(dot(p0,x0),dot(p1,x1),dot(p2,x2),dot(p3,x3)));
 }
 
-// 8x8 Bayer threshold, built up from the 2x2 matrix.
-float bayer2(vec2 a){a=floor(a);return fract(dot(a,vec2(.5,a.y*.75)));}
-float bayer4(vec2 a){return bayer2(.5*a)*.25+bayer2(a);}
-float bayer8(vec2 a){return bayer4(.5*a)*.25+bayer2(a);}
+// Static per-pixel hash, used as grain so the faint gradient never bands.
+float hash(vec2 p){p=fract(p*vec2(.1031,.103));p+=dot(p,p.yx+33.33);return fract((p.x+p.y)*p.x);}
 
 void main(){
   vec2 frag=gl_FragCoord.xy;
-  vec2 uv=frag/uRes.y;
-  float t=uTime*.035;
+  vec2 uv=frag/max(uRes.x,uRes.y);
+  float t=uTime*.02;
 
-  vec2 q=vec2(snoise(vec3(uv*1.3,t)),snoise(vec3(uv*1.3+5.2,t)));
-  float n=snoise(vec3(uv*1.8+q*.9,t*1.4))*.65+snoise(vec3(uv*4.+q,t*2.))*.35;
-  n=n*.5+.5;
+  // Large, slow, domain-warped blobs of light: shape without any edges.
+  vec2 q=vec2(snoise(vec3(uv*.9,t)),snoise(vec3(uv*.9+7.3,t)));
+  float n=snoise(vec3(uv*1.2+q*.6,t*1.3))*.5+.5;
+  n=smoothstep(.2,1.,n);
 
-  // Anchored to the top right, the same corner the hero grid fades from.
-  vec2 d=(frag/uRes-vec2(1.,1.))*vec2(1.25,1.);
-  float fade=1.-smoothstep(.1,1.05,length(d));
-
-  float v=smoothstep(.3,.95,n)*fade*.85;
-  float on=step(bayer8(frag),v);
-  gl_FragColor=vec4(uColor.rgb,1.)*uColor.a*on;
+  float grain=hash(frag)-.5;
+  gl_FragColor=vec4(uColor.rgb,1.)*clamp(n*uColor.a+grain*.012,0.,1.);
 }`;
 
 function readColor() {
@@ -78,7 +74,7 @@ function readColor() {
   const hex = style.getPropertyValue('--fg').trim().replace('#', '');
   const n = parseInt(hex.length === 3 ? hex.replace(/./g, '$&$&') : hex, 16);
   const dark = document.documentElement.dataset.theme === 'dark';
-  return [((n >> 16) & 255) / 255, ((n >> 8) & 255) / 255, (n & 255) / 255, dark ? 0.2 : 0.14];
+  return [((n >> 16) & 255) / 255, ((n >> 8) & 255) / 255, (n & 255) / 255, dark ? 0.06 : 0.035];
 }
 
 function compile(gl, type, src) {
@@ -206,8 +202,8 @@ export default function Backdrop() {
   }, []);
 
   return (
-    <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[min(100svh,56rem)] overflow-hidden">
-      <canvas ref={ref} className="size-full opacity-0 transition-opacity duration-[1500ms] [image-rendering:pixelated]" />
+    <div aria-hidden className="pointer-events-none fixed inset-0 -z-10">
+      <canvas ref={ref} className="size-full opacity-0 transition-opacity duration-[2000ms]" />
     </div>
   );
 }
