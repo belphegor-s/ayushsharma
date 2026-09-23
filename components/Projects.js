@@ -6,11 +6,39 @@ import { chipClass } from '@/components/projects/styles';
 
 const ICONS = { transcoder: Clapperboard, pluck: Globe, huddle: MessagesSquare, knox: Code2, shrt: Link2 };
 
-/* The grid is server-rendered; the host around it is the only client code, and the
-   detail dialog it owns is fetched on demand. */
+/* Projects are split into two tiers, each with its own grid. The gap between the
+   grids does the separating, so nothing here has to span columns. */
+const TIERS = [
+  { label: 'Cool projects', cool: true },
+  { label: 'Not so cool projects', cool: false },
+];
+
+/* The grids are server-rendered; the host around them is the only client code, and
+   the detail dialog it owns is fetched on demand. */
 export default function Projects({ projects }) {
+  const tiers = TIERS.map((tier) => ({
+    ...tier,
+    projects: projects.filter((project) => Boolean(project.cool) === tier.cool),
+  })).filter((tier) => tier.projects.length > 0);
+
   return (
     <ProjectsHost projects={projects}>
+      <div className="flex flex-col gap-8 sm:gap-10">
+        {tiers.map((tier) => (
+          <ProjectTier key={tier.label} label={tier.label} projects={tier.projects} />
+        ))}
+      </div>
+    </ProjectsHost>
+  );
+}
+
+function ProjectTier({ label, projects }) {
+  return (
+    <section>
+      <div className="flex items-center justify-between gap-4 border-b border-line px-5 py-3 sm:px-6">
+        <Label as="p">{label}</Label>
+        <Label className="tabular-nums">{String(projects.length).padStart(2, '0')}</Label>
+      </div>
       <ul className="grid gap-px bg-line sm:grid-cols-2">
         {projects.map((project) => (
           <li key={project.slug} className="bg-bg">
@@ -19,7 +47,7 @@ export default function Projects({ projects }) {
         ))}
         {projects.length % 2 === 1 && <li aria-hidden className="hatch bg-bg max-sm:hidden" />}
       </ul>
-    </ProjectsHost>
+    </section>
   );
 }
 
