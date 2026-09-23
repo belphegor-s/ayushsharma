@@ -1,4 +1,4 @@
-import { ArrowRight, Box, Clapperboard, Code2, Globe, Link2, MessagesSquare } from 'lucide-react';
+import { ArrowRight, Asterisk, Box, Clapperboard, Code2, Globe, Link2, MessagesSquare } from 'lucide-react';
 import { Label } from '@/components/ui/frame';
 import ProjectsHost from '@/components/projects/ProjectsHost';
 import ProjectTrigger from '@/components/projects/ProjectTrigger';
@@ -35,8 +35,11 @@ export default function Projects({ projects }) {
 function ProjectTier({ label, projects }) {
   return (
     <section>
-      <div className="flex items-center justify-between gap-4 border-b border-line px-5 py-3 sm:px-6">
-        <Label as="p">{label}</Label>
+      <div className="flex items-center justify-between gap-4 border-b border-line px-5 py-3.5 sm:px-6">
+        <h3 className="flex items-center gap-0.5 text-sm font-semibold tracking-tight text-fg/85 sm:text-base">
+          <Asterisk size={16} strokeWidth={2} aria-hidden className="text-subtle" />
+          {label}
+        </h3>
         <Label className="tabular-nums">{String(projects.length).padStart(2, '0')}</Label>
       </div>
       <ul className="grid gap-px bg-line sm:grid-cols-2">
