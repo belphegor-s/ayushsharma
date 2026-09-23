@@ -6,7 +6,6 @@ import { signature } from '@/lib/fonts';
 import SiteHeader from '@/components/SiteHeader';
 import SiteFooter from '@/components/SiteFooter';
 import Projects from '@/components/Projects';
-import Backdrop from '@/components/home/Backdrop';
 import DialogHost from '@/components/home/DialogHost';
 import DialogTrigger from '@/components/home/DialogTrigger';
 import { BOSS_URL } from '@/components/home/boss';
@@ -29,44 +28,39 @@ const LINKS = [
 export default function Home({ projects }) {
   return (
     <DialogHost>
-      {/* isolate gives the backdrop a stacking context to sit at the bottom of, under the
-          page but above the body's own background. */}
-      <div className="relative isolate">
-        <Backdrop />
-        <SiteHeader>
-          <a href="#work" className={`${navItemClass} max-sm:hidden`}>
-            Work
-          </a>
-          <DialogTrigger dialog="resume" className={navItemClass}>
-            Resume
-          </DialogTrigger>
-          <DialogTrigger dialog="contact" className={navItemClass}>
-            Contact
-          </DialogTrigger>
-        </SiteHeader>
+      <SiteHeader>
+        <a href="#work" className={`${navItemClass} max-sm:hidden`}>
+          Work
+        </a>
+        <DialogTrigger dialog="resume" className={navItemClass}>
+          Resume
+        </DialogTrigger>
+        <DialogTrigger dialog="contact" className={navItemClass}>
+          Contact
+        </DialogTrigger>
+      </SiteHeader>
 
-        <main>
-          <Hero />
-          <Links />
-          <Spacer />
+      <main>
+        <Hero />
+        <Links />
+        <Spacer />
 
-          <Row id="work">
-            <div className="flex items-end justify-between gap-6 px-5 py-8 sm:px-6 sm:py-10">
-              <div>
-                <Label as="p">Selected work</Label>
-                <h2 className="mt-2.5 text-xl font-semibold tracking-tight text-fg sm:text-2xl">A few things I have shipped.</h2>
-              </div>
-              <Label className="tabular-nums">{String(projects.length).padStart(2, '0')}</Label>
+        <Row id="work">
+          <div className="flex items-end justify-between gap-6 px-5 py-8 sm:px-6 sm:py-10">
+            <div>
+              <Label as="p">Selected work</Label>
+              <h2 className="mt-2.5 text-xl font-semibold tracking-tight text-fg sm:text-2xl">A few things I have shipped.</h2>
             </div>
-          </Row>
-          <Row>
-            <Projects projects={projects} />
-          </Row>
-          <Spacer />
-        </main>
+            <Label className="tabular-nums">{String(projects.length).padStart(2, '0')}</Label>
+          </div>
+        </Row>
+        <Row>
+          <Projects projects={projects} />
+        </Row>
+        <Spacer />
+      </main>
 
-        <SiteFooter credit />
-      </div>
+      <SiteFooter />
     </DialogHost>
   );
 }
@@ -89,12 +83,7 @@ function Hero() {
               {/* Dot caps the exit stroke of the final "a" (Dancing Script Bold: tip ≈ 0.034em past the advance,
                   0.164em above baseline, rising up-right), nudged along the stroke with a small gap from the tip,
                   like an "i" dot sits off its stem. */}
-              <a
-                href="/matrix"
-                aria-hidden
-                tabIndex={-1}
-                className="relative bottom-[0.21em] ml-[0.03em] inline-block size-[0.085em] rounded-full bg-red-500 transition-transform duration-300 hover:scale-150"
-              />
+              <a href="/matrix" aria-hidden tabIndex={-1} className="relative bottom-[0.21em] ml-[0.03em] inline-block size-[0.085em] rounded-full bg-red-500 transition-transform duration-300 hover:scale-150" />
             </span>
           </h1>
           <span aria-hidden className="draw-line dash-line mt-2 block h-px w-full max-w-xs" />
@@ -120,7 +109,14 @@ function Hero() {
               className="group inline-flex h-8 cursor-pointer items-center rounded-full border border-line-strong bg-surface p-[3px] text-[13px] text-muted shadow-[0_0_14px_-1px_color-mix(in_oklab,var(--fg)_30%,transparent)] transition-[color,border-color,box-shadow] duration-300 hover:text-fg hover:shadow-[0_0_20px_0_color-mix(in_oklab,var(--fg)_42%,transparent)] focus-visible:shadow-[0_0_20px_0_color-mix(in_oklab,var(--fg)_42%,transparent)] sm:ml-1"
             >
               <span className="relative size-6 shrink-0 overflow-hidden rounded-full bg-surface-2 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:rotate-360 group-focus-visible:rotate-360 motion-reduce:transition-none">
-                <Image src={BOSS_URL} alt="" fill sizes="48px" className="origin-[45%_25%] scale-[1.9] object-cover object-[50%_30%]" draggable={false} />
+                <Image
+                  src={BOSS_URL}
+                  alt=""
+                  fill
+                  sizes="48px"
+                  className="origin-[45%_25%] scale-[1.9] object-cover object-[50%_30%]"
+                  draggable={false}
+                />
               </span>
               <span className="grid grid-cols-[0fr] transition-[grid-template-columns] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:grid-cols-[1fr] group-focus-visible:grid-cols-[1fr] motion-reduce:transition-none">
                 <span className="min-w-0 overflow-hidden opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100">
@@ -163,11 +159,11 @@ function Portrait() {
 function Links() {
   return (
     <Row>
-      <ul className="grid grid-cols-2 sm:grid-cols-4">
+      <ul className="grid grid-cols-2 gap-px bg-line sm:grid-cols-4">
         {LINKS.map(({ label, value, href, icon: Icon }) => {
           const external = !href.startsWith('mailto:');
           return (
-            <li key={label} className="border-line even:border-l max-sm:[&:nth-child(n+3)]:border-t sm:[&:not(:first-child)]:border-l">
+            <li key={label} className="bg-bg">
               <a
                 href={href}
                 {...(external && { target: '_blank', rel: 'noopener noreferrer' })}
