@@ -9,8 +9,8 @@ const ICONS = { transcoder: Clapperboard, pluck: Globe, huddle: MessagesSquare, 
 /* Projects are split into two tiers. Cool ones get full cards; the rest collapse
    into a quieter list, with a hatched band between the two doing the separating. */
 const TIERS = [
-  { label: 'Cool projects', note: 'The ones I would show first.', cool: true },
-  { label: 'Not so cool projects', note: 'Useful, just less exciting.', cool: false },
+  { label: 'Cool projects', note: 'Worth your time.', cool: true },
+  { label: 'Not so cool projects', note: 'Side quests and quick builds.', cool: false },
 ];
 
 /* The grids are server-rendered; the host around them is the only client code, and
