@@ -179,8 +179,8 @@
   animation: draw-line 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.45s both;
 }
 
-/* Leo's avatar in the hero pill. A soft aurora ring orbits him forever, with a blurred copy
-   behind it as a glow, and every few seconds he tilts his head like a curious lab. Only
+/* Leo's avatar in the hero pill. A monochrome comet of light orbits him forever along a faint
+   track, with a blurred copy trailing behind it as a glow, and every few seconds he tilts his head like a curious lab. Only
    transforms animate, so it all stays on the compositor and costs the main thread nothing. */
 @keyframes leo-orbit {
   to {
@@ -207,11 +207,12 @@
   }
 }
 .leo-orbit {
-  --aurora: conic-gradient(from 0deg, #f9a8d4, #fcd34d, #86efac, #7dd3fc, #c4b5fd, #f9a8d4);
+  --comet: conic-gradient(from 0deg, transparent 0 40%, color-mix(in oklab, var(--fg) 30%, transparent) 70%, var(--fg) 100%);
   position: relative;
   isolation: isolate;
   border-radius: 9999px;
-  padding: 1.5px;
+  padding: 2px;
+  background: var(--line-strong);
 }
 .leo-orbit::before,
 .leo-orbit::after {
@@ -220,14 +221,14 @@
   inset: 0;
   z-index: -1;
   border-radius: inherit;
-  background: var(--aurora);
+  background: var(--comet);
   animation: leo-orbit 3.2s linear infinite;
 }
 .leo-orbit::after {
   z-index: -2;
   inset: -1px;
   filter: blur(4px);
-  opacity: 0.7;
+  opacity: 0.55;
 }
 .leo-tilt {
   transform-origin: 50% 85%;

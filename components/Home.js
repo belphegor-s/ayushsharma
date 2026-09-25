@@ -100,23 +100,23 @@ function Hero() {
               Resume
             </DialogTrigger>
             {/* Playful pill, deliberately unlike the two buttons: at rest just Leo's face inside an orbiting
-                aurora ring, tilting his head now and then (see .leo-orbit). On hover/focus the face rolls a full turn while the label unrolls beside it (it opens in place).
+                comet ring, tilting his head now and then (see .leo-orbit). On hover/focus the face rolls a full turn while the label unrolls beside it (it opens in place).
                 The label animates 0fr -> 1fr grid columns so it can expand to its natural width; its padding
                 lives on an inner span because padding on the collapsing item would stop the track reaching 0. */}
             <DialogTrigger
               dialog="boss"
               aria-haspopup="dialog"
-              className="group inline-flex h-8 cursor-pointer items-center rounded-full border border-line-strong bg-surface p-[3px] text-[13px] text-muted shadow-[0_0_14px_-1px_color-mix(in_oklab,var(--fg)_30%,transparent)] transition-[color,border-color,box-shadow] duration-300 hover:text-fg hover:shadow-[0_0_20px_0_color-mix(in_oklab,var(--fg)_42%,transparent)] focus-visible:shadow-[0_0_20px_0_color-mix(in_oklab,var(--fg)_42%,transparent)] sm:ml-1"
+              className="group inline-flex h-10 cursor-pointer items-center rounded-full border border-line-strong bg-surface p-[3px] text-[13px] text-muted shadow-[0_0_14px_-1px_color-mix(in_oklab,var(--fg)_30%,transparent)] transition-[color,border-color,box-shadow] duration-300 hover:text-fg hover:shadow-[0_0_20px_0_color-mix(in_oklab,var(--fg)_42%,transparent)] focus-visible:shadow-[0_0_20px_0_color-mix(in_oklab,var(--fg)_42%,transparent)] sm:ml-1"
             >
-              <span className="leo-orbit size-6 shrink-0">
+              <span className="leo-orbit size-8 shrink-0">
                 <span className="relative block size-full overflow-hidden rounded-full bg-surface-2 transition-[rotate] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:rotate-360 group-focus-visible:rotate-360 motion-reduce:transition-none">
                   <span className="leo-tilt absolute inset-0 block">
                     <Image
                       src={BOSS_URL}
                       alt=""
                       fill
-                      sizes="48px"
-                      className="origin-[45%_25%] scale-[1.9] object-cover object-[50%_30%]"
+                      sizes="64px"
+                      className="origin-[54%_32%] scale-[1.6] object-cover object-[50%_20%]"
                       draggable={false}
                     />
                   </span>
