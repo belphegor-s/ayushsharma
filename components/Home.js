@@ -29,13 +29,13 @@ export default function Home({ projects }) {
   return (
     <DialogHost>
       <SiteHeader>
-        <a href="#work" className={`${navItemClass} max-sm:hidden`}>
+        <a href="#work" data-sound-hover="hover" className={`${navItemClass} max-sm:hidden`}>
           Work
         </a>
-        <DialogTrigger dialog="resume" className={navItemClass}>
+        <DialogTrigger dialog="resume" data-sound-hover="hover" className={navItemClass}>
           Resume
         </DialogTrigger>
-        <DialogTrigger dialog="contact" className={navItemClass}>
+        <DialogTrigger dialog="contact" data-sound-hover="hover" className={navItemClass}>
           Contact
         </DialogTrigger>
       </SiteHeader>
@@ -91,11 +91,11 @@ function Hero() {
             {siteConfig.bio}
           </p>
           <div className="reveal mt-6 flex flex-wrap items-center gap-2" style={{ '--delay': '120ms' }}>
-            <DialogTrigger dialog="contact" data-sound-hover="hover" className={buttonClass.primary}>
+            <DialogTrigger dialog="contact" data-sound-hover="hoverButton" className={buttonClass.primary}>
               <Mail size={15} strokeWidth={1.75} aria-hidden />
               Get in touch
             </DialogTrigger>
-            <DialogTrigger dialog="resume" data-sound-hover="hover" className={buttonClass.secondary}>
+            <DialogTrigger dialog="resume" data-sound-hover="hoverButton" className={buttonClass.secondary}>
               <FileText size={15} strokeWidth={1.75} aria-hidden />
               Resume
             </DialogTrigger>
@@ -171,7 +171,7 @@ function Links() {
               <a
                 href={href}
                 {...(external && { target: '_blank', rel: 'noopener noreferrer' })}
-                data-sound-hover="hover"
+                data-sound-hover="hoverLink"
                 className="group flex h-full flex-col justify-between gap-6 p-4 transition-colors hover:bg-surface focus-visible:-outline-offset-2 sm:px-6 sm:py-5"
               >
                 <span className="flex items-center justify-between">
