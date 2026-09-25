@@ -1,10 +1,10 @@
-import { ArrowRight, Asterisk, Box, Clapperboard, Code2, Globe, Link2, MessagesSquare } from 'lucide-react';
+import { ArrowRight, Asterisk, Box, Clapperboard, Code2, Globe, Link2, MessagesSquare, Webhook } from 'lucide-react';
 import { Label } from '@/components/ui/frame';
 import ProjectsHost from '@/components/projects/ProjectsHost';
 import ProjectTrigger from '@/components/projects/ProjectTrigger';
 import { chipClass } from '@/components/projects/styles';
 
-const ICONS = { transcoder: Clapperboard, pluck: Globe, huddle: MessagesSquare, knox: Code2, shrt: Link2 };
+const ICONS = { transcoder: Clapperboard, pluck: Globe, huddle: MessagesSquare, knox: Code2, shrt: Link2, webhooks: Webhook };
 
 /* Projects are split into two tiers. Cool ones get full cards; the rest collapse
    into a quieter list, with a hatched band between the two doing the separating. */
