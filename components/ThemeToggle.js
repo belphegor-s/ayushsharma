@@ -33,10 +33,13 @@ function readPref() {
 
 export default function ThemeToggle({ className = '' }) {
   const [pref, setPref] = useState(null);
+  // The knob only animates once it has been placed, so it never slides in on page load.
+  const [ready, setReady] = useState(false);
   const buttonsRef = useRef([]);
 
   useEffect(() => {
     setPref(readPref());
+    const frame = requestAnimationFrame(() => requestAnimationFrame(() => setReady(true)));
     const onStorage = (e) => {
       if (e.key !== STORAGE_KEY) return;
       const next = e.newValue || 'system';
@@ -44,7 +47,10 @@ export default function ThemeToggle({ className = '' }) {
       applyTheme(next);
     };
     window.addEventListener('storage', onStorage);
-    return () => window.removeEventListener('storage', onStorage);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener('storage', onStorage);
+    };
   }, []);
 
   useEffect(() => {
@@ -57,7 +63,8 @@ export default function ThemeToggle({ className = '' }) {
 
   const choose = (value) => {
     if (value === pref) return;
-    play(value === 'dark' ? 'switchOff' : 'switchOn');
+    const index = (v) => Math.max(0, OPTIONS.findIndex((o) => o.value === v));
+    play('themeSlide', index(pref), index(value));
     setPref(value);
     try {
       if (value === 'system') localStorage.removeItem(STORAGE_KEY);
@@ -81,7 +88,14 @@ export default function ThemeToggle({ className = '' }) {
   );
 
   return (
-    <div role="radiogroup" aria-label="Theme" className={`inline-flex items-center gap-0.5 rounded-full border border-line p-[3px] ${className}`}>
+    <div role="radiogroup" aria-label="Theme" className={`relative inline-flex items-center gap-0.5 rounded-full border border-line p-[3px] ${className}`}>
+      {/* One knob that slides between the options like a physical switch, with a slight
+          overshoot as it lands. Each step is a button's width plus the 2px gap. */}
+      <span
+        aria-hidden
+        className={`theme-knob absolute left-[3px] top-[3px] size-6 rounded-full bg-surface-2 shadow-[inset_0_0_0_1px_var(--line-strong),0_1px_2px_rgba(0,0,0,0.08)] ${ready ? 'transition-transform duration-300 ease-[cubic-bezier(0.34,1.4,0.64,1)] motion-reduce:transition-none' : ''} ${pref === null ? 'opacity-0' : ''}`}
+        style={{ transform: `translateX(calc(${activeIndex} * (100% + 2px)))` }}
+      />
       {OPTIONS.map(({ value, label, icon: Icon }, i) => {
         const active = pref === value;
         return (
@@ -97,7 +111,7 @@ export default function ThemeToggle({ className = '' }) {
             data-sound="none"
             onClick={() => choose(value)}
             onKeyDown={(e) => onKeyDown(e, i)}
-            className={`grid size-6 cursor-pointer place-items-center rounded-full transition-colors ${active ? 'bg-surface-2 text-fg shadow-[inset_0_0_0_1px_var(--line-strong)]' : 'text-subtle hover:text-fg'}`}
+            className={`relative grid size-6 cursor-pointer place-items-center rounded-full transition-colors ${active ? 'text-fg' : 'text-subtle hover:text-fg'}`}
           >
             <Icon size={13} strokeWidth={1.75} />
           </button>
