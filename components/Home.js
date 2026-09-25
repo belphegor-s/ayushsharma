@@ -106,7 +106,6 @@ function Hero() {
             <DialogTrigger
               dialog="boss"
               aria-haspopup="dialog"
-              data-sound-hover="woof"
               className="group inline-flex h-8 cursor-pointer items-center rounded-full border border-line-strong bg-surface p-[3px] text-[13px] text-muted shadow-[0_0_14px_-1px_color-mix(in_oklab,var(--fg)_30%,transparent)] transition-[color,border-color,box-shadow] duration-300 hover:text-fg hover:shadow-[0_0_20px_0_color-mix(in_oklab,var(--fg)_42%,transparent)] focus-visible:shadow-[0_0_20px_0_color-mix(in_oklab,var(--fg)_42%,transparent)] sm:ml-1"
             >
               <span className="relative size-6 shrink-0 overflow-hidden rounded-full bg-surface-2 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:rotate-360 group-focus-visible:rotate-360 motion-reduce:transition-none">
