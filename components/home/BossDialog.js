@@ -1,22 +1,13 @@
 'use client';
-import { useEffect } from 'react';
 import Image from 'next/image';
 import { ExternalLink } from 'lucide-react';
 import { BOSS_BLUR, BOSS_URL } from '@/components/home/boss';
 import Modal, { ModalHeader } from '@/components/ui/Modal';
 import { Label, iconButtonClass } from '@/components/ui/frame';
 
-// Leo barks the first time his photo opens on a visit; after that it opens like any dialog.
-let barked = false;
-
 export default function BossDialog({ open, onClose }) {
-  const sound = barked ? 'open' : 'woof';
-  useEffect(() => {
-    if (open) barked = true;
-  }, [open]);
-
   return (
-    <Modal open={open} onClose={onClose} labelledBy="boss-title" sound={sound} className="max-w-sm">
+    <Modal open={open} onClose={onClose} labelledBy="boss-title" sound="chime" className="max-w-sm">
       <ModalHeader
         onClose={onClose}
         actions={
