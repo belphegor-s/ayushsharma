@@ -106,9 +106,9 @@ function Hero() {
             <DialogTrigger
               dialog="boss"
               aria-haspopup="dialog"
-              className="group inline-flex h-10 cursor-pointer items-center rounded-full border border-line-strong bg-surface p-[3px] text-[13px] text-muted shadow-[0_0_14px_-1px_color-mix(in_oklab,var(--fg)_30%,transparent)] transition-[color,border-color,box-shadow] duration-300 hover:text-fg hover:shadow-[0_0_20px_0_color-mix(in_oklab,var(--fg)_42%,transparent)] focus-visible:shadow-[0_0_20px_0_color-mix(in_oklab,var(--fg)_42%,transparent)] sm:ml-1"
+              className="group inline-flex h-10 cursor-pointer items-center rounded-full border border-line-strong bg-surface p-[2px] text-[13px] text-muted shadow-[0_0_14px_-1px_color-mix(in_oklab,var(--fg)_30%,transparent)] transition-[color,border-color,box-shadow] duration-300 hover:text-fg hover:shadow-[0_0_20px_0_color-mix(in_oklab,var(--fg)_42%,transparent)] focus-visible:shadow-[0_0_20px_0_color-mix(in_oklab,var(--fg)_42%,transparent)] sm:ml-1"
             >
-              <span className="leo-orbit size-8 shrink-0">
+              <span className="leo-orbit size-[34px] shrink-0">
                 <span className="relative block size-full overflow-hidden rounded-full bg-surface-2 transition-[rotate] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:rotate-360 group-focus-visible:rotate-360 motion-reduce:transition-none">
                   <span className="leo-tilt absolute inset-0 block">
                     <Image

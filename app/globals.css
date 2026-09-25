@@ -220,8 +220,11 @@
   position: relative;
   isolation: isolate;
   border-radius: 9999px;
-  padding: 2px;
-  background: var(--line-strong);
+  /* Thin ring on the outer edge, then a transparent gap before Leo's face, so the orbit floats
+     between the pill's border and his photo instead of hugging it. */
+  --ring: 1.5px;
+  padding: calc(var(--ring) + 2px);
+  box-shadow: inset 0 0 0 var(--ring) var(--line-strong);
 }
 .leo-orbit::before,
 .leo-orbit::after {
@@ -231,13 +234,15 @@
   z-index: -1;
   border-radius: inherit;
   background: var(--comet);
+  mask: radial-gradient(farthest-side, transparent calc(100% - var(--ring)), #000 calc(100% - var(--ring)));
   animation: leo-orbit 3.2s linear infinite;
 }
 .leo-orbit::after {
   z-index: -2;
   inset: -1px;
-  filter: blur(4px);
+  filter: blur(3px);
   opacity: 0.55;
+  mask: radial-gradient(farthest-side, transparent calc(100% - var(--ring) - 1.5px), #000 calc(100% - var(--ring)));
 }
 .leo-tilt {
   transform-origin: 50% 85%;
