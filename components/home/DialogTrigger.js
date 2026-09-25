@@ -6,7 +6,7 @@ import { useDialogs } from '@/components/home/DialogHost';
 export default function DialogTrigger({ dialog, children, ...props }) {
   const { show, prefetch } = useDialogs();
   return (
-    <button type="button" onClick={() => show(dialog)} onPointerEnter={prefetch} onFocus={prefetch} {...props}>
+    <button type="button" data-sound="none" onClick={() => show(dialog)} onPointerEnter={prefetch} onFocus={prefetch} {...props}>
       {children}
     </button>
   );

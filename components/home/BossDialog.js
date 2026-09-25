@@ -7,7 +7,7 @@ import { Label, iconButtonClass } from '@/components/ui/frame';
 
 export default function BossDialog({ open, onClose }) {
   return (
-    <Modal open={open} onClose={onClose} labelledBy="boss-title" className="max-w-sm">
+    <Modal open={open} onClose={onClose} labelledBy="boss-title" sound="woof" className="max-w-sm">
       <ModalHeader
         onClose={onClose}
         actions={

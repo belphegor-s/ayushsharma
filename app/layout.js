@@ -1,6 +1,7 @@
 import { Geist, Geist_Mono } from 'next/font/google';
 import NextTopLoader from 'nextjs-toploader';
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import SoundLayer from '@/components/SoundLayer';
 import './globals.css';
 import { absoluteUrl, siteConfig } from '@/lib/site';
 
@@ -101,6 +102,7 @@ export default function RootLayout({ children }) {
         <NextTopLoader color="var(--fg)" height={2} showSpinner={false} shadow={false} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
         {children}
+        <SoundLayer />
         <SpeedInsights />
       </body>
     </html>

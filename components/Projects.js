@@ -86,6 +86,7 @@ function PlainList({ projects }) {
                 <h4 className="text-sm font-medium tracking-tight text-fg/85 group-hover:text-fg">
                   <ProjectTrigger
                     slug={project.slug}
+                    data-sound-hover="hover"
                     aria-haspopup="dialog"
                     className="cursor-pointer text-left after:absolute after:inset-0 after:content-[''] focus-visible:outline-none focus-visible:after:outline-2 focus-visible:after:-outline-offset-2 focus-visible:after:outline-fg"
                   >
@@ -128,6 +129,7 @@ function ProjectCard({ project, lead = false }) {
         <h3 className={`mt-1.5 font-semibold tracking-tight text-fg ${lead ? 'text-xl sm:text-2xl' : 'text-lg'}`}>
           <ProjectTrigger
             slug={project.slug}
+            data-sound-hover="hover"
             aria-haspopup="dialog"
             className="cursor-pointer text-left after:absolute after:inset-0 after:content-[''] focus-visible:outline-none focus-visible:after:outline-2 focus-visible:after:-outline-offset-2 focus-visible:after:outline-fg"
           >

@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Toaster, toast } from 'sonner';
 import { ArrowRight } from 'lucide-react';
 import posthog from '@/lib/posthog';
+import { play } from '@/lib/sound';
 import { siteConfig } from '@/lib/site';
 import Modal, { ModalHeader } from '@/components/ui/Modal';
 import { Label, buttonClass, textLinkClass } from '@/components/ui/frame';
@@ -82,11 +83,13 @@ function ContactForm({ onSent }) {
       if (!res.ok) throw new Error('Could not send your message. Please try again.');
 
       toast.success('Message sent. Talk soon.', { id: toastId });
+      play('success');
       posthog.capture('contact_form_submitted', { name: form.name, email: form.email, message: form.message });
       setForm(EMPTY);
       setTimeout(onSent, 800);
     } catch (error) {
       toast.error(error.message || 'Something went wrong.', { id: toastId });
+      play('error');
       console.error('Form submission error:', error);
     } finally {
       setSending(false);

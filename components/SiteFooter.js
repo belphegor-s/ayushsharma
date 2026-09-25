@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { ArrowUpRight, Coffee } from 'lucide-react';
 import ThemeToggle from '@/components/ThemeToggle';
+import SoundToggle from '@/components/SoundToggle';
 import { Label, Row, textLinkClass } from '@/components/ui/frame';
 import { siteConfig } from '@/lib/site';
 
@@ -20,7 +21,10 @@ export default function SiteFooter() {
               © {new Date().getFullYear()} {siteConfig.author.name}
             </Label>
           </div>
-          <ThemeToggle className="self-start sm:self-auto" />
+          <div className="flex items-center gap-2 self-start sm:self-auto">
+            <SoundToggle />
+            <ThemeToggle />
+          </div>
         </div>
       </Row>
       <Row last>

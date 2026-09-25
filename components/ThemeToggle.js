@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
 import { Monitor, Moon, Sun } from 'lucide-react';
+import { play } from '@/lib/sound';
 
 const STORAGE_KEY = 'theme';
 const OPTIONS = [
@@ -55,6 +56,8 @@ export default function ThemeToggle({ className = '' }) {
   }, [pref]);
 
   const choose = (value) => {
+    if (value === pref) return;
+    play(value === 'dark' ? 'switchOff' : 'switchOn');
     setPref(value);
     try {
       if (value === 'system') localStorage.removeItem(STORAGE_KEY);
@@ -91,6 +94,7 @@ export default function ThemeToggle({ className = '' }) {
             aria-label={`${label} theme`}
             title={label}
             tabIndex={i === activeIndex ? 0 : -1}
+            data-sound="none"
             onClick={() => choose(value)}
             onKeyDown={(e) => onKeyDown(e, i)}
             className={`grid size-6 cursor-pointer place-items-center rounded-full transition-colors ${active ? 'bg-surface-2 text-fg shadow-[inset_0_0_0_1px_var(--line-strong)]' : 'text-subtle hover:text-fg'}`}

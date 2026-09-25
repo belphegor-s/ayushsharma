@@ -6,7 +6,7 @@ import { useProjects } from '@/components/projects/ProjectsHost';
 export default function ProjectTrigger({ slug, children, ...props }) {
   const { show, prefetch } = useProjects();
   return (
-    <button type="button" onClick={() => show(slug)} onPointerEnter={prefetch} onFocus={prefetch} {...props}>
+    <button type="button" data-sound="none" onClick={() => show(slug)} onPointerEnter={prefetch} onFocus={prefetch} {...props}>
       {children}
     </button>
   );

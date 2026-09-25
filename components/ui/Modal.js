@@ -4,15 +4,25 @@ import { createPortal } from 'react-dom';
 import { AnimatePresence, MotionConfig, motion } from 'framer-motion';
 import { X } from 'lucide-react';
 import { Plus, iconButtonClass } from '@/components/ui/frame';
+import { play } from '@/lib/sound';
 
 const FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), iframe, [tabindex]:not([tabindex="-1"])';
 const EASE = [0.22, 1, 0.36, 1];
 
 /* Accessible dialog: portal, focus trap, Escape and backdrop to close, scroll
-   lock, and focus returned to the trigger on close. */
-export default function Modal({ open, onClose, labelledBy, className = '', children }) {
+   lock, and focus returned to the trigger on close. `sound` is what plays as it opens. */
+export default function Modal({ open, onClose, labelledBy, sound = 'open', className = '', children }) {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
+
+  // Sound follows the open state itself, so every way in or out (button, Escape, backdrop) is heard.
+  const wasOpen = useRef(false);
+  useEffect(() => {
+    if (open === wasOpen.current) return;
+    wasOpen.current = open;
+    play(open ? sound : 'close');
+  }, [open, sound]);
+
   if (!mounted) return null;
 
   return createPortal(
@@ -110,7 +120,7 @@ export function ModalHeader({ onClose, actions, children }) {
       <div className="min-w-0 truncate">{children}</div>
       <div className="flex items-center gap-0.5">
         {actions}
-        <button type="button" onClick={onClose} aria-label="Close" className={iconButtonClass}>
+        <button type="button" data-sound="none" onClick={onClose} aria-label="Close" className={iconButtonClass}>
           <X size={16} strokeWidth={1.75} />
         </button>
       </div>
