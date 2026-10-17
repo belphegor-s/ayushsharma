@@ -1,4 +1,8 @@
-/** @type {import('next').NextConfig} */
+import { projects } from './lib/projects.js';
+
+// Every project runs live in an iframe on its card and in its dialog. Each of
+// those sites must in turn list this one in its own frame-ancestors.
+const projectOrigins = projects.map((p) => new URL(p.url).origin);
 
 const securityHeaders = [
   {
@@ -31,7 +35,7 @@ const securityHeaders = [
       "font-src 'self' https://fonts.gstatic.com",
       "img-src 'self' data: https://storage.procd.cc",
       "connect-src 'self' https://us.i.posthog.com https://us-assets.i.posthog.com https://vitals.vercel-insights.com https://cloudflareinsights.com",
-      "frame-src 'self' https://storage.procd.cc",
+      ["frame-src 'self' https://storage.procd.cc", ...projectOrigins].join(' '),
       "object-src 'none'",
       "base-uri 'self'",
       "form-action 'self'",
@@ -41,6 +45,7 @@ const securityHeaders = [
   },
 ];
 
+/** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
     remotePatterns: [{ protocol: 'https', hostname: 'storage.procd.cc', pathname: '/**' }],

@@ -114,6 +114,25 @@
   background-image: repeating-linear-gradient(-45deg, var(--line) 0 1px, transparent 1px 7px);
 }
 
+/* Sweep across a live project preview while its site boots. */
+@keyframes live-shimmer {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+.live-shimmer {
+  background: linear-gradient(100deg, transparent 30%, color-mix(in oklab, var(--bg) 70%, transparent) 50%, transparent 70%);
+  animation: live-shimmer 1.6s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .live-shimmer {
+    animation: none;
+  }
+}
+
 /* Faint square grid, faded out with a mask so it never competes with type. */
 .grid-texture {
   background-image: linear-gradient(to right, var(--line) 1px, transparent 1px), linear-gradient(to bottom, var(--line) 1px, transparent 1px);

@@ -2,7 +2,7 @@ import { ArrowRight, Asterisk, Box, Clapperboard, Code2, Globe, Link2, MessagesS
 import { Label } from '@/components/ui/frame';
 import ProjectsHost from '@/components/projects/ProjectsHost';
 import ProjectTrigger from '@/components/projects/ProjectTrigger';
-import Preview, { Shot, hasPreview } from '@/components/projects/Preview';
+import Preview from '@/components/projects/Preview';
 import { chipClass } from '@/components/projects/styles';
 
 const ICONS = { transcoder: Clapperboard, pluck: Globe, huddle: MessagesSquare, knox: Code2, shrt: Link2, webhooks: Webhook };
@@ -66,8 +66,7 @@ function CoolGrid({ projects }) {
 }
 
 /* Compact rows: icon, name, one line of summary, domain. Same stretched-button
-   trick as the cards, so the whole row opens the dialog. From sm up the icon
-   gives way to a thumbnail of the live site. */
+   trick as the cards, so the whole row opens the dialog, where the site runs live. */
 function PlainList({ projects }) {
   return (
     <ul className="divide-y divide-line">
@@ -75,16 +74,9 @@ function PlainList({ projects }) {
         const Icon = ICONS[project.slug] || Box;
         return (
           <li key={project.slug} className="group relative flex items-center gap-4 px-5 py-4 transition-colors hover:bg-surface has-[button:focus-visible]:bg-surface sm:px-6">
-            <span
-              className={`grid size-8 shrink-0 place-items-center rounded-md border border-line text-subtle transition-colors group-hover:border-line-strong group-hover:text-fg ${hasPreview(project.slug) ? 'sm:hidden' : ''}`}
-            >
+            <span className="grid size-8 shrink-0 place-items-center rounded-md border border-line text-subtle transition-colors group-hover:border-line-strong group-hover:text-fg">
               <Icon size={14} strokeWidth={1.5} aria-hidden />
             </span>
-            {hasPreview(project.slug) && (
-              <span className="relative w-[72px] shrink-0 overflow-hidden rounded-[5px] border border-line bg-surface transition-colors group-hover:border-line-strong max-sm:hidden">
-                <Shot slug={project.slug} alt="" sizes="72px" className="origin-top transition-transform duration-500 group-hover:scale-110 motion-reduce:transition-none" />
-              </span>
-            )}
             <div className="min-w-0 flex-1">
               <div className="flex items-baseline gap-2.5">
                 <h4 className="text-sm font-medium tracking-tight text-fg/85 group-hover:text-fg">
@@ -110,9 +102,9 @@ function PlainList({ projects }) {
 }
 
 /* Whole card is clickable through the title button's stretched ::after, which
-   keeps the markup valid (no block content inside a button). The lead card puts
-   its preview beside the text from sm up; every other card, and the lead on a
-   phone, stacks it between the tags and the footer. */
+   keeps the markup valid (no block content inside a button). Each card runs its
+   site live; the lead card puts that preview beside the text from sm up, every
+   other card, and the lead on a phone, stacks it between the tags and the footer. */
 function ProjectCard({ project, lead = false }) {
   const Icon = ICONS[project.slug] || Box;
   return (
@@ -152,9 +144,9 @@ function ProjectCard({ project, lead = false }) {
 
       <Preview
         project={project}
-        sizes="(min-width: 896px) 400px, (min-width: 640px) 45vw, calc(100vw - 72px)"
-        className={`mt-6 transition-[border-color,box-shadow] duration-500 group-hover:border-fg/20 group-hover:shadow-[0_16px_40px_-20px_rgba(0,0,0,0.35)] ${lead ? 'sm:mt-0 sm:self-center sm:[grid-area:shot]' : ''}`}
-        imageClassName="origin-top transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.03] motion-reduce:transition-none"
+        className={`mt-6 transition-[border-color,box-shadow,translate] duration-500 group-hover:-translate-y-0.5 group-hover:border-fg/20 group-hover:shadow-[0_16px_40px_-20px_rgba(0,0,0,0.35)] motion-reduce:transition-none ${
+          lead ? 'sm:mt-0 sm:self-center sm:[grid-area:shot]' : ''
+        }`}
       />
 
       <div className={`mt-auto pt-6 ${lead ? 'sm:[grid-area:foot]' : ''}`}>

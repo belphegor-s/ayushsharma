@@ -4,7 +4,7 @@ import { RiGithubFill } from 'react-icons/ri';
 import posthog from '@/lib/posthog';
 import Modal, { ModalHeader } from '@/components/ui/Modal';
 import { Label, buttonClass, textLinkClass } from '@/components/ui/frame';
-import Preview, { hasPreview } from '@/components/projects/Preview';
+import Preview, { LiveBadge } from '@/components/projects/Preview';
 import { chipClass } from '@/components/projects/styles';
 
 const ICONS = { transcoder: Clapperboard, pluck: Globe, huddle: MessagesSquare, knox: Code2, shrt: Link2, webhooks: Webhook };
@@ -14,6 +14,36 @@ export default function ProjectDialog({ project, open, onClose }) {
     <Modal open={open} onClose={onClose} labelledBy="project-title" className="max-w-2xl">
       <ProjectDetail project={project} onClose={onClose} />
     </Modal>
+  );
+}
+
+/* The site itself, running and clickable inside the dialog. The address bar's
+   right side pops it out into a real tab. */
+function Stage({ project }) {
+  return (
+    <div className="hatch border-b border-line px-5 pt-5 sm:px-6 sm:pt-6">
+      <Preview
+        project={project}
+        interactive
+        status={
+          <span className="flex items-center gap-2.5">
+            <LiveBadge pulse />
+            <a
+              href={project.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Open ${project.domain} in a new tab`}
+              title="Open in a new tab"
+              onClick={() => posthog.capture('clicked_project', { project: project.name, from: 'preview' })}
+              className="-m-1 grid size-5 place-items-center rounded text-subtle transition-colors hover:bg-surface-2 hover:text-fg"
+            >
+              <ArrowUpRight size={12} strokeWidth={2} aria-hidden />
+            </a>
+          </span>
+        }
+        className="rounded-b-none border-b-0 shadow-[0_-8px_32px_-16px_rgba(0,0,0,0.18)]"
+      />
+    </div>
   );
 }
 
@@ -38,30 +68,7 @@ function ProjectDetail({ project, onClose }) {
       </ModalHeader>
 
       <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
-        {hasPreview(project.slug) && (
-          <div className="hatch border-b border-line px-5 pt-5 sm:px-6 sm:pt-6">
-            <a
-              href={project.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`Open ${project.domain} in a new tab`}
-              onClick={() => posthog.capture('clicked_project', { project: project.name, from: 'preview' })}
-              className="group relative block focus-visible:outline-offset-4"
-            >
-              <Preview
-                project={project}
-                pulse
-                sizes="(min-width: 672px) 622px, calc(100vw - 66px)"
-                className="rounded-b-none border-b-0 shadow-[0_-8px_32px_-16px_rgba(0,0,0,0.18)]"
-                imageClassName="origin-top transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.015] motion-reduce:transition-none"
-              />
-              <span className="pointer-events-none absolute bottom-3 right-3 inline-flex items-center gap-1 rounded-md bg-fg px-2 py-1 text-xs font-medium text-bg opacity-0 shadow-lg transition-[opacity,transform] duration-200 translate-y-1 group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100">
-                Open {project.domain}
-                <ArrowUpRight size={13} strokeWidth={2} aria-hidden />
-              </span>
-            </a>
-          </div>
-        )}
+        <Stage key={project.slug} project={project} />
         <div className="px-5 py-5 sm:px-6 sm:py-6">
           <div className="flex items-center gap-3.5">
             <span className="grid size-10 shrink-0 place-items-center rounded-lg border border-line bg-surface text-fg">
